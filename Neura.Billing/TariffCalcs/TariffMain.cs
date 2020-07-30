@@ -45,7 +45,7 @@ namespace Neura.Billing.TariffCalcs
             double uPreviousMax = 0; //Usage
             double uPreviousAcc = 0;
             double uPreviousPeak = 0;
-            double cPreviousFixed = 0;  //Currrency
+            double cPreviousFixed = 0; 
             double cPreviousMax = 0;
 
             double cPreviousAcc = 0;
@@ -58,6 +58,7 @@ namespace Neura.Billing.TariffCalcs
             int myCustomer = 0;
             string myComponentName = "";
             double myRate = 0;
+
 
 
             //Read unprocessed data from ServiceUsage_Groupes

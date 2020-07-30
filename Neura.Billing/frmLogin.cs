@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using static Neura.Billing.GlobalVar;
@@ -25,7 +26,9 @@ namespace Neura.Billing
             textBoxServer.Text = "neura.dyndns.org,3306";
         }
 
-        private void simpleButtonLogin_Click(object sender, EventArgs e)
+        
+
+        private void simpleButtonLogin_Click_1(object sender, EventArgs e)
         {
             connectionString = "Server = " + textBoxServer.Text + "; User ID = " + textBoxUser.Text + "; Password = " +
                                textBoxPassword.Text;
@@ -53,9 +56,6 @@ namespace Neura.Billing
             Main f = new Main();
             f.ShowDialog();
             ExitHere:;
-
         }
-
-
     }
 }

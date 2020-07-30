@@ -119,6 +119,7 @@
             this.simpleButtonLogin.TabIndex = 12;
             this.simpleButtonLogin.TabStop = false;
             this.simpleButtonLogin.Text = "Login";
+            this.simpleButtonLogin.Click += new System.EventHandler(this.simpleButtonLogin_Click_1);
             // 
             // frmLogin
             // 

@@ -22,8 +22,11 @@ namespace Neura.Billing
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            textBoxUser.Text = "Dale";
-            textBoxServer.Text = "neura.dyndns.org,3306";
+            //textBoxUser.Text = "Dale";
+            //textBoxServer.Text = "neura.dyndns.org,3306";
+            textBoxUser.Text = "root";
+            textBoxServer.Text = "localhost";
+            textBoxPassword.Text = "D@lelieb01";
         }
 
         

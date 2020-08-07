@@ -173,7 +173,7 @@ namespace Neura.Billing.Calls
             httpWebRequest.Headers["Authorization"] = "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes("dale:liebenberg"));
             HttpWebResponse responseObj = null;
 
-            Log.Info(DateTime.Now + ", Attempting " + url);
+            Log.Info(DateTime.UtcNow + " UTC, Attempting: " + url);
             try
             {
                 responseObj = (HttpWebResponse)httpWebRequest.GetResponse();
@@ -193,7 +193,7 @@ namespace Neura.Billing.Calls
             }
 
             ReturnHere:;
-            Log.Info(DateTime.Now + ", " + sResult);
+            Log.Info(DateTime.UtcNow + " UTC, Result: " + sResult);
 
         }
     }

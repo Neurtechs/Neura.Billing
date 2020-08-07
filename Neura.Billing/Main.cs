@@ -16,6 +16,7 @@ using MySql.Data.MySqlClient;
 using Neura.Billing.Data;
 using Neura.Billing.AICalcs;
 using Neura.Billing.Calls;
+using Neura.Billing.DEHW;
 
 namespace Neura.Billing
 {
@@ -464,11 +465,22 @@ namespace Neura.Billing
 
         private void simpleButtonSwitch_Click(object sender, EventArgs e)
         {
-            //Switch.nodeSwitch(comboBoxEditType.Text,textEditGateway.Text,textEditNode.Text,out string result,comboBoxEditOnOff.Text);
+            //Switch.nodeSwitch(comboBoxEditType.Text, textEditGateway.Text, textEditNode.Text, out string result, comboBoxEditOnOff.Text);
 
             //listBoxControl1.Items.Add(result);
-            timer2.Interval = 600000;
-            timer2.Start();
+
+            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "enode", out string resulte, "off");
+            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultg, "off");
+            //Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultw, "off");
+
+            System.Threading.Thread.Sleep(120000);
+            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "enode", out string resulteo, "on");
+            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultgo, "on");
+            //Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultwo, "on");
+
+
+            //timer2.Interval = 1500000;
+            //timer2.Start();
         }
 
         private void simpleButtonEnd_Click(object sender, EventArgs e)
@@ -598,12 +610,21 @@ namespace Neura.Billing
         {
             Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "enode", out string resulte, "off");
             Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultg, "off");
-            Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultw, "off");
+           // Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultw, "off");
 
             System.Threading.Thread.Sleep(60000);
             Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "enode", out string resulteo, "on");
             Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultgo, "on");
-            Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultwo, "on");
+           // Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultwo, "on");
+        }
+
+       
+
+        private void simpleButtonDSM_Click(object sender, EventArgs e)
+        {
+            //frmDEHW f = new frmDEHW();
+            frmDEHWNew f=new frmDEHWNew();
+            f.Show();
         }
     }
 }

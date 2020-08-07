@@ -78,6 +78,7 @@
             this.listBoxControl1 = new DevExpress.XtraEditors.ListBoxControl();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.simpleButtonDSM = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditOnOff.Properties)).BeginInit();
@@ -581,11 +582,22 @@
             // 
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
+            // simpleButtonDSM
+            // 
+            this.simpleButtonDSM.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton2.ImageOptions.Image")));
+            this.simpleButtonDSM.Location = new System.Drawing.Point(932, 1158);
+            this.simpleButtonDSM.Name = "simpleButtonDSM";
+            this.simpleButtonDSM.Size = new System.Drawing.Size(122, 72);
+            this.simpleButtonDSM.TabIndex = 22;
+            this.simpleButtonDSM.Text = "DSM";
+            this.simpleButtonDSM.Click += new System.EventHandler(this.simpleButtonDSM_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(2421, 1881);
+            this.Controls.Add(this.simpleButtonDSM);
             this.Controls.Add(this.groupControl3);
             this.Controls.Add(this.groupControl2);
             this.Controls.Add(this.groupControl1);
@@ -675,5 +687,6 @@
         private DevExpress.XtraEditors.ListBoxControl listBoxControl1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
+        private DevExpress.XtraEditors.SimpleButton simpleButtonDSM;
     }
 }

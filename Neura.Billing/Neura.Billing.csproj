@@ -36,11 +36,20 @@
       <HintPath>..\packages\BouncyCastle.1.8.3.1\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.BonusSkins.v19.2" />
+    <Reference Include="DevExpress.Charts.v19.2.Core, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Data.v19.2" />
     <Reference Include="DevExpress.Utils.v19.2" />
     <Reference Include="DevExpress.Sparkline.v19.2.Core" />
+    <Reference Include="DevExpress.Utils.v19.2.UI, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraBars.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v19.2.UI, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v19.2.Wizard, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraEditors.v19.2" />
     <Reference Include="DevExpress.Printing.v19.2.Core" />
+    <Reference Include="DevExpress.XtraGrid.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPrinting.v19.2, Version=19.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="Google.Protobuf, Version=3.6.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.6.1\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
@@ -113,6 +122,19 @@
     <Compile Include="Data\IncomingConnections.cs" />
     <Compile Include="Data\SaveConnections.cs" />
     <Compile Include="Data\UtilityConnections.cs" />
+    <Compile Include="DEHW\DEHWData\Connections.cs" />
+    <Compile Include="DEHW\frmDEHW.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DEHW\frmDEHW.Designer.cs">
+      <DependentUpon>frmDEHW.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DEHW\frmDEHWNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DEHW\frmDEHWNew.Designer.cs">
+      <DependentUpon>frmDEHWNew.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +167,12 @@
     <Compile Include="TariffCalcs\TariffMain.cs" />
     <Compile Include="TariffCalcs\TOURate.cs" />
     <Compile Include="TariffCalcs\Verify.cs" />
+    <EmbeddedResource Include="DEHW\frmDEHW.resx">
+      <DependentUpon>frmDEHW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DEHW\frmDEHWNew.resx">
+      <DependentUpon>frmDEHWNew.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>

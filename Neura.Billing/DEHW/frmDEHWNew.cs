@@ -27,8 +27,10 @@ namespace Neura.Billing.DEHW
         private DateTime startTime;
         private DateTime[] timeStartCooling;
         private DateTime[] timeStartHeating;
+        private DateTime processTime;
         private int[] nodeStatus;
         private double[] power;
+        private double[] value;
         private int[] coolTime;
         private int[] heatTime; //sec
         private double[] coolGrad;
@@ -44,7 +46,7 @@ namespace Neura.Billing.DEHW
         private double thermoStart;
         private double thermoEnd;
 
-        private int[] on_off;
+        
         private double[] index;
         public frmDEHWNew()
         {
@@ -67,6 +69,7 @@ namespace Neura.Billing.DEHW
             cmbMultiplier.SelectedIndex = 3;
             thermoEnd = Convert.ToDouble(end.Text);
             thermoStart = Convert.ToDouble(start.Text);
+            groupControl1.Enabled = false;
         }
         private void GetNodeData()
         {
@@ -75,12 +78,13 @@ namespace Neura.Billing.DEHW
 
             thermoStatus = new int[nodeCount];
             nodeStatus = new int[nodeCount];
-            power = new double[nodeCount];
+            value = new double[nodeCount];
             heatTime = new int[nodeCount];
             coolTime = new int[nodeCount];
             coolGrad = new double[nodeCount];
             heatGrad = new double[nodeCount];
             hWIndex = new double[nodeCount];
+            index = new double[nodeCount];
             nodeOid = new int[nodeCount];
             lastSwitch = new DateTime[nodeCount];
             serialNo = new string[nodeCount];
@@ -109,27 +113,32 @@ namespace Neura.Billing.DEHW
             {
                 nodeOid[i] = Convert.ToInt32(dt.Rows[i]["NodeId"]);
                 lastSwitch[i] = Convert.ToDateTime(dt.Rows[i]["TimeStamp"]);
-                power[i] = Convert.ToDouble(dt.Rows[i]["Value"]);
+                value[i] = Convert.ToDouble(dt.Rows[i]["Value"]);
                 coolGrad[i]= Convert.ToDouble(dt.Rows[i]["CoolingGrad"]);
                 heatGrad[i]= Convert.ToDouble(dt.Rows[i]["HeatingGrad"]);
                 serialNo[i] = Convert.ToString(dt.Rows[i]["SerialNo"]);
-                if (power[i] > 0)
+                
+                if (value[i] > 0)
                 {
                     //Geyser on
+                    index[i] = thermoStart;
                     thermoStatus[i] = 1;
                     TimeSpan ts = myTime - lastSwitch[i];
                     heatTime[i] = (int)ts.TotalSeconds;
                     coolTime[i] = 0;
+                    hWIndex[i] = index[i] + heatGrad[i] * heatTime[i];
                 }
                 else
                 {
+                    index[i] = thermoEnd;
                     thermoStatus[i] = 0;
                     TimeSpan ts = myTime - lastSwitch[i];
                     coolTime[i] = (int)ts.TotalSeconds;
                     heatTime[i] = 0;
+                    hWIndex[i] = index[i] + coolGrad[i] * coolTime[i];
                 }
 
-                hWIndex[i] = 100;
+                
             }
         }
 
@@ -151,7 +160,7 @@ namespace Neura.Billing.DEHW
                 dtTable.Rows[i]["ThermoStatus"] = thermoStatus[i];
                 dtTable.Rows[i]["LastSwitch"] = lastSwitch[i];
                 dtTable.Rows[i]["NodeStatus"] = 1;
-                dtTable.Rows[i]["Power"] = power[i];
+                dtTable.Rows[i]["Power"] = value[i];
                 dtTable.Rows[i]["CoolTime"] = coolTime[i];
                 dtTable.Rows[i]["HeatTime"] = heatTime[i];
                 dtTable.Rows[i]["GradCooling"] = coolGrad[i];
@@ -164,34 +173,79 @@ namespace Neura.Billing.DEHW
             gridView1.Columns["Item"].SortOrder = DevExpress.Data.ColumnSortOrder.Descending;
         }
 
-        private void simpleButtonReadData_Click(object sender, EventArgs e)
-        {
-            GetNodeData();
-            SetDataTable();
-            timer1.Interval = 5000;
-            startTime =dateTimePicker1.Value;
-            timer1.Start();
-        }
-
+      
         private void timer1_Tick(object sender, EventArgs e)
         {
-            GetThermoData(startTime);
-            labelControlTime.Text = startTime.ToString();
+            GetThermoData(processTime);
+            labelControlTime.Text = processTime.ToString();
             if(chkMonitor.Checked==true){PopulateDG();}
-            startTime = startTime.AddSeconds(5);
+            processTime = processTime.AddSeconds(5);
+            if(bStarted==true){Simulate();}
         }
 
+        private void Simulate()
+        {
+            for (int i = 0; i < thermoCount; i++)
+            {
+                if (thermoStatus[i] == 1)
+                {
+                    //busy warming
+                    TimeSpan duration = (processTime - timeStartHeating[i]);
+                    double dur = Convert.ToDouble(duration.TotalSeconds);
+                    index[i] = thermoStart;
+                    hWIndex[i] = index[i] + heatGrad[i] * dur;
+                    if (hWIndex[i] > thermoEnd)
+                    {
+                        //End of heating
+                        index[i] = thermoEnd;
+                        thermoStatus[i] = 0;
+                        heatGrad[i] = (thermoEnd - thermoStart) / dur;
+                        value[i] = 0;
+
+                        //values for the following cooling cycle
+                        timeStartCooling[i] = processTime;
+                        coolTime[i] = (int)Math.Round(baseCooling[i] * (0.8 + 0.4 * rand.NextDouble()), 0);
+                        coolGrad[i] = (thermoStart - thermoEnd) / coolTime[i];
+
+                        Connections.ThermosStatSetStatus(serialNo[i],processTime,value[i],heatGrad[i],coolGrad[i]);
+                    }
+                }
+                else
+                {
+                    //Cooling
+                    TimeSpan duration = (processTime - timeStartCooling[i]);
+                    double dur = Convert.ToDouble(duration.TotalSeconds);
+                    index[i] = thermoEnd;
+                    hWIndex[i] = index[i] + coolGrad[i] * dur;
+                   
+                    if (hWIndex[i] < thermoStart)
+                    {
+                        //End of cooling
+                        index[i] = thermoStart;
+                        
+                        thermoStatus[i] = 1;
+                        coolGrad[i] = (thermoStart - thermoEnd) / dur;
+                        value[i] = power[i];
+                        //values for following heating cycle
+                        timeStartHeating[i] = processTime;
+                        heatTime[i] = (int) Math.Round(baseHeating[i] * (0.8 + 0.4 * rand.NextDouble()), 0);
+                        heatGrad[i] = (thermoEnd - thermoStart) / heatTime[i];
+                        Connections.ThermosStatSetStatus(serialNo[i], processTime, value[i], heatGrad[i], coolGrad[i]);
+                    }
+                }
+            }
+        }
         private void chkMonitor_CheckedChanged(object sender, EventArgs e)
         {
             if (chkMonitor.Checked == true)
             {
                 if (checkEditSimulate.Checked == false)
                 {
-
-                    GetNodeData();
                     SetDataTable();
+                    GetNodeData();
+                    
                     timer1.Interval = 5000;
-                    startTime=DateTime.Now;
+                    processTime=DateTime.Now;
                     timer1.Start();
                 }
                 else
@@ -230,16 +284,18 @@ namespace Neura.Billing.DEHW
             {
                 groupControl1.Enabled = true;
                 startTime = dateTimePicker1.Value;
+                processTime = startTime;
             }
             else
             {
                 groupControl1.Enabled = false;
                 if (chkMonitor.Checked == true)
                 {
-                    GetNodeData();
                     SetDataTable();
+                    GetNodeData();
+                    
                     timer1.Interval = 5000;
-                    startTime = DateTime.Now;
+                    processTime = DateTime.Now;
                     timer1.Start();
                 }
             }
@@ -249,9 +305,12 @@ namespace Neura.Billing.DEHW
         {
             bStarted = true;
             startTime = dateTimePicker1.Value;
+            processTime = startTime;
             InitialValues();
-            GetNodeData();
             SetDataTable();
+            GetNodeData();
+
+            
             timer1.Interval = 5000/multiplier;
 
             timer1.Start();
@@ -273,6 +332,7 @@ namespace Neura.Billing.DEHW
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             startTime = dateTimePicker1.Value;
+            processTime = startTime;
         }
 
         private void cmbMultiplier_SelectedIndexChanged(object sender, EventArgs e)
@@ -286,7 +346,7 @@ namespace Neura.Billing.DEHW
 
             rand = new Random();
             rand2 = new Random();
-            on_off = new int[nodeCount];
+            power=new double[nodeCount];
             index = new double[nodeCount];
             startTime = dateTimePicker1.Value;
             timeStartCooling = new DateTime[nodeCount];
@@ -294,7 +354,7 @@ namespace Neura.Billing.DEHW
             baseCooling = new double[nodeCount];
             baseHeating = new double[nodeCount];
             DateTime myTime;
-
+          
             for (int i = 0; i < nodeCount; i++)
             {
                 serialNo[i] = Convert.ToString(dtNodeData.Rows[i]["SerialNo"]);
@@ -311,23 +371,28 @@ namespace Neura.Billing.DEHW
                 coolGrad[i] = -(thermoEnd - thermoStart) / coolTime[i];
                 heatGrad[i]= (thermoEnd - thermoStart) / heatTime[i];
                 myRand = rand.NextDouble();
-                on_off[i] = Convert.ToInt16(myRand);
-                if (on_off[i] == 0)
+                thermoStatus[i] = Convert.ToInt16(myRand);
+               // timeStartCooling[i] = startTime;
+                //timeStartHeating[i] = startTime;
+                if (thermoStatus[i] == 0)
                 {
                     index[i] = thermoStart;
                     hWIndex[i] = thermoStart + 5 * rand.NextDouble();
                     timeStartCooling[i] = startTime.AddSeconds(-coolTime[i] * rand.NextDouble());
+                    //timeStartCooling[i] = startTime;
                     myTime = timeStartCooling[i];
+                    value[i] = 0;
                 }
                 else
                 {
                     index[i] = thermoEnd;
                     hWIndex[i] = thermoStart + 5 * rand.NextDouble();
                     timeStartHeating[i] = startTime.AddSeconds(-heatTime[i] * rand.NextDouble());
-                    power[i] = 0;
+                    //timeStartHeating[i] = startTime;
+                    value[i] = power[i];
                     myTime = timeStartHeating[i];
                 }
-                Connections.ThermosStatSetStatus(serialNo[i],myTime,power[i],heatGrad[i],coolGrad[i]);
+                Connections.ThermosStatSetStatus(serialNo[i],myTime,value[i],heatGrad[i],coolGrad[i]);
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace Neura.Billing.DEHW
 {
-    partial class frmDEHWNew
+    partial class DEHW
     {
         /// <summary>
         /// Required designer variable.
@@ -29,6 +29,58 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            DevExpress.XtraCharts.XYDiagram xyDiagram1 = new DevExpress.XtraCharts.XYDiagram();
+            DevExpress.XtraCharts.Series series1 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.LineSeriesView lineSeriesView1 = new DevExpress.XtraCharts.LineSeriesView();
+            DevExpress.XtraCharts.Series series2 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.LineSeriesView lineSeriesView2 = new DevExpress.XtraCharts.LineSeriesView();
+            DevExpress.XtraCharts.Series series3 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.LineSeriesView lineSeriesView3 = new DevExpress.XtraCharts.LineSeriesView();
+            DevExpress.XtraCharts.Series series4 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.LineSeriesView lineSeriesView4 = new DevExpress.XtraCharts.LineSeriesView();
+            DevExpress.XtraCharts.Series series5 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.LineSeriesView lineSeriesView5 = new DevExpress.XtraCharts.LineSeriesView();
+            DevExpress.XtraCharts.XYDiagram xyDiagram2 = new DevExpress.XtraCharts.XYDiagram();
+            DevExpress.XtraCharts.Series series6 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView1 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series7 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView2 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series8 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView3 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series9 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView4 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series10 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView5 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series11 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView6 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series12 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView7 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series13 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView8 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series14 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView9 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series15 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView10 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series16 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView11 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series17 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView12 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series18 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView13 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series19 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView14 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series20 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView15 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series21 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView16 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series22 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView17 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series23 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView18 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series24 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView19 = new DevExpress.XtraCharts.PointSeriesView();
+            DevExpress.XtraCharts.Series series25 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.PointSeriesView pointSeriesView20 = new DevExpress.XtraCharts.PointSeriesView();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -38,23 +90,92 @@
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.chkMonitor = new System.Windows.Forms.CheckBox();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.checkEditSimulate = new DevExpress.XtraEditors.CheckEdit();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.end = new DevExpress.XtraEditors.TextEdit();
+            this.start = new DevExpress.XtraEditors.TextEdit();
             this.buttonResume = new System.Windows.Forms.Button();
             this.buttonPause = new System.Windows.Forms.Button();
             this.buttonStart = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbMultiplier = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.end = new DevExpress.XtraEditors.TextEdit();
-            this.start = new DevExpress.XtraEditors.TextEdit();
+            this.checkEditSimulate = new DevExpress.XtraEditors.CheckEdit();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textEditResolution = new DevExpress.XtraEditors.TextEdit();
+            this.chartControl1 = new DevExpress.XtraCharts.ChartControl();
+            this.chartControl2 = new DevExpress.XtraCharts.ChartControl();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.HIMax = new DevExpress.XtraEditors.TextEdit();
+            this.HIMin = new DevExpress.XtraEditors.TextEdit();
+            this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.checkDSM = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEditSimulate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.end.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.start.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkEditSimulate.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditResolution.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(lineSeriesView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(lineSeriesView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(lineSeriesView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(lineSeriesView4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(lineSeriesView5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartControl2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(xyDiagram2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series13)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series15)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series16)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series17)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series18)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView13)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series19)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series20)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView15)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series21)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView16)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series22)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView17)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series23)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView18)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series24)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView19)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series25)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView20)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HIMax.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HIMin.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
+            this.groupControl2.SuspendLayout();
             this.SuspendLayout();
             // 
             // gridControl1
@@ -78,7 +199,7 @@
             // 
             // labelControl1
             // 
-            this.labelControl1.Location = new System.Drawing.Point(1213, 124);
+            this.labelControl1.Location = new System.Drawing.Point(869, 58);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(125, 25);
             this.labelControl1.TabIndex = 2;
@@ -86,7 +207,7 @@
             // 
             // labelControlTime
             // 
-            this.labelControlTime.Location = new System.Drawing.Point(1376, 124);
+            this.labelControlTime.Location = new System.Drawing.Point(1032, 58);
             this.labelControlTime.Name = "labelControlTime";
             this.labelControlTime.Size = new System.Drawing.Size(51, 25);
             this.labelControlTime.TabIndex = 3;
@@ -142,15 +263,41 @@
             this.groupControl1.TabIndex = 48;
             this.groupControl1.Text = "Simulation";
             // 
-            // checkEditSimulate
+            // label8
             // 
-            this.checkEditSimulate.AllowDrop = true;
-            this.checkEditSimulate.Location = new System.Drawing.Point(141, 1);
-            this.checkEditSimulate.Name = "checkEditSimulate";
-            this.checkEditSimulate.Properties.Caption = "Simmulation Mode";
-            this.checkEditSimulate.Size = new System.Drawing.Size(256, 40);
-            this.checkEditSimulate.TabIndex = 49;
-            this.checkEditSimulate.CheckedChanged += new System.EventHandler(this.checkEditSimulate_CheckedChanged);
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(468, 157);
+            this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(47, 25);
+            this.label8.TabIndex = 58;
+            this.label8.Text = "and";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(32, 158);
+            this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(273, 25);
+            this.label9.TabIndex = 57;
+            this.label9.Text = "Thermostat  range between";
+            // 
+            // end
+            // 
+            this.end.EditValue = "100";
+            this.end.Location = new System.Drawing.Point(541, 150);
+            this.end.Name = "end";
+            this.end.Size = new System.Drawing.Size(108, 40);
+            this.end.TabIndex = 56;
+            // 
+            // start
+            // 
+            this.start.EditValue = "95";
+            this.start.Location = new System.Drawing.Point(345, 150);
+            this.start.Name = "start";
+            this.start.Size = new System.Drawing.Size(115, 40);
+            this.start.TabIndex = 55;
             // 
             // buttonResume
             // 
@@ -212,54 +359,217 @@
             this.cmbMultiplier.TabIndex = 50;
             this.cmbMultiplier.SelectedIndexChanged += new System.EventHandler(this.cmbMultiplier_SelectedIndexChanged);
             // 
-            // label8
+            // checkEditSimulate
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(468, 157);
-            this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(47, 25);
-            this.label8.TabIndex = 58;
-            this.label8.Text = "and";
+            this.checkEditSimulate.AllowDrop = true;
+            this.checkEditSimulate.Location = new System.Drawing.Point(141, 1);
+            this.checkEditSimulate.Name = "checkEditSimulate";
+            this.checkEditSimulate.Properties.Caption = "Simmulation Mode";
+            this.checkEditSimulate.Size = new System.Drawing.Size(256, 40);
+            this.checkEditSimulate.TabIndex = 49;
+            this.checkEditSimulate.CheckedChanged += new System.EventHandler(this.checkEditSimulate_CheckedChanged);
             // 
-            // label9
+            // label2
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(32, 158);
-            this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(273, 25);
-            this.label9.TabIndex = 57;
-            this.label9.Text = "Thermostat  range between";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(1010, 7);
+            this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(216, 25);
+            this.label2.TabIndex = 59;
+            this.label2.Text = "Control resolution (s):";
             // 
-            // end
+            // textEditResolution
             // 
-            this.end.EditValue = "100";
-            this.end.Location = new System.Drawing.Point(541, 150);
-            this.end.Name = "end";
-            this.end.Size = new System.Drawing.Size(108, 40);
-            this.end.TabIndex = 56;
+            this.textEditResolution.EditValue = "10";
+            this.textEditResolution.Location = new System.Drawing.Point(1234, 2);
+            this.textEditResolution.Name = "textEditResolution";
+            this.textEditResolution.Size = new System.Drawing.Size(59, 40);
+            this.textEditResolution.TabIndex = 58;
             // 
-            // start
+            // chartControl1
             // 
-            this.start.EditValue = "95";
-            this.start.Location = new System.Drawing.Point(345, 150);
-            this.start.Name = "start";
-            this.start.Size = new System.Drawing.Size(115, 40);
-            this.start.TabIndex = 55;
+            xyDiagram1.AxisX.VisibleInPanesSerializable = "-1";
+            xyDiagram1.AxisY.VisibleInPanesSerializable = "-1";
+            xyDiagram1.AxisY.VisualRange.Auto = false;
+            xyDiagram1.AxisY.VisualRange.MaxValueSerializable = "100";
+            xyDiagram1.AxisY.VisualRange.MinValueSerializable = "80";
+            xyDiagram1.AxisY.WholeRange.Auto = false;
+            xyDiagram1.AxisY.WholeRange.MaxValueSerializable = "100";
+            xyDiagram1.AxisY.WholeRange.MinValueSerializable = "80";
+            this.chartControl1.Diagram = xyDiagram1;
+            this.chartControl1.Legend.Name = "Default Legend";
+            this.chartControl1.Location = new System.Drawing.Point(1700, 8);
+            this.chartControl1.Name = "chartControl1";
+            series1.Name = "DEHW1";
+            series1.View = lineSeriesView1;
+            series2.Name = "DEHW2";
+            series2.View = lineSeriesView2;
+            series3.Name = "DEHW3";
+            series3.View = lineSeriesView3;
+            series4.Name = "DEHW4";
+            series4.View = lineSeriesView4;
+            series5.Name = "DEHW5";
+            series5.View = lineSeriesView5;
+            this.chartControl1.SeriesSerializable = new DevExpress.XtraCharts.Series[] {
+        series1,
+        series2,
+        series3,
+        series4,
+        series5};
+            this.chartControl1.Size = new System.Drawing.Size(1224, 330);
+            this.chartControl1.TabIndex = 60;
             // 
-            // frmDEHWNew
+            // chartControl2
+            // 
+            xyDiagram2.AxisX.VisibleInPanesSerializable = "-1";
+            xyDiagram2.AxisY.VisibleInPanesSerializable = "-1";
+            this.chartControl2.Diagram = xyDiagram2;
+            this.chartControl2.Legend.Name = "Default Legend";
+            this.chartControl2.Legend.Visibility = DevExpress.Utils.DefaultBoolean.False;
+            this.chartControl2.Location = new System.Drawing.Point(1701, 344);
+            this.chartControl2.Name = "chartControl2";
+            series6.Name = "1";
+            series6.View = pointSeriesView1;
+            series7.Name = "2";
+            series7.View = pointSeriesView2;
+            series8.Name = "3";
+            series8.View = pointSeriesView3;
+            series9.Name = "4";
+            series9.View = pointSeriesView4;
+            series10.Name = "5";
+            series10.View = pointSeriesView5;
+            series11.Name = "6";
+            series11.View = pointSeriesView6;
+            series12.Name = "7";
+            series12.View = pointSeriesView7;
+            series13.Name = "8";
+            series13.View = pointSeriesView8;
+            series14.Name = "9";
+            series14.View = pointSeriesView9;
+            series15.Name = "10";
+            series15.View = pointSeriesView10;
+            series16.Name = "11";
+            series16.View = pointSeriesView11;
+            series17.Name = "12";
+            series17.View = pointSeriesView12;
+            series18.Name = "13";
+            series18.View = pointSeriesView13;
+            series19.Name = "14";
+            series19.View = pointSeriesView14;
+            series20.Name = "15";
+            series20.View = pointSeriesView15;
+            series21.Name = "16";
+            series21.View = pointSeriesView16;
+            series22.Name = "17";
+            series22.View = pointSeriesView17;
+            series23.Name = "18";
+            series23.View = pointSeriesView18;
+            series24.Name = "19";
+            series24.View = pointSeriesView19;
+            series25.Name = "20";
+            series25.View = pointSeriesView20;
+            this.chartControl2.SeriesSerializable = new DevExpress.XtraCharts.Series[] {
+        series6,
+        series7,
+        series8,
+        series9,
+        series10,
+        series11,
+        series12,
+        series13,
+        series14,
+        series15,
+        series16,
+        series17,
+        series18,
+        series19,
+        series20,
+        series21,
+        series22,
+        series23,
+        series24,
+        series25};
+            this.chartControl2.Size = new System.Drawing.Size(1046, 1036);
+            this.chartControl2.TabIndex = 61;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(415, 147);
+            this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(47, 25);
+            this.label7.TabIndex = 65;
+            this.label7.Text = "and";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(36, 148);
+            this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(246, 25);
+            this.label6.TabIndex = 64;
+            this.label6.Text = "HWIndex range between";
+            // 
+            // HIMax
+            // 
+            this.HIMax.EditValue = "94";
+            this.HIMax.Location = new System.Drawing.Point(488, 141);
+            this.HIMax.Name = "HIMax";
+            this.HIMax.Size = new System.Drawing.Size(108, 40);
+            this.HIMax.TabIndex = 63;
+            // 
+            // HIMin
+            // 
+            this.HIMin.EditValue = "92";
+            this.HIMin.Location = new System.Drawing.Point(292, 141);
+            this.HIMin.Name = "HIMin";
+            this.HIMin.Size = new System.Drawing.Size(115, 40);
+            this.HIMin.TabIndex = 62;
+            // 
+            // groupControl2
+            // 
+            this.groupControl2.Controls.Add(this.checkDSM);
+            this.groupControl2.Controls.Add(this.HIMin);
+            this.groupControl2.Controls.Add(this.label7);
+            this.groupControl2.Controls.Add(this.HIMax);
+            this.groupControl2.Controls.Add(this.label6);
+            this.groupControl2.Location = new System.Drawing.Point(886, 99);
+            this.groupControl2.Name = "groupControl2";
+            this.groupControl2.Size = new System.Drawing.Size(744, 200);
+            this.groupControl2.TabIndex = 66;
+            this.groupControl2.Text = "DSM";
+            // 
+            // checkDSM
+            // 
+            this.checkDSM.AutoSize = true;
+            this.checkDSM.Location = new System.Drawing.Point(41, 59);
+            this.checkDSM.Name = "checkDSM";
+            this.checkDSM.Size = new System.Drawing.Size(149, 29);
+            this.checkDSM.TabIndex = 66;
+            this.checkDSM.Text = "DSM Active";
+            this.checkDSM.UseVisualStyleBackColor = true;
+            this.checkDSM.CheckedChanged += new System.EventHandler(this.checkDSM_CheckedChanged);
+            // 
+            // DEHW
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2132, 1364);
+            this.ClientSize = new System.Drawing.Size(2936, 1410);
+            this.Controls.Add(this.groupControl2);
+            this.Controls.Add(this.chartControl2);
+            this.Controls.Add(this.chartControl1);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.textEditResolution);
             this.Controls.Add(this.checkEditSimulate);
             this.Controls.Add(this.groupControl1);
             this.Controls.Add(this.chkMonitor);
             this.Controls.Add(this.labelControlTime);
             this.Controls.Add(this.labelControl1);
             this.Controls.Add(this.gridControl1);
-            this.Name = "frmDEHWNew";
+            this.Name = "DEHW";
             this.Text = "frmDEHWNew";
             this.Load += new System.EventHandler(this.frmDEHWNew_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
@@ -267,9 +577,69 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
             this.groupControl1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEditSimulate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.end.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.start.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkEditSimulate.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditResolution.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(lineSeriesView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(lineSeriesView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(lineSeriesView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(lineSeriesView4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(lineSeriesView5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(xyDiagram2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series13)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series15)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series16)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series17)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView13)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series18)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series19)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView15)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series20)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView16)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series21)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView17)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series22)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView18)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series23)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView19)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series24)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pointSeriesView20)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series25)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartControl2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HIMax.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HIMin.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
+            this.groupControl2.ResumeLayout(false);
+            this.groupControl2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -296,5 +666,15 @@
         private System.Windows.Forms.Label label9;
         private DevExpress.XtraEditors.TextEdit end;
         private DevExpress.XtraEditors.TextEdit start;
+        private System.Windows.Forms.Label label2;
+        private DevExpress.XtraEditors.TextEdit textEditResolution;
+        private DevExpress.XtraCharts.ChartControl chartControl1;
+        private DevExpress.XtraCharts.ChartControl chartControl2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private DevExpress.XtraEditors.TextEdit HIMax;
+        private DevExpress.XtraEditors.TextEdit HIMin;
+        private DevExpress.XtraEditors.GroupControl groupControl2;
+        private System.Windows.Forms.CheckBox checkDSM;
     }
 }

@@ -106,32 +106,32 @@ namespace Neura.Billing
 
             listItems = new List<string>();
 
-            //listItems.Add("Started at " + DateTime.Now.ToString());
-            //listItems.Add("-------------------------------");
-            //if (bLogTest == true)
-            //{
-            //    Log.Info("Process started at " + DateTime.Now.ToString());
-            //    Log.Info("==========================");
-            //}
+            listItems.Add("Started at " + DateTime.Now.ToString());
+            listItems.Add("-------------------------------");
+            if (bLogTest == true)
+            {
+                Log.Info("Process started at " + DateTime.Now.ToString());
+                Log.Info("==========================");
+            }
 
-            //int incomming = Verify.VerifyIncoming(MeteringInterval);
-            //listItems.Add("Number of new readings: " + incomming);
+            int incomming = Verify.VerifyIncoming(MeteringInterval);
+            listItems.Add("Number of new readings: " + incomming);
 
-            //if (bLogTest == true)
-            //{
-            //    Log.Info("");
-            //    Log.Info("Number of new readings this loop: " + incomming);
-            //    Log.Info("----------------------------------------------");
-            //}
+            if (bLogTest == true)
+            {
+                Log.Info("");
+                Log.Info("Number of new readings this loop: " + incomming);
+                Log.Info("----------------------------------------------");
+            }
 
-            //int inreadings = ManageIncoming.GetIncomingReadings(MeteringInterval);
-            //listItems.Add("Number of new usage records: " + inreadings);
+            int inreadings = ManageIncoming.GetIncomingReadings(MeteringInterval);
+            listItems.Add("Number of new usage records: " + inreadings);
 
-            //if (bLogTest == true)
-            //{
-            //    Log.Info("Number of new usage records: " + inreadings);
-            //    Log.Info("----------------------------------------------");
-            //}
+            if (bLogTest == true)
+            {
+                Log.Info("Number of new usage records: " + inreadings);
+                Log.Info("----------------------------------------------");
+            }
 
 
             TariffMain.GetCosts(MeteringInterval, out int processedGroups);
@@ -562,26 +562,26 @@ namespace Neura.Billing
                 Log.Info("==========================");
             }
 
-            //int incomming = Verify.VerifyIncoming(MeteringInterval);
-            //listItems.Add("Number of new readings: " + incomming);
+            int incomming = Verify.VerifyIncoming(MeteringInterval);
+            listItems.Add("Number of new readings: " + incomming);
 
 
-            //if (bLogTest == true)
-            //{
-            //    Log.Info("");
-            //    Log.Info("Number of new readings this loop: " + incomming);
-            //    Log.Info("----------------------------------------------");
-            //}
+            if (bLogTest == true)
+            {
+                Log.Info("");
+                Log.Info("Number of new readings this loop: " + incomming);
+                Log.Info("----------------------------------------------");
+            }
 
-            //int inreadings = ManageIncoming.GetIncomingReadings(MeteringInterval);
-            //listItems.Add("Number of new usage records: " + inreadings);
+            int inreadings = ManageIncoming.GetIncomingReadings(MeteringInterval);
+            listItems.Add("Number of new usage records: " + inreadings);
 
 
-            //if (bLogTest == true)
-            //{
-            //    Log.Info("Number of new usage records: " + inreadings);
-            //    Log.Info("----------------------------------------------");
-            //}
+            if (bLogTest == true)
+            {
+                Log.Info("Number of new usage records: " + inreadings);
+                Log.Info("----------------------------------------------");
+            }
 
 
             TariffMain.GetCosts(MeteringInterval, out int processedGroups);
@@ -623,7 +623,7 @@ namespace Neura.Billing
         private void simpleButtonDSM_Click(object sender, EventArgs e)
         {
             //frmDEHW f = new frmDEHW();
-            frmDEHWNew f=new frmDEHWNew();
+            DEHW.DEHW f=new DEHW.DEHW();
             f.Show();
         }
     }

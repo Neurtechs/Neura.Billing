@@ -24,6 +24,7 @@ namespace Neura.Billing
         {
             //textBoxUser.Text = "Dale";
             //textBoxServer.Text = "neura.dyndns.org,3306";
+            //textBoxPassword.Text = "D@lelieb01";
             textBoxUser.Text = "root";
             textBoxServer.Text = "localhost";
             textBoxPassword.Text = "D@lelieb01";

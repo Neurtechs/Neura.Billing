@@ -62,5 +62,18 @@ namespace Neura.Billing.DEHWData
             dtThermostat=new DataTable();
             da.Fill(dtThermostat);
         }
+
+        public static void SwitchStatusChange(string serialNo, DateTime timeStamp, int status)
+        {
+            MySqlCommand cmd = new MySqlCommand("SwitchStatusChange", mySqlConnection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("_serialNo", serialNo);
+            cmd.Parameters.AddWithValue("_timeStamp", timeStamp);
+            cmd.Parameters.AddWithValue("_status", status);
+          
+            if (mySqlConnection.State == ConnectionState.Closed) { mySqlConnection.Open(); }
+            cmd.ExecuteNonQuery();
+            mySqlConnection.Close();
+        }
     }
 }

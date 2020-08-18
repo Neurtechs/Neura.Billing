@@ -151,12 +151,6 @@
     <Compile Include="Data\SaveConnections.cs" />
     <Compile Include="Data\UtilityConnections.cs" />
     <Compile Include="DEHW\DEHWData\Connections.cs" />
-    <Compile Include="DEHW\frmDEHW.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DEHW\frmDEHW.Designer.cs">
-      <DependentUpon>frmDEHW.cs</DependentUpon>
-    </Compile>
     <Compile Include="DEHW\frmDEHWNew.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -195,9 +189,6 @@
     <Compile Include="TariffCalcs\TariffMain.cs" />
     <Compile Include="TariffCalcs\TOURate.cs" />
     <Compile Include="TariffCalcs\Verify.cs" />
-    <EmbeddedResource Include="DEHW\frmDEHW.resx">
-      <DependentUpon>frmDEHW.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="DEHW\frmDEHWNew.resx">
       <DependentUpon>frmDEHWNew.cs</DependentUpon>
     </EmbeddedResource>

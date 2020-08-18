@@ -183,15 +183,19 @@
             this.gridControl1.Location = new System.Drawing.Point(81, 357);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(1614, 973);
+            this.gridControl1.Size = new System.Drawing.Size(2060, 973);
             this.gridControl1.TabIndex = 0;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
             // 
             // gridView1
             // 
+            this.gridView1.Appearance.HeaderPanel.Options.UseTextOptions = true;
+            this.gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.gridView1.Appearance.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
+            this.gridView1.RowCellStyle += new DevExpress.XtraGrid.Views.Grid.RowCellStyleEventHandler(this.gridView1_RowCellStyle);
             // 
             // timer1
             // 
@@ -381,7 +385,7 @@
             // 
             // textEditResolution
             // 
-            this.textEditResolution.EditValue = "10";
+            this.textEditResolution.EditValue = "30";
             this.textEditResolution.Location = new System.Drawing.Point(1234, 2);
             this.textEditResolution.Name = "textEditResolution";
             this.textEditResolution.Size = new System.Drawing.Size(59, 40);
@@ -399,17 +403,17 @@
             xyDiagram1.AxisY.WholeRange.MinValueSerializable = "80";
             this.chartControl1.Diagram = xyDiagram1;
             this.chartControl1.Legend.Name = "Default Legend";
-            this.chartControl1.Location = new System.Drawing.Point(1700, 8);
+            this.chartControl1.Location = new System.Drawing.Point(2177, 12);
             this.chartControl1.Name = "chartControl1";
-            series1.Name = "DEHW1";
+            series1.Name = "DEHW20";
             series1.View = lineSeriesView1;
-            series2.Name = "DEHW2";
+            series2.Name = "DEHW15";
             series2.View = lineSeriesView2;
-            series3.Name = "DEHW3";
+            series3.Name = "DEHW10";
             series3.View = lineSeriesView3;
-            series4.Name = "DEHW4";
+            series4.Name = "DEHW5";
             series4.View = lineSeriesView4;
-            series5.Name = "DEHW5";
+            series5.Name = "DEHW1";
             series5.View = lineSeriesView5;
             this.chartControl1.SeriesSerializable = new DevExpress.XtraCharts.Series[] {
         series1,
@@ -417,7 +421,7 @@
         series3,
         series4,
         series5};
-            this.chartControl1.Size = new System.Drawing.Size(1224, 330);
+            this.chartControl1.Size = new System.Drawing.Size(1097, 330);
             this.chartControl1.TabIndex = 60;
             // 
             // chartControl2
@@ -427,7 +431,7 @@
             this.chartControl2.Diagram = xyDiagram2;
             this.chartControl2.Legend.Name = "Default Legend";
             this.chartControl2.Legend.Visibility = DevExpress.Utils.DefaultBoolean.False;
-            this.chartControl2.Location = new System.Drawing.Point(1701, 344);
+            this.chartControl2.Location = new System.Drawing.Point(2198, 348);
             this.chartControl2.Name = "chartControl2";
             series6.Name = "1";
             series6.View = pointSeriesView1;
@@ -490,7 +494,7 @@
         series23,
         series24,
         series25};
-            this.chartControl2.Size = new System.Drawing.Size(1046, 1036);
+            this.chartControl2.Size = new System.Drawing.Size(882, 1036);
             this.chartControl2.TabIndex = 61;
             // 
             // label7
@@ -557,7 +561,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2936, 1410);
+            this.ClientSize = new System.Drawing.Size(3286, 1410);
             this.Controls.Add(this.groupControl2);
             this.Controls.Add(this.chartControl2);
             this.Controls.Add(this.chartControl1);
@@ -570,7 +574,7 @@
             this.Controls.Add(this.labelControl1);
             this.Controls.Add(this.gridControl1);
             this.Name = "DEHW";
-            this.Text = "frmDEHWNew";
+            this.Text = "DSM";
             this.Load += new System.EventHandler(this.frmDEHWNew_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();

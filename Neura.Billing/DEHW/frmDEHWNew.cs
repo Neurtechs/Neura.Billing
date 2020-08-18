@@ -5,10 +5,13 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DevExpress.Utils;
 using DevExpress.XtraCharts;
 using DevExpress.XtraEditors;
+using DevExpress.XtraEditors.Controls;
 using log4net.Filter;
 using Neura.Billing.DEHWData;
 
@@ -33,6 +36,7 @@ namespace Neura.Billing.DEHW
         private DateTime[] timeStartHeating;
         private DateTime processTime;
         private DateTime prevTime;
+        private DateTime prevTimeTable;
         private int nowSec;
         private int[] nodeStatus;
         private double[] power;
@@ -43,8 +47,8 @@ namespace Neura.Billing.DEHW
         private double[] heatGrad;
         private double[] hWIndex;
         private bool bStarted = false;
-        private bool[] bRestored;
-        private bool bRestoring;
+        //private bool[] bRestored;
+        //private bool bRestoring;
         private int multiplier = 1;
 
         private double[] baseCooling;
@@ -70,13 +74,21 @@ namespace Neura.Billing.DEHW
         private double loadshedMax;
         private double loadshedMin;
 
-        private double loadshedMaxSteps;
-        private double loadshedMinSteps;
+        private int restoreSteps = 0;
+        private int countRestore = 0;
+
+        private double[] energy;
+        private double[,] loadShift;
+        private DateTime[] lsStart;
+        private DateTime[] lsEnd;
+
+        private int[] processStatus; //0=nil, 1=DSM, 2=Prepare to Restore, 3=Restore
         public DEHW()
         {
             InitializeComponent();
         }
-
+        private static readonly log4net.ILog Log =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private void frmDEHWNew_Load(object sender, EventArgs e)
         {
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
@@ -94,10 +106,11 @@ namespace Neura.Billing.DEHW
             thermoEnd = Convert.ToDouble(end.Text);
             thermoStart = Convert.ToDouble(start.Text);
             groupControl1.Enabled = false;
-
+            
             xValues = new List<double>();
             yValues = new List<double>();
             SetChart();
+
         }
 
         private void SetChart()
@@ -144,16 +157,16 @@ namespace Neura.Billing.DEHW
             series1 = chartControl1.GetSeriesByName("DEHW1");
             series1.Points.Clear();
             series2 = new Series();
-            series2 = chartControl1.GetSeriesByName("DEHW2");
+            series2 = chartControl1.GetSeriesByName("DEHW5");
             series2.Points.Clear();
             series3 = new Series();
-            series3 = chartControl1.GetSeriesByName("DEHW3");
+            series3 = chartControl1.GetSeriesByName("DEHW10");
             series3.Points.Clear();
             series4 = new Series();
-            series4 = chartControl1.GetSeriesByName("DEHW4");
+            series4 = chartControl1.GetSeriesByName("DEHW15");
             series4.Points.Clear();
             series5 = new Series();
-            series5 = chartControl1.GetSeriesByName("DEHW5");
+            series5 = chartControl1.GetSeriesByName("DEHW20");
             series5.Points.Clear();
         }
         private void GetNodeData()
@@ -168,12 +181,14 @@ namespace Neura.Billing.DEHW
             coolTime = new int[nodeCount];
             coolGrad = new double[nodeCount];
             heatGrad = new double[nodeCount];
-            hWIndex = new double[nodeCount];
-            index = new double[nodeCount];
+            //hWIndex = new double[nodeCount];
+            energy=new double[nodeCount];
+            if (bStarted == false) {index = new double[nodeCount];}
             nodeOid = new int[nodeCount];
             lastSwitch = new DateTime[nodeCount];
             serialNo = new string[nodeCount];
-
+            loadShift=new double[nodeCount,24];
+            
         }
         private void SetDataTable()
         {
@@ -189,6 +204,10 @@ namespace Neura.Billing.DEHW
             dtTable.Columns.Add("GradCooling");
             dtTable.Columns.Add("GradHeating");
             dtTable.Columns.Add("HWIndex");
+            dtTable.Columns.Add("Energy");
+            dtTable.Columns.Add("LoadshedStart");
+            dtTable.Columns.Add("LoadshedEnd");
+
         }
 
         private void GetThermoData(DateTime myTime)
@@ -207,16 +226,18 @@ namespace Neura.Billing.DEHW
                 if (value[i] > 0)
                 {
                     //Geyser on
-                    if(bDSM==false){index[i] = thermoStart;}
+                    if(processStatus[i]==0) { index[i] = thermoStart; }
                     thermoStatus[i] = 1;
                     TimeSpan ts = myTime - lastSwitch[i];
                     heatTime[i] = (int)ts.TotalSeconds;
                     coolTime[i] = 0;
                     hWIndex[i] = index[i] + heatGrad[i] * heatTime[i];
+                   
                 }
                 else
                 {
-                    if (bDSM == false) {index[i] = thermoEnd;}
+                    
+                    if (processStatus[i] == 0) { index[i] = thermoEnd; }
                     thermoStatus[i] = 0;
                     TimeSpan ts = myTime - lastSwitch[i];
                     coolTime[i] = (int)ts.TotalSeconds;
@@ -224,6 +245,11 @@ namespace Neura.Billing.DEHW
                     hWIndex[i] = index[i] + coolGrad[i] * coolTime[i];
                 }
 
+                //if (i < 5 && bRestoring==true)
+                //{
+                //    Log.Info("Node =  " + serialNo[i]);
+                //    Log.Info("hWIndex =  " + hWIndex[i]);
+                //}
                 
             }
         }
@@ -240,6 +266,9 @@ namespace Neura.Billing.DEHW
                 sRow = (i+1).ToString();
                 if (sRow.Length == 1) { sRow = "0" + sRow; }
 
+                energy[i] += (value[i] * (processTime - prevTimeTable).Seconds) / 3600;
+               
+              
                 dtTable.Rows.Add();
                 dtTable.Rows[i]["Item"] = sRow;
                 dtTable.Rows[i]["SerialNo"] = serialNo[i];
@@ -249,14 +278,23 @@ namespace Neura.Billing.DEHW
                 dtTable.Rows[i]["Power"] = value[i];
                 dtTable.Rows[i]["CoolTime"] = coolTime[i];
                 dtTable.Rows[i]["HeatTime"] = heatTime[i];
-                dtTable.Rows[i]["GradCooling"] = coolGrad[i];
-                dtTable.Rows[i]["GradHeating"] = heatGrad[i];
-                dtTable.Rows[i]["HWIndex"] = hWIndex[i];
-              
-
+                dtTable.Rows[i]["GradCooling"] = coolGrad[i].ToString("N4");
+                dtTable.Rows[i]["GradHeating"] = heatGrad[i].ToString("N4");
+                dtTable.Rows[i]["HWIndex"] = hWIndex[i].ToString("N4");
+                dtTable.Rows[i]["Energy"] = energy[i].ToString("N4");
+                if(Convert.ToString(lsStart[i]) != "1980/01/01 00:00:00")
+                {
+                    dtTable.Rows[i]["LoadshedStart"] = lsStart[i];
+                }
+                if (Convert.ToString(lsEnd[i]) != "1980/01/01 00:00:00")
+                {
+                    dtTable.Rows[i]["LoadshedEnd"] = lsEnd[i];
+                }
             }
             gridControl1.DataSource = dtTable;
             gridView1.Columns["Item"].SortOrder = DevExpress.Data.ColumnSortOrder.Descending;
+        
+            prevTimeTable = processTime;
         }
 
       
@@ -264,12 +302,14 @@ namespace Neura.Billing.DEHW
         {
             GetThermoData(processTime);
             labelControlTime.Text = processTime.ToString();
-            if (bDSM == false && bStarted == true){Simulate();}
+           
+           // if (bDSM == false && bStarted == true && bRestoring==false){Simulate();}
+            if (bDSM == false && bStarted == true ) { Simulate(); }
             if (bDSM==true){DSM();}
-            
+            if(bDSM==true){Restore();}            
             if (chkMonitor.Checked == true) { PopulateDG();}
             if (chkMonitor.Checked == true) { DrawGraph(); }
-            if(bRestoring==true){Restore();}
+
             processTime = processTime.AddSeconds(Convert.ToInt32(textEditResolution.Text));
             nowSec += Convert.ToInt32(textEditResolution.Text);
             
@@ -277,59 +317,141 @@ namespace Neura.Billing.DEHW
 
         private void Restore()
         {
-            //Slowly increase the values
-            //if (processTime.Second % 60 == 0) //every minute
-            //{
-            //    loadshedMax += loadshedMaxSteps;
-            //    loadshedMinSteps += loadshedMinSteps;
-            //    if (loadshedMax > thermoEnd) { loadshedMax = thermoEnd; }
-            //    if (loadshedMin < thermoStart) { loadshedMin = thermoStart; }
+        //0=nil, 1=DSM, 2=Prepare to Restore, 3=Restore
+        int counter = 0;
+            for (int i = 0; i < thermoCount; i++)
+            {
+                if (processStatus[i]==3)
+                {
 
-            //    if (loadshedMax == thermoEnd && loadshedMin == thermoStart)
-            //    {
-            //        bRestoiring = false;
-            //    }
-            //}
+                    if (hWIndex[i] >= thermoStart)
+                    {
+                        //set end LS
+                        if (lsEnd[i] == Convert.ToDateTime("1980/01/01"))
+                        {
+                            lsEnd[i] = processTime;
+                        }
+                    }
 
-            //for (int i = 0; i < thermoCount; i++)
-            //{
-            //    if(bRestored[i]==false){goto ExitHere;}
+                    if (hWIndex[i] >= thermoEnd)
+                    {
+                        nodeStatus[i] = 1;
+                        value[i] = 0;
+                        index[i] = hWIndex[i];
+                        thermoStatus[i] = 0;
+                        timeStartCooling[i] = processTime;
+                        processStatus[i] = 0;
+                        if (bStarted == true)
+                        {
+                            //In simulation mode, force thermostat off
+                            Connections.ThermosStatSetStatus(serialNo[i], processTime, value[i], heatGrad[i], coolGrad[i]);
+                        }
+                        Connections.SwitchStatusChange(serialNo[i], processTime, nodeStatus[i]);
 
-            //    bRestoring = false;
-            //    bDSM = false;
-            //}
-            //ExitHere: ;
+                    }
+
+
+                }
+                else if (processStatus[i] == 0) { counter += 1;}
+            }
+
+            if (counter == thermoCount)
+            {
+                bDSM = false;
+            }
         }
+        //private void Restore()
+        //{
+        //    for (int i = 0; i < thermoCount; i++)
+        //    {
+        //        if (nodeStatus[i] == 1)
+        //        {
+        //            if (thermoStatus[i] == 1)
+        //            {
+        //                //Busy restoring
+        //            }
+        //            else
+        //            {
+        //                //Turn on
+        //                //Switch on
+        //                timeStartHeating[i] = processTime;
+        //                nodeStatus[i] = 1;
+        //                thermoStatus[i] = 1;
+        //                value[i] = power[i];
+        //                index[i] = hWIndex[i];
+
+        //                if (bStarted == true)
+        //                {
+        //                    //In simulation mode, force thermostat on
+        //                    Connections.ThermosStatSetStatus(serialNo[i], processTime, value[i], heatGrad[i], coolGrad[i]);
+        //                }
+        //                Connections.SwitchStatusChange(serialNo[i], processTime, nodeStatus[i]);
+        //                if (hWIndex[i] >= thermoStart)
+        //                {
+        //                    if (lsEnd[i] == Convert.ToDateTime("1980/01/01 00:00:00"))
+        //                    {
+        //                        lsEnd[i] = processTime;
+        //                    }
+        //                }
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            //Node still off
+        //            //turn on
+
+        //            timeStartHeating[i] = processTime;
+        //            nodeStatus[i] = 1;
+        //            thermoStatus[i] = 1;
+        //            value[i] = power[i];
+        //            index[i] = hWIndex[i];
+        //            if (bStarted == true)
+        //            {
+        //                //In simulation mode, force thermostat on
+        //                Connections.ThermosStatSetStatus(serialNo[i], processTime, value[i], heatGrad[i], coolGrad[i]);
+        //            }
+        //            Connections.SwitchStatusChange(serialNo[i], processTime, nodeStatus[i]);
+        //        }
+        //        if (hWIndex[i] >= thermoStart) //End load shifting
+        //        {
+        //            if (lsEnd[i] == Convert.ToDateTime("1980/01/01 00:00:00"))
+        //            {
+        //                lsEnd[i] = processTime;
+        //                bRestored[i] = true;
+        //            }
+        //        }
+        //    }
+
+
+
+        //}
         private void DSM()
         {
             Connections.GetGeyserNodes(out dtNodeData);
            
             for (int i = 0; i < thermoCount; i++)
             {
-                if (bRestoring == true)
-                {
-                    nodeStatus[i] = 1;
-
-                }
-                else
-                {
-                    string filter = "Oid = " + nodeOid[i];
-                    DataRow[] dr = dtNodeData.Select(filter);
-                    nodeStatus[i] = Convert.ToInt32(dr[0]["Status"]);
-                }
-
-
-
-
+                if (processStatus[i]==3){goto SkipDSM;} //busy restoring
+                string filter = "Oid = " + nodeOid[i];
+                DataRow[] dr = dtNodeData.Select(filter);
+                nodeStatus[i] = Convert.ToInt32(dr[0]["Status"]);
+                
                 if (nodeStatus[i]==1)
                 {
                     if (thermoStatus[i] == 1)
                     {
                         //Busy heating
-                        if (bRestoring == true)
+                        //if (bRestoring == true)
+                        //{
+                        //    bRestored[i] = true;
+                        //    goto SkipTurnOff;
+                        //}
+                        if (processStatus[i] == 2)
                         {
-                            bRestored[i] = true;
-                            goto SkipTurnOff;
+                            //Hand over to restore process
+                            processStatus[i] = 3;
+
                         }
                         if (hWIndex[i] > loadshedMax)
                         {
@@ -349,26 +471,9 @@ namespace Neura.Billing.DEHW
                         }
                         SkipTurnOff: ;
                     }
-                    else
+                    else  //nodeStatus[i]==1, thermoStatus[i] == 0
                     {
-                        
-                        if (hWIndex[i] < loadshedMin)
-                        {
-                            //Need to turn on
-                            //turn on
-                            timeStartHeating[i] = processTime;
-                            nodeStatus[i] = 1;
-                            thermoStatus[i] = 1;
-                            value[i] = power[i];
-                            index[i] = hWIndex[i];
-                            if (bStarted == true)
-                            {
-                                //In simulation mode, force thermostat on
-                                Connections.ThermosStatSetStatus(serialNo[i], processTime, value[i], heatGrad[i], coolGrad[i]);
-                            }
-                            Connections.SwitchStatusChange(serialNo[i], processTime, nodeStatus[i]);
-                        }
-                        else if (hWIndex[i] < thermoStart) //Still cooling down after loadshedding start
+                        if (hWIndex[i] < thermoStart) //Still cooling down after loadshedding start
                         {
                             //continue with cooling
                             //get the updated values
@@ -385,12 +490,20 @@ namespace Neura.Billing.DEHW
                             }
                             Connections.SwitchStatusChange(serialNo[i], processTime, nodeStatus[i]);
                         }
+
                     }
                 }
                 else //node off
                 {
-                    if (thermoStatus[i] == 0)
+
+                    if (thermoStatus[i] == 0) //nodeStatus[i]==0, thermoStatus[i] == 0
+
                     {
+                        //set start LS
+                        if (lsStart[i] == Convert.ToDateTime("1980/01/01"))
+                        {
+                            lsStart[i] = processTime;
+                        }
                         if (hWIndex[i] < loadshedMin)
                         {
                             //turn on
@@ -409,19 +522,21 @@ namespace Neura.Billing.DEHW
                     }
                     else //thermo on
                     {
+
                         //this situation should not be possible
+                        //nodeStatus[i]==0, thermoStatus[i] == 1
+                        MessageBox.Show("Node off, thermo on");
                     }
                 }
                 SkipDSM: ;
             }
 
-            bRestoring = false;
         }
         private void Simulate()
         {
             for (int i = 0; i < thermoCount; i++)
             {
-                //if (bRestored[i]==false){goto StillRestoring;}
+                
                 if (thermoStatus[i] == 1)
                 {
                     //busy warming
@@ -429,15 +544,24 @@ namespace Neura.Billing.DEHW
                     //double dur = Convert.ToDouble(duration.TotalSeconds);
                     //index[i] = thermoStart;
                     //hWIndex[i] = index[i] + heatGrad[i] * dur;
-                    if (hWIndex[i] > thermoEnd)
+                    if (hWIndex[i] >= thermoEnd)
                     {
                         //End of heating
+                        if (i == 5 || i == 10)
+                        {
+                            Log.Info("hWIndex[" + i + "] = " + hWIndex[i]);
+                            Log.Info("Set hWIndex[" + i + "] = " + thermoEnd);
+                            Log.Info("Set index[" + i + "] = " + thermoEnd);
+                        }
                         TimeSpan duration = (processTime - timeStartHeating[i]);
                         double dur = Convert.ToDouble(duration.TotalSeconds);
                         index[i] = thermoEnd;
+                        hWIndex[i]=thermoEnd;
                         thermoStatus[i] = 0;
                         heatGrad[i] = (thermoEnd - thermoStart) / dur;
                         value[i] = 0;
+
+                       
 
                         //values for the following cooling cycle
                         timeStartCooling[i] = processTime;
@@ -455,10 +579,11 @@ namespace Neura.Billing.DEHW
                     //index[i] = thermoEnd;
                     //hWIndex[i] = index[i] + coolGrad[i] * dur;
                    
-                    if (hWIndex[i] < thermoStart)
+                    if (hWIndex[i] < thermoStart  )
                     {
                         //End of cooling
-                        index[i] = thermoStart;
+                        //index[i] = thermoStart;
+                        index[i] = hWIndex[i];
                         TimeSpan duration = (processTime - timeStartCooling[i]);
                         double dur = Convert.ToDouble(duration.TotalSeconds);
                         thermoStatus[i] = 1;
@@ -494,7 +619,7 @@ namespace Neura.Billing.DEHW
             }
             xValues.Add(nowSec);
 
-            if (processTime.Second % 60 == 0) //every minute
+            if (processTime.Second % 60 == 0) //every 60s
             {
                 points += 1;
                 if (points > 230)
@@ -505,11 +630,11 @@ namespace Neura.Billing.DEHW
                     series4.Points.RemoveAt(0);
                     series5.Points.RemoveAt(0);
                 }
-                series1.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[1]));
-                series2.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[2]));
-                series3.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[3]));
-                series4.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[4]));
-                series5.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[5]));
+                series1.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[0]));
+                series2.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[4]));
+                series3.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[9]));
+                series4.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[14]));
+                series5.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[19]));
                 for (int i = 1; i < showCount+1; i++)
                 {
                     bool remove = false;
@@ -562,6 +687,17 @@ namespace Neura.Billing.DEHW
                         //timer1.Start();
                     }
                 }
+                lsStart = new DateTime[nodeCount];
+                lsEnd = new DateTime[nodeCount];
+                processStatus = new int[nodeCount];
+
+                for (int i = 0; i < nodeCount; i++)
+                {
+                    lsStart[i] = Convert.ToDateTime("1980/01/01 00:00:00");
+                    lsEnd[i] = Convert.ToDateTime("1980/01/01 00:00:00");
+                    processStatus[i] = 0; //0=nil, 1=DSM, 2=Prepare to Restore, 3=Restore
+
+                }
             }
             else
             {
@@ -602,6 +738,8 @@ namespace Neura.Billing.DEHW
                     timer1.Start();
                 }
             }
+
+            prevTimeTable = processTime;
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -609,12 +747,12 @@ namespace Neura.Billing.DEHW
             bStarted = true;
             startTime = dateTimePicker1.Value;
             processTime = startTime;
-            
+            prevTimeTable = processTime;
             InitialValues();
             SetDataTable();
             GetNodeData();
+            //resetShedding();
 
-            
             timer1.Interval = (Convert.ToInt32(textEditResolution.Text) * 1000 )/ multiplier;
 
             timer1.Start();
@@ -637,6 +775,7 @@ namespace Neura.Billing.DEHW
         {
             startTime = dateTimePicker1.Value;
             processTime = startTime;
+            prevTimeTable = processTime;
         }
 
         private void cmbMultiplier_SelectedIndexChanged(object sender, EventArgs e)
@@ -661,8 +800,10 @@ namespace Neura.Billing.DEHW
             baseCooling = new double[nodeCount];
             baseHeating = new double[nodeCount];
             nodeStatus=new int[nodeCount];
+            hWIndex = new double[nodeCount];
             DateTime myTime;
-          
+            
+           
             for (int i = 0; i < nodeCount; i++)
             {
                 serialNo[i] = Convert.ToString(dtNodeData.Rows[i]["SerialNo"]);
@@ -679,11 +820,12 @@ namespace Neura.Billing.DEHW
                 coolGrad[i] = -(thermoEnd - thermoStart) / coolTime[i];
                 heatGrad[i]= (thermoEnd - thermoStart) / heatTime[i];
                 nodeStatus[i] = 1;
-
+                energy[i] = 0;
                 myRand = rand.NextDouble();
                 thermoStatus[i] = Convert.ToInt16(myRand);
-               // timeStartCooling[i] = startTime;
+                // timeStartCooling[i] = startTime;
                 //timeStartHeating[i] = startTime;
+                processStatus[i] = 0; //0=nil, 1=DSM, 2=Restoring
                 if (thermoStatus[i] == 0)
                 {
                     index[i] = thermoStart;
@@ -711,13 +853,14 @@ namespace Neura.Billing.DEHW
         {
             if (checkDSM.Checked == true)
             {
-                bDSM = true; 
-                bRestored=new bool[nodeCount];
-                bRestoring = false;
-               for (int i = 0; i < nodeCount; i++)
-               {
-                   bRestored[i] = false;
-               }
+                bDSM = true;
+                for (int i = 0; i < nodeCount; i++)
+
+                {
+                   processStatus[i] = 1; //0=nil, 1=DSM, 2=Restoring
+                   lsStart[i] = Convert.ToDateTime("1980/01/01");
+                   lsEnd[i] = Convert.ToDateTime("1980/01/01");
+                }
                 //if (bStarted == true) // for simulation only
                 //{
                    
@@ -729,20 +872,45 @@ namespace Neura.Billing.DEHW
                    
                 //}
 
-                bRestoring = false;
                 loadshedMax = Convert.ToDouble(HIMax.Text);
                 loadshedMin = Convert.ToDouble(HIMin.Text);
-                //loadshedMaxSteps = (thermoEnd - loadshedMax) / 10;
-                //loadshedMinSteps = (thermoStart - loadshedMin) / 10;
+               
             }
             else
             {
-                bRestoring = true;
-                loadshedMax = thermoEnd;
-                loadshedMin = thermoStart;
-               
+                
+                restoreSteps = (int)(thermoCount / 20);
+                countRestore = restoreSteps;
+                
+                for (int i = 0; i < nodeCount; i++)
+                {
+                    processStatus[i] = 2; //0=nil, 1=DSM, 2=Prepare to Restore, 3=Restore
+                }
+            }
+        }
+
+        private void resetShedding()
+        {
+            //for load shedding
+            lsStart = new DateTime[nodeCount];
+            lsEnd = new DateTime[nodeCount];
+            processStatus=new int[nodeCount];
+           
+            for (int i = 0; i < nodeCount; i++)
+            {
+                lsStart[i] = Convert.ToDateTime("1980/01/01 00:00:00");
+                lsEnd[i] = Convert.ToDateTime("1980/01/01 00:00:00");
+                processStatus[i] = 1; //0=nil, 1=DSM, 2=Prepare to Restore, 3=Restore
 
             }
+        }
+        private void gridView1_RowCellStyle(object sender, DevExpress.XtraGrid.Views.Grid.RowCellStyleEventArgs e)
+        {
+            //if (e.Column.FieldName == "Energy")
+            //{
+            //    e.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            //}
+            e.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
         }
     }
 }

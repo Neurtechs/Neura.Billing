@@ -29,11 +29,15 @@ namespace Neura.Billing.DEHW
         private int[] nodeOid;
         private string[] serialNo;
         private int[] thermoStatus;
-        
+        private int[] thermoStatusX;
+
         private DateTime[] lastSwitch;
+        private DateTime[] lastSwitchX;
         private DateTime startTime;
         private DateTime[] timeStartCooling;
         private DateTime[] timeStartHeating;
+        private DateTime[] timeStartCoolingX;
+        private DateTime[] timeStartHeatingX;
         private DateTime processTime;
         private DateTime prevTime;
         private DateTime prevTimeTable;
@@ -43,9 +47,12 @@ namespace Neura.Billing.DEHW
         private double[] value;
         private int[] coolTime;
         private int[] heatTime; //sec
+        private int[] coolTimeX;
+        private int[] heatTimeX; //sec
         private double[] coolGrad;
         private double[] heatGrad;
         private double[] hWIndex;
+        private double[] hWIndexX;
         private bool bStarted = false;
         //private bool[] bRestored;
         //private bool bRestoring;
@@ -64,11 +71,17 @@ namespace Neura.Billing.DEHW
         private Series series3;
         private Series series4;
         private Series series5;
+        private Series series1x;
+        private Series series2x;
+        private Series series3x;
+        private Series series4x;
+        private Series series5x;
         private List<double> xValues;
         private List<double> yValues;
         private int points = 0;
 
         private double[] index;
+        private double[] indexX;
         private bool bDSM;
 
         private double loadshedMax;
@@ -81,6 +94,7 @@ namespace Neura.Billing.DEHW
         private double[,] loadShift;
         private DateTime[] lsStart;
         private DateTime[] lsEnd;
+        private int[] forceOff;
 
         private int[] processStatus; //0=nil, 1=DSM, 2=Prepare to Restore, 3=Restore
         public DEHW()
@@ -122,6 +136,13 @@ namespace Neura.Billing.DEHW
             ((XYDiagram)chartControl1.Diagram).AxisX.VisualRange.SetMinMaxValues(0, 7200 / 60);
             ((XYDiagram)chartControl1.Diagram).AxisX.VisualRange.Auto = false;
 
+            ((XYDiagram)chartControl3.Diagram).EnableAxisXScrolling = true;
+            ((XYDiagram)chartControl3.Diagram).AxisX.WholeRange.Auto = false;
+            ((XYDiagram)chartControl3.Diagram).AxisX.WholeRange.SetMinMaxValues(0, 14400 / 60);
+            ((XYDiagram)chartControl3.Diagram).AxisX.VisualRange.AutoSideMargins = false;
+            ((XYDiagram)chartControl3.Diagram).AxisX.VisualRange.SetMinMaxValues(0, 7200 / 60);
+            ((XYDiagram)chartControl3.Diagram).AxisX.VisualRange.Auto = false;
+
 
             ((XYDiagram)chartControl2.Diagram).EnableAxisXScrolling = true;
             ((XYDiagram)chartControl2.Diagram).AxisX.WholeRange.Auto = false;
@@ -153,6 +174,7 @@ namespace Neura.Billing.DEHW
             seriesC[18] = chartControl2.GetSeriesByName("18");
             seriesC[19] = chartControl2.GetSeriesByName("19");
             seriesC[20] = chartControl2.GetSeriesByName("20");
+
             series1 = new Series();
             series1 = chartControl1.GetSeriesByName("DEHW1");
             series1.Points.Clear();
@@ -168,6 +190,22 @@ namespace Neura.Billing.DEHW
             series5 = new Series();
             series5 = chartControl1.GetSeriesByName("DEHW20");
             series5.Points.Clear();
+
+            series1x = new Series();
+            series1x = chartControl3.GetSeriesByName("DEHW1");
+            series1x.Points.Clear();
+            series2x = new Series();
+            series2x = chartControl3.GetSeriesByName("DEHW5");
+            series2x.Points.Clear();
+            series3x = new Series();
+            series3x = chartControl3.GetSeriesByName("DEHW10");
+            series3x.Points.Clear();
+            series4x = new Series();
+            series4x = chartControl3.GetSeriesByName("DEHW15");
+            series4x.Points.Clear();
+            series5x = new Series();
+            series5x = chartControl3.GetSeriesByName("DEHW20");
+            series5x.Points.Clear();
         }
         private void GetNodeData()
         {
@@ -175,10 +213,14 @@ namespace Neura.Billing.DEHW
             nodeCount = dtNodeData.Rows.Count;
 
             thermoStatus = new int[nodeCount];
-            if(bStarted==false){nodeStatus = new int[nodeCount];}
+            thermoStatusX = new int[nodeCount];
+
+            if (bStarted==false){nodeStatus = new int[nodeCount];}
             value = new double[nodeCount];
             heatTime = new int[nodeCount];
             coolTime = new int[nodeCount];
+            heatTimeX = new int[nodeCount];
+            coolTimeX = new int[nodeCount];
             coolGrad = new double[nodeCount];
             heatGrad = new double[nodeCount];
             //hWIndex = new double[nodeCount];
@@ -186,6 +228,7 @@ namespace Neura.Billing.DEHW
             if (bStarted == false) {index = new double[nodeCount];}
             nodeOid = new int[nodeCount];
             lastSwitch = new DateTime[nodeCount];
+            lastSwitchX = new DateTime[nodeCount];
             serialNo = new string[nodeCount];
             loadShift=new double[nodeCount,24];
             
@@ -210,7 +253,7 @@ namespace Neura.Billing.DEHW
 
         }
 
-        private void GetThermoData(DateTime myTime)
+        private void GetThermoData()
         {
             Connections.ReadThermostats(out dt);
             thermoCount = dt.Rows.Count;
@@ -228,7 +271,7 @@ namespace Neura.Billing.DEHW
                     //Geyser on
                     if(processStatus[i]==0) { index[i] = thermoStart; }
                     thermoStatus[i] = 1;
-                    TimeSpan ts = myTime - lastSwitch[i];
+                    TimeSpan ts = processTime - lastSwitch[i];
                     heatTime[i] = (int)ts.TotalSeconds;
                     coolTime[i] = 0;
                     hWIndex[i] = index[i] + heatGrad[i] * heatTime[i];
@@ -239,7 +282,7 @@ namespace Neura.Billing.DEHW
                     
                     if (processStatus[i] == 0) { index[i] = thermoEnd; }
                     thermoStatus[i] = 0;
-                    TimeSpan ts = myTime - lastSwitch[i];
+                    TimeSpan ts = processTime - lastSwitch[i];
                     coolTime[i] = (int)ts.TotalSeconds;
                     heatTime[i] = 0;
                     hWIndex[i] = index[i] + coolGrad[i] * coolTime[i];
@@ -250,7 +293,14 @@ namespace Neura.Billing.DEHW
                 //    Log.Info("Node =  " + serialNo[i]);
                 //    Log.Info("hWIndex =  " + hWIndex[i]);
                 //}
-                
+                if (processStatus[i] == 0)
+                {
+                    hWIndexX[i] = hWIndex[i];
+                    lastSwitchX[i] = lastSwitch[i];
+                    heatTimeX[i] = heatTime[i];
+                    coolTimeX[i] = coolTime[i];
+                    indexX[i] = index[i];
+                }
             }
         }
 
@@ -300,14 +350,15 @@ namespace Neura.Billing.DEHW
       
         private void timer1_Tick(object sender, EventArgs e)
         {
-            GetThermoData(processTime);
+            GetThermoData();
             labelControlTime.Text = processTime.ToString();
            
            // if (bDSM == false && bStarted == true && bRestoring==false){Simulate();}
            // if (bDSM == false && bStarted == true ) { Simulate(); }
             if (bStarted == true) { Simulate(); }
             if (bDSM==true){DSM();}
-            //if (bDSM==true){Restore();}            
+            
+            if (bDSM == true) { Verify(); }
             if (chkMonitor.Checked == true) { PopulateDG();}
             if (chkMonitor.Checked == true) { DrawGraph(); }
 
@@ -316,6 +367,57 @@ namespace Neura.Billing.DEHW
             
         }
 
+        private void Verify()
+        {
+            for (int i = 0; i < thermoCount; i++)
+            {
+                //processStatus; //0=Normal, 1=Preparing for DSM, 2=DSM, 3=Restore
+                if(processStatus[i] == 0){goto skipVerify;}
+
+                if (thermoStatusX[i] == 1 || forceOff[i]==1)
+                {
+                    //thermo on
+                    //TimeSpan ts = processTime - timeStartHeatingX[i];
+                    TimeSpan ts = processTime - lastSwitchX[i];
+                    heatTimeX[i] = (int)ts.TotalSeconds;
+                    coolTimeX[i] = 0;
+                    hWIndexX[i] = indexX[i] + heatGrad[i] * heatTimeX[i];
+                    thermoStatusX[i] = 1;
+                    if (hWIndexX[i] >= thermoEnd)
+                    {
+                        //turn off
+                        thermoStatusX[i] = 0;
+                        lastSwitchX[i] = processTime;
+                        heatTimeX[i] = 0;
+                        indexX[i] = thermoEnd;
+                        timeStartCoolingX[i] = processTime;
+                    }
+
+                    forceOff[i] =0;
+                }
+                else
+                {
+                    //thermo off
+                    //TimeSpan ts = processTime - timeStartCoolingX[i];
+                    TimeSpan ts = processTime - lastSwitchX[i];
+                    coolTimeX[i] = (int)ts.TotalSeconds;
+                    heatTimeX[i] = 0;
+                    hWIndexX[i] = indexX[i] + coolGrad[i] * coolTimeX[i];
+                    if (hWIndexX[i] <=thermoStart)
+                    {
+                        //turn on
+                        thermoStatusX[i] = 1;
+                        lastSwitchX[i] = processTime;
+                        coolTimeX[i] = 0;
+                        indexX[i] = thermoStart;
+                        timeStartHeatingX[i] = processTime;
+                    }
+                }
+
+
+                skipVerify: ;
+            }
+        }
         
        
         private void DSM()
@@ -349,6 +451,8 @@ namespace Neura.Billing.DEHW
                             index[i] = hWIndex[i];
                             thermoStatus[i] = 0;
                             timeStartCooling[i] = processTime;
+
+                            forceOff[i] = 1;
                             if (bStarted == true)
                             {
                                 //In simulation mode, force thermostat off
@@ -567,6 +671,7 @@ namespace Neura.Billing.DEHW
 
                         //values for the following cooling cycle
                         timeStartCooling[i] = processTime;
+                        timeStartCoolingX[i] = timeStartCooling[i];
                         coolTime[i] = (int)Math.Round(baseCooling[i] * (0.8 + 0.4 * rand.NextDouble()), 0);
                         coolGrad[i] = (thermoStart - thermoEnd) / coolTime[i];
 
@@ -594,6 +699,7 @@ namespace Neura.Billing.DEHW
                         value[i] = power[i];
                         //values for following heating cycle
                         timeStartHeating[i] = processTime;
+                        timeStartHeatingX[i] = timeStartHeating[i];
                         heatTime[i] = (int) Math.Round(baseHeating[i] * (0.8 + 0.4 * rand.NextDouble()), 0);
                         heatGrad[i] = (thermoEnd - thermoStart) / heatTime[i];
                         Connections.ThermosStatSetStatus(serialNo[i], processTime, value[i], heatGrad[i], coolGrad[i]);
@@ -609,7 +715,7 @@ namespace Neura.Billing.DEHW
             double diffSec = (processTime - prevTime).Hours * 3600 + (processTime - prevTime).Minutes * 60 + (processTime - prevTime).Seconds;
             double hMin = Convert.ToDouble(HIMin.Text);
             ((XYDiagram)chartControl1.Diagram).AxisY.WholeRange.SetMinMaxValues(hMin, 100);
-           
+            ((XYDiagram)chartControl3.Diagram).AxisY.WholeRange.SetMinMaxValues(hMin, 100);
 
             if (nowSec > 7200)
             {
@@ -618,6 +724,9 @@ namespace Neura.Billing.DEHW
 
                 ((XYDiagram)chartControl1.Diagram).AxisX.WholeRange.SetMinMaxValues(0, nowSec / 60);
                 ((XYDiagram)chartControl1.Diagram).AxisX.VisualRange.SetMinMaxValues((nowSec - 7200) / 60, (nowSec + 14400) / 60);
+
+                ((XYDiagram)chartControl3.Diagram).AxisX.WholeRange.SetMinMaxValues(0, nowSec / 60);
+                ((XYDiagram)chartControl3.Diagram).AxisX.VisualRange.SetMinMaxValues((nowSec - 7200) / 60, (nowSec + 14400) / 60);
             }
             xValues.Add(nowSec);
 
@@ -631,12 +740,26 @@ namespace Neura.Billing.DEHW
                     series3.Points.RemoveAt(0);
                     series4.Points.RemoveAt(0);
                     series5.Points.RemoveAt(0);
+
+                    series1x.Points.RemoveAt(0);
+                    series2x.Points.RemoveAt(0);
+                    series3x.Points.RemoveAt(0);
+                    series4x.Points.RemoveAt(0);
+                    series5x.Points.RemoveAt(0);
                 }
                 series1.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[0]));
                 series2.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[4]));
                 series3.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[9]));
                 series4.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[14]));
                 series5.Points.Add(new SeriesPoint(nowSec / 60, hWIndex[19]));
+
+                series1x.Points.Add(new SeriesPoint(nowSec / 60, hWIndexX[0]));
+                series2x.Points.Add(new SeriesPoint(nowSec / 60, hWIndexX[4]));
+                series3x.Points.Add(new SeriesPoint(nowSec / 60, hWIndexX[9]));
+                series4x.Points.Add(new SeriesPoint(nowSec / 60, hWIndexX[14]));
+                series5x.Points.Add(new SeriesPoint(nowSec / 60, hWIndexX[19]));
+
+
                 for (int i = 1; i < showCount+1; i++)
                 {
                     bool remove = false;
@@ -796,13 +919,18 @@ namespace Neura.Billing.DEHW
             rand2 = new Random();
             power=new double[nodeCount];
             index = new double[nodeCount];
+            indexX = new double[nodeCount];
             startTime = dateTimePicker1.Value;
             timeStartCooling = new DateTime[nodeCount];
             timeStartHeating = new DateTime[nodeCount];
+            timeStartCoolingX = new DateTime[nodeCount];
+            timeStartHeatingX = new DateTime[nodeCount];
             baseCooling = new double[nodeCount];
             baseHeating = new double[nodeCount];
             nodeStatus=new int[nodeCount];
             hWIndex = new double[nodeCount];
+            hWIndexX = new double[nodeCount];
+            forceOff=new int[nodeCount];
             DateTime myTime;
             
            
@@ -823,6 +951,7 @@ namespace Neura.Billing.DEHW
                 heatGrad[i]= (thermoEnd - thermoStart) / heatTime[i];
                 nodeStatus[i] = 1;
                 energy[i] = 0;
+                forceOff[i] = 0;
                 myRand = rand.NextDouble();
                 thermoStatus[i] = Convert.ToInt16(myRand);
                 // timeStartCooling[i] = startTime;

@@ -124,6 +124,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.chartControl3 = new DevExpress.XtraCharts.ChartControl();
             this.label5 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textEditEnergyMoved = new DevExpress.XtraEditors.TextEdit();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textEditSaving = new DevExpress.XtraEditors.TextEdit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
@@ -202,6 +206,8 @@
             ((System.ComponentModel.ISupportInitialize)(lineSeriesView9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(series30)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(lineSeriesView10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditEnergyMoved.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditSaving.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // gridControl1
@@ -406,7 +412,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(875, 64);
+            this.label2.Location = new System.Drawing.Point(875, 48);
             this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(216, 25);
@@ -416,7 +422,7 @@
             // textEditResolution
             // 
             this.textEditResolution.EditValue = "30";
-            this.textEditResolution.Location = new System.Drawing.Point(1117, 57);
+            this.textEditResolution.Location = new System.Drawing.Point(1117, 41);
             this.textEditResolution.Name = "textEditResolution";
             this.textEditResolution.Size = new System.Drawing.Size(59, 40);
             this.textEditResolution.TabIndex = 58;
@@ -570,7 +576,7 @@
             this.groupControl2.Controls.Add(this.label7);
             this.groupControl2.Controls.Add(this.HIMax);
             this.groupControl2.Controls.Add(this.label6);
-            this.groupControl2.Location = new System.Drawing.Point(886, 188);
+            this.groupControl2.Location = new System.Drawing.Point(880, 99);
             this.groupControl2.Name = "groupControl2";
             this.groupControl2.Size = new System.Drawing.Size(290, 200);
             this.groupControl2.TabIndex = 66;
@@ -642,11 +648,51 @@
             this.label5.TabIndex = 69;
             this.label5.Text = "Estimated operation with DSM";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(745, 361);
+            this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(219, 25);
+            this.label10.TabIndex = 71;
+            this.label10.Text = "Enengy Moved (kWh):";
+            // 
+            // textEditEnergyMoved
+            // 
+            this.textEditEnergyMoved.EditValue = "0";
+            this.textEditEnergyMoved.Location = new System.Drawing.Point(972, 354);
+            this.textEditEnergyMoved.Name = "textEditEnergyMoved";
+            this.textEditEnergyMoved.Size = new System.Drawing.Size(182, 40);
+            this.textEditEnergyMoved.TabIndex = 70;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(880, 312);
+            this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(81, 25);
+            this.label11.TabIndex = 73;
+            this.label11.Text = "Saving:";
+            // 
+            // textEditSaving
+            // 
+            this.textEditSaving.EditValue = "0";
+            this.textEditSaving.Location = new System.Drawing.Point(972, 305);
+            this.textEditSaving.Name = "textEditSaving";
+            this.textEditSaving.Size = new System.Drawing.Size(182, 40);
+            this.textEditSaving.TabIndex = 72;
+            // 
             // DEHW
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(3410, 1458);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.textEditSaving);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.textEditEnergyMoved);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.chartControl3);
             this.Controls.Add(this.label4);
@@ -744,6 +790,8 @@
             ((System.ComponentModel.ISupportInitialize)(lineSeriesView10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(series30)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartControl3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditEnergyMoved.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditSaving.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -783,5 +831,9 @@
         private System.Windows.Forms.Label label4;
         private DevExpress.XtraCharts.ChartControl chartControl3;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label10;
+        private DevExpress.XtraEditors.TextEdit textEditEnergyMoved;
+        private System.Windows.Forms.Label label11;
+        private DevExpress.XtraEditors.TextEdit textEditSaving;
     }
 }

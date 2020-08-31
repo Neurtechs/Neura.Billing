@@ -92,6 +92,11 @@ namespace Neura.Billing.DEHW
 
         private double[] energy;
         private double[] energyX;
+        private double[,] energyXT;  //[24hrs,i]
+        private double[,] energyT;
+        private double[,] costXT;
+        private double[,] costT;
+        private double[] rate;
         private double[,] loadShift;
         private DateTime[] lsStart;
         private DateTime[] lsEnd;
@@ -355,15 +360,19 @@ namespace Neura.Billing.DEHW
             if (bStarted == true) { Simulate(); }
             if (bDSM==true){DSM();}
             if (bDSM == true) { Verify(); }
+         
             if (chkMonitor.Checked == true) { PopulateDG();}
             if (chkMonitor.Checked == true) { DrawGraph(); }
+
             prevTimeTable = processTime;
             processTime = processTime.AddSeconds(Convert.ToInt32(textEditResolution.Text));
             nowSec += Convert.ToInt32(textEditResolution.Text);
         }
 
+       
         private void Verify()
         {
+            int myHour = processTime.Hour;
             for (int i = 0; i < thermoCount; i++)
             {
                 //processStatus; //0=Normal, 1=Preparing for DSM, 2=DSM, 3=Restore
@@ -376,8 +385,15 @@ namespace Neura.Billing.DEHW
                     coolTimeX[i] = 0;
                     hWIndexX[i] = indexX[i] + heatGrad[i] * heatTimeX[i];
                     thermoStatusX[i] = 1;
-                    if (processStatus[i] != 4) {energyX[i] += (power[i] * (processTime - prevTimeTable).Seconds) / 3600;}
-                    Log.Info("energyX[" + i + "] = " + energyX[i]);
+                    if (processStatus[i] != 4)
+                    {
+                        energyX[i] += (power[i] * (processTime - prevTimeTable).Seconds) / 3600;
+                        energyXT[myHour, i] += (power[i] * (processTime - prevTimeTable).Seconds) / 3600;
+                        costXT[myHour, i] += rate[myHour] * (power[i] * (processTime - prevTimeTable).Seconds) / 3600;
+                        Log.Info("costXT[" + myHour + "," + i + "] = " + costXT[myHour, i]);
+                        Log.Info("energyXT[" + myHour + "," + i + "] = " + energyXT[myHour, i]);
+                    }
+                    
                     if (hWIndexX[i] >= thermoEnd)
                     {
                         //turn off
@@ -414,6 +430,7 @@ namespace Neura.Billing.DEHW
         private void DSM()
         {
             //processStatus; //0=nil, 1=DSM, 2=Prepare to Restore, 3=Restoring, 4=Restore Done
+            int myHour = processTime.Hour;
             Connections.GetGeyserNodes(out dtNodeData);
             int restoreComplete = 1;  //True
             Log.Info(processTime);
@@ -429,12 +446,17 @@ namespace Neura.Billing.DEHW
                 {
                     //Node on
                     energy[i] += (value[i] * (processTime - prevTimeTable).Seconds) / 3600;
-                   
-                    Log.Info("energy[" + i + "] = " + energy[i]);
+                    energyT[myHour, i] += (value[i] * (processTime - prevTimeTable).Seconds) / 3600;
+                    costT[myHour, i] += rate[myHour] * (value[i] * (processTime - prevTimeTable).Seconds) / 3600;
+                    Log.Info("costT[" + myHour + "," + i + "] = " + costT[myHour, i]);
+                    Log.Info("energyT[" + myHour + "," + i + "] = " + energyT[myHour, i]);
+
+                    //Log.Info("energy[" + i + "] = " + energy[i]);
 
                     if (thermoStatus[i] == 1)
                     {
                         //Busy heating
+
                         if (processStatus[i] == 1)
                         {
                             //Normal Heating
@@ -627,11 +649,69 @@ namespace Neura.Billing.DEHW
             if (restoreComplete == 1)
             {
                 bDSM = false;
+                
                 for (int i = 0; i < thermoCount; i++)
                 {
                     Log.Info("energy[" + i + "] = " + energy[i]);
                     Log.Info("energyX[" + i + "] = " + energyX[i]);
+                    
                 }
+
+                double[] eCombined;
+                eCombined=new double[thermoCount];
+                double[] cCombined;
+                cCombined = new double[thermoCount];
+                double eMoved = 0;
+                double cSaving = 0;
+                //for (int j = 18; j < 22; j++)
+                //{
+                //    for (int i = 0; i < thermoCount; i++)
+                //    {
+                //        Log.Info("energyXT[" + j + "," + i + "] = " + energyXT[j, i]);
+                //        Log.Info("energyT[" + j + "," + i + "] = " + energyT[j, i]);
+                //        Log.Info("costXT[" + j + "," + i + "] = " + costXT[j, i]);
+                //        Log.Info("costT[" + j + "," + i + "] = " + costT[j, i]);
+
+                //        eCombined[i] = energyT[j, i] - energyXT[j, i];
+                //        cCombined[i] =costT[j, i] - costXT[j, i];
+                //    }
+                        
+                //}
+
+                for (int i = 0; i < thermoCount; i++)
+                {
+                    for (int j = 18; j < 22; j++)
+                    {
+                        eCombined[i] += energyT[j, i] - energyXT[j, i];
+                        cCombined[i] += costT[j, i] - costXT[j, i];
+                        eMoved += energyT[j, i];
+                        cSaving += cCombined[i];
+                        energyXT[j, i] = Math.Round(energyXT[j, i], 3);
+                        energyT[j, i] = Math.Round(energyT[j, i], 3);
+                        costXT[j, i] = Math.Round(costXT[j, i], 3);
+                        costT[j, i] = Math.Round(costT[j, i], 3);
+                        Log.Info("energyXT[" + j + "," + i + "] = " + energyXT[j, i]);
+                        Log.Info("energyT[" + j + "," + i + "] = " + energyT[j, i]);
+                        Log.Info("costXT[" + j + "," + i + "] = " + costXT[j, i]);
+                        Log.Info("costT[" + j + "," + i + "] = " + costT[j, i]);
+
+                        
+                    }
+                }
+
+
+
+                for (int i = 0; i < thermoCount; i++)
+                {
+                    eCombined[i] = Math.Round(eCombined[i],3);
+                    cCombined[i] = Math.Round(cCombined[i],3);
+                    Log.Info("eCombined[" + i + "] = " + eCombined[i]);
+                    Log.Info("cCombined[" + i + "] = " + cCombined[i]);
+                }
+
+                cSaving = -cSaving;
+                textEditEnergyMoved.Text = eMoved.ToString("N");
+                textEditSaving.Text = cSaving.ToString("C");
             }
         }
 
@@ -917,8 +997,17 @@ namespace Neura.Billing.DEHW
             hWIndexX = new double[nodeCount];
             forceOff=new int[nodeCount];
             DateTime myTime;
-            
-           
+            energyXT = new double[24, nodeCount];
+            energyT = new double[24, nodeCount];
+            costXT = new double[24, nodeCount];
+            costT = new double[24, nodeCount];
+            rate=new double[24];
+            rate[17] = 1.5;
+            rate[18] = 3;
+            rate[19] = 3;
+            rate[20] = 2.0;
+            rate[21] = 1.5;
+
             for (int i = 0; i < nodeCount; i++)
             {
                 serialNo[i] = Convert.ToString(dtNodeData.Rows[i]["SerialNo"]);

@@ -27,18 +27,18 @@ namespace Neura.Billing.Data
             //string sql = "Insert into ReadingIntermediate (NodeId,Reading,TimeStamp,tempDate,ReadingsType,Status,MeterType) " +
             //    "Values (" + NodeId + "," + reading + ",'" + timeStamp + "','" + tempDate + "'," + readingsType + "," + status + "," + meterType + ")";
 
-            MySqlCommand cmd = new MySqlCommand("SaveIntermediateReadings", mySqlConnection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("_NodeId", NodeId);
-            cmd.Parameters.AddWithValue("_reading", reading);
-            cmd.Parameters.AddWithValue("_timeStamp", timeStamp);
-            cmd.Parameters.AddWithValue("_tempDate", tempDate);
-            cmd.Parameters.AddWithValue("_readingsType", readingsType);
-            cmd.Parameters.AddWithValue("_status", status);
-            cmd.Parameters.AddWithValue("_meterType", meterType);
-            if (mySqlConnection.State == ConnectionState.Closed) { mySqlConnection.Open(); }
-            cmd.ExecuteNonQuery();
-            mySqlConnection.Close();
+            //MySqlCommand cmd = new MySqlCommand("SaveIntermediateReadings", mySqlConnection);
+            //cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.Parameters.AddWithValue("_NodeId", NodeId);
+            //cmd.Parameters.AddWithValue("_reading", reading);
+            //cmd.Parameters.AddWithValue("_timeStamp", timeStamp);
+            //cmd.Parameters.AddWithValue("_tempDate", tempDate);
+            //cmd.Parameters.AddWithValue("_readingsType", readingsType);
+            //cmd.Parameters.AddWithValue("_status", status);
+            //cmd.Parameters.AddWithValue("_meterType", meterType);
+            //if (mySqlConnection.State == ConnectionState.Closed) { mySqlConnection.Open(); }
+            //cmd.ExecuteNonQuery();
+            //mySqlConnection.Close();
 
 
 
@@ -46,7 +46,7 @@ namespace Neura.Billing.Data
             {
                 //sql = "Insert into ReadingIntermediate (NodeId,Reading,tempDate,ReadingsType,Status,MeterType) " +
                 //"Values (" + NodeId + "," + reading + ",'"  + tempDate + "'," + readingsType + "," + status + "," + meterType + ")";
-                cmd = new MySqlCommand("SaveIntermediateReadingsNull", mySqlConnection);
+                MySqlCommand cmd = new MySqlCommand("SaveIntermediateReadingsNull", mySqlConnection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("_NodeId", NodeId);
                 cmd.Parameters.AddWithValue("_reading", reading);
@@ -59,6 +59,21 @@ namespace Neura.Billing.Data
                 cmd.ExecuteNonQuery();
                 mySqlConnection.Close();
 
+            }
+            else
+            {
+                MySqlCommand cmd = new MySqlCommand("SaveIntermediateReadings", mySqlConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("_NodeId", NodeId);
+                cmd.Parameters.AddWithValue("_reading", reading);
+                cmd.Parameters.AddWithValue("_timeStamp", timeStamp);
+                cmd.Parameters.AddWithValue("_tempDate", tempDate);
+                cmd.Parameters.AddWithValue("_readingsType", readingsType);
+                cmd.Parameters.AddWithValue("_status", status);
+                cmd.Parameters.AddWithValue("_meterType", meterType);
+                if (mySqlConnection.State == ConnectionState.Closed) { mySqlConnection.Open(); }
+                cmd.ExecuteNonQuery();
+                mySqlConnection.Close();
             }
             //MySqlCommand cmd = new MySqlCommand(sql, mySqlConnection);
             //cmd.ExecuteNonQuery();
@@ -116,6 +131,7 @@ namespace Neura.Billing.Data
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("_myNodeId", myNodeId);
             cmd.Parameters.AddWithValue("_myReadingType", myReadingType);
+            cmd.Parameters.AddWithValue("_myDate", dateTime);
             if (mySqlConnection.State == ConnectionState.Closed) { mySqlConnection.Open(); }
             cmd.ExecuteNonQuery();
             mySqlConnection.Close();

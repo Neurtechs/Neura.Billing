@@ -57,9 +57,16 @@ namespace Neura.Billing.DEHWData
 
         public static void ReadThermostats(out DataTable dtThermostat)
         {
-            string str = "Select * from DEHWStatus";
-            MySqlDataAdapter da = new MySqlDataAdapter(str,mySqlConnection);
-            dtThermostat=new DataTable();
+            //string str = "Select * from DEHWStatus";
+            //MySqlDataAdapter da = new MySqlDataAdapter(str,mySqlConnection);
+            //dtThermostat=new DataTable();
+            //da.Fill(dtThermostat);
+
+            MySqlCommand cmd = new MySqlCommand("GetThermostatStatus", mySqlConnection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            dtThermostat = new DataTable();
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            da.SelectCommand = cmd;
             da.Fill(dtThermostat);
         }
 
@@ -75,5 +82,75 @@ namespace Neura.Billing.DEHWData
             cmd.ExecuteNonQuery();
             mySqlConnection.Close();
         }
+        public static void UpdateHeatGrad (int _nodeId,  double _heatGrad)
+        {
+            MySqlCommand cmd = new MySqlCommand("UpdateHeatGrad", mySqlConnection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("_nodeId", _nodeId);
+            cmd.Parameters.AddWithValue("_heatGrad", _heatGrad);
+            
+            if (mySqlConnection.State == ConnectionState.Closed) { mySqlConnection.Open(); }
+            cmd.ExecuteNonQuery();
+            mySqlConnection.Close();
+        }
+
+        public static void UpdateCoolGrad(int _nodeId, double _coolGrad)
+        {
+            MySqlCommand cmd = new MySqlCommand("UpdateCoolGrad", mySqlConnection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("_nodeId", _nodeId);
+            cmd.Parameters.AddWithValue("_coolGrad", _coolGrad);
+
+            if (mySqlConnection.State == ConnectionState.Closed) { mySqlConnection.Open(); }
+            cmd.ExecuteNonQuery();
+            mySqlConnection.Close();
+        }
+        public static void RetailerTariff(out DataTable dtRetailerTariff)
+        {
+            MySqlCommand cmd = new MySqlCommand("GetRetailerTariff", mySqlConnection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            dtRetailerTariff=new DataTable();
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            da.SelectCommand = cmd;
+            da.Fill(dtRetailerTariff);
+        }
+
+        public static void Retailers(out DataTable dtRetailers)
+        {
+            MySqlCommand cmd = new MySqlCommand("GetRetailers", mySqlConnection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            dtRetailers = new DataTable();
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            da.SelectCommand = cmd;
+            da.Fill(dtRetailers);
+        }
+
+        public static void TariffsByRetailer(int _retailerOid, out DataTable dtTariffs)
+        {
+            MySqlCommand cmd = new MySqlCommand("GetTariffByRetailer", mySqlConnection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("_retailerOid", _retailerOid);
+            dtTariffs = new DataTable();
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            da.SelectCommand = cmd;
+            da.Fill(dtTariffs);
+        }
+
+        public static int GetNodeBasicData(int _nodeId)
+        {
+            
+            MySqlCommand cmd = new MySqlCommand("GetNodeStatus", mySqlConnection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("_nodeId",_nodeId);
+            cmd.Parameters.Add("_status", MySqlDbType.Int16);
+            cmd.Parameters["_status"].Direction = ParameterDirection.Output;
+            if (mySqlConnection.State == ConnectionState.Closed) { mySqlConnection.Open(); }
+            cmd.ExecuteNonQuery();
+            mySqlConnection.Close();
+            return Convert.ToInt16(cmd.Parameters["_status"].Value);
+
+
+        }
+
     }
 }

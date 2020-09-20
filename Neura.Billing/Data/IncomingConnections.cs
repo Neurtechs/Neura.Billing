@@ -11,7 +11,7 @@ namespace Neura.Billing.Data
 {
     public class IncomingConnections
     {
-        public static int ConnectIncomingReadings(out DataTable dtReadingsIn)
+        public static int ConnectIncomingReadings(out DataTable dtReadingsIn, int limit=1000)
         {
             int readingCount = 0;
             //string str = "SELECT Oid, NodeId, Reading,ReadingsType,TimeStamp,UTC,Comment from Readings1  " +
@@ -23,10 +23,14 @@ namespace Neura.Billing.Data
 
             //MySqlDataAdapter da = new MySqlDataAdapter(str, mySqlConnection);
 
-            MySqlCommand cmd = new MySqlCommand("ConnectIncomingReadings", mySqlConnection);
-            MySqlDataAdapter da = new MySqlDataAdapter();
-            da.SelectCommand = cmd;
 
+            MySqlCommand cmd = new MySqlCommand("ConnectIncomingReadings", mySqlConnection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("_limit", limit);
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            
+            da.SelectCommand = cmd;
+            
             dtReadingsIn = new DataTable();
             da.Fill(dtReadingsIn);
             readingCount = dtReadingsIn.Rows.Count;

@@ -22,10 +22,10 @@ namespace Neura.Billing.TariffCalcs
         /// <param name="myMeteringInterval"></param>
         /// <returns>
         /// Number of incoming readings</returns>
-        public static int VerifyIncoming(int myMeteringInterval)
+        public static int VerifyIncoming(int myMeteringInterval, int limitReadings)
         {
-
-            int readingCount = IncomingConnections.ConnectIncomingReadings(out DataTable dtReadingsIn);
+            
+            int readingCount = IncomingConnections.ConnectIncomingReadings(out DataTable dtReadingsIn,limitReadings);
             if (readingCount == 0)
             {
                 return 0;
@@ -44,6 +44,7 @@ namespace Neura.Billing.TariffCalcs
             DateTime myTimeStamp;
             DateTime myReadingDate;
             DateTime myPreviousReadingDate;
+            DateTime myInstallDate;
             int myMeterType = 0;
             double timeDiff = 0;
             double periods = 0;
@@ -51,12 +52,17 @@ namespace Neura.Billing.TariffCalcs
 
             foreach (DataRow dr in dtReadingsIn.Rows)
             {
+                
+
+
                 myId = Convert.ToInt32(dr["Oid"]);
                 myNodeId = Convert.ToInt32(dr["NodeId"]);
                 myReading = Convert.ToDouble(dr["Reading"]);
                 myUTC = Convert.ToInt16(dr["UTC"]);
                 myReadingsType = Convert.ToInt16(dr["ReadingsType"]);
                 myTimeStamp = Convert.ToDateTime(dr["TimeStamp"]);
+
+
                 if (bLogTest == true)
                 {
                     Log.Info("-------------------------------------------------");
@@ -83,9 +89,17 @@ namespace Neura.Billing.TariffCalcs
                         Log.Info("Timestamp " + myTimeStamp + " converted to ReadingDate " + myReadingDate);
                     }
                 }
-
                 IncomingConnections.SelectNode(myNodeId, myReadingsType, out DataTable dtSelectNode); //Get all node data
 
+                myInstallDate = Convert.ToDateTime(dtSelectNode.Rows[0]["InstallDate"]);
+                if (myReadingDate < myInstallDate)
+                {
+                    //Skip this reading 
+                    comment = 3;
+                    goto UpdateComment;
+                }
+               
+               
                 myMeterType = Convert.ToInt16(dtSelectNode.Rows[0]["MeterType"]);  //Get meter type
                                                                                    //MeterType 0=kWhAcc,1=kWhP,2=kW,3=klAcc,4=klP,5=NA
                                                                                    //myReadingsType = Convert.ToInt16(dtSelectNode.Rows[0]["ReadingsType"]);
@@ -196,6 +210,7 @@ namespace Neura.Billing.TariffCalcs
                 UpdateComment:;
                 //Set comment
                 SaveConnections.UpdateReading(myId, comment);
+                
             }
 
 

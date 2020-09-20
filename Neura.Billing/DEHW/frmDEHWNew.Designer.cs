@@ -120,6 +120,10 @@
             this.HIMax = new DevExpress.XtraEditors.TextEdit();
             this.HIMin = new DevExpress.XtraEditors.TextEdit();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.cmbTariff = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.cmbRetailer = new System.Windows.Forms.ComboBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.checkDSM = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.chartControl3 = new DevExpress.XtraCharts.ChartControl();
@@ -128,6 +132,7 @@
             this.textEditEnergyMoved = new DevExpress.XtraEditors.TextEdit();
             this.label11 = new System.Windows.Forms.Label();
             this.textEditSaving = new DevExpress.XtraEditors.TextEdit();
+            this.chkAuto = new DevExpress.XtraEditors.CheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
@@ -208,11 +213,12 @@
             ((System.ComponentModel.ISupportInitialize)(lineSeriesView10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditEnergyMoved.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditSaving.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkAuto.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // gridControl1
             // 
-            this.gridControl1.Location = new System.Drawing.Point(91, 419);
+            this.gridControl1.Location = new System.Drawing.Point(91, 504);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
             this.gridControl1.Size = new System.Drawing.Size(2206, 973);
@@ -237,7 +243,7 @@
             // 
             this.labelControl1.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
             this.labelControl1.Appearance.Options.UseFont = true;
-            this.labelControl1.Location = new System.Drawing.Point(213, 355);
+            this.labelControl1.Location = new System.Drawing.Point(115, 355);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(160, 33);
             this.labelControl1.TabIndex = 2;
@@ -247,7 +253,7 @@
             // 
             this.labelControlTime.Appearance.Font = new System.Drawing.Font("Tahoma", 10F);
             this.labelControlTime.Appearance.Options.UseFont = true;
-            this.labelControlTime.Location = new System.Drawing.Point(396, 355);
+            this.labelControlTime.Location = new System.Drawing.Point(298, 355);
             this.labelControlTime.Name = "labelControlTime";
             this.labelControlTime.Size = new System.Drawing.Size(70, 33);
             this.labelControlTime.TabIndex = 3;
@@ -271,6 +277,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(396, 33);
             this.dateTimePicker1.TabIndex = 45;
+            this.dateTimePicker1.Value = new System.DateTime(2020, 5, 25, 10, 44, 0, 0);
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // chkMonitor
@@ -297,7 +304,7 @@
             this.groupControl1.Controls.Add(this.cmbMultiplier);
             this.groupControl1.Controls.Add(this.dateTimePicker1);
             this.groupControl1.Controls.Add(this.label1);
-            this.groupControl1.Location = new System.Drawing.Point(141, 47);
+            this.groupControl1.Location = new System.Drawing.Point(38, 47);
             this.groupControl1.Name = "groupControl1";
             this.groupControl1.Size = new System.Drawing.Size(704, 282);
             this.groupControl1.TabIndex = 48;
@@ -402,7 +409,7 @@
             // checkEditSimulate
             // 
             this.checkEditSimulate.AllowDrop = true;
-            this.checkEditSimulate.Location = new System.Drawing.Point(141, 1);
+            this.checkEditSimulate.Location = new System.Drawing.Point(38, 1);
             this.checkEditSimulate.Name = "checkEditSimulate";
             this.checkEditSimulate.Properties.Caption = "Simmulation Mode";
             this.checkEditSimulate.Size = new System.Drawing.Size(256, 40);
@@ -467,7 +474,7 @@
             this.chartControl2.Diagram = xyDiagram2;
             this.chartControl2.Legend.Name = "Default Legend";
             this.chartControl2.Legend.Visibility = DevExpress.Utils.DefaultBoolean.False;
-            this.chartControl2.Location = new System.Drawing.Point(2330, 412);
+            this.chartControl2.Location = new System.Drawing.Point(2326, 488);
             this.chartControl2.Name = "chartControl2";
             series6.Name = "1";
             series6.View = pointSeriesView1;
@@ -571,16 +578,60 @@
             // 
             // groupControl2
             // 
+            this.groupControl2.Controls.Add(this.cmbTariff);
+            this.groupControl2.Controls.Add(this.label13);
+            this.groupControl2.Controls.Add(this.cmbRetailer);
+            this.groupControl2.Controls.Add(this.label12);
             this.groupControl2.Controls.Add(this.checkDSM);
             this.groupControl2.Controls.Add(this.HIMin);
             this.groupControl2.Controls.Add(this.label7);
             this.groupControl2.Controls.Add(this.HIMax);
             this.groupControl2.Controls.Add(this.label6);
-            this.groupControl2.Location = new System.Drawing.Point(880, 99);
+            this.groupControl2.Location = new System.Drawing.Point(768, 99);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(290, 200);
+            this.groupControl2.Size = new System.Drawing.Size(402, 368);
             this.groupControl2.TabIndex = 66;
             this.groupControl2.Text = "DSM";
+            // 
+            // cmbTariff
+            // 
+            this.cmbTariff.FormattingEnabled = true;
+            this.cmbTariff.Location = new System.Drawing.Point(108, 239);
+            this.cmbTariff.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
+            this.cmbTariff.Name = "cmbTariff";
+            this.cmbTariff.Size = new System.Drawing.Size(274, 33);
+            this.cmbTariff.TabIndex = 76;
+            this.cmbTariff.SelectedIndexChanged += new System.EventHandler(this.cmbTariff_SelectedIndexChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(8, 241);
+            this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(69, 25);
+            this.label13.TabIndex = 77;
+            this.label13.Text = "Tariff:";
+            // 
+            // cmbRetailer
+            // 
+            this.cmbRetailer.FormattingEnabled = true;
+            this.cmbRetailer.Location = new System.Drawing.Point(108, 192);
+            this.cmbRetailer.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
+            this.cmbRetailer.Name = "cmbRetailer";
+            this.cmbRetailer.Size = new System.Drawing.Size(274, 33);
+            this.cmbRetailer.TabIndex = 74;
+            this.cmbRetailer.SelectedIndexChanged += new System.EventHandler(this.cmbRetailer_SelectedIndexChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(8, 194);
+            this.label12.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(90, 25);
+            this.label12.TabIndex = 75;
+            this.label12.Text = "Retailer:";
             // 
             // checkDSM
             // 
@@ -651,7 +702,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(745, 361);
+            this.label10.Location = new System.Drawing.Point(313, 401);
             this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(219, 25);
@@ -661,7 +712,7 @@
             // textEditEnergyMoved
             // 
             this.textEditEnergyMoved.EditValue = "0";
-            this.textEditEnergyMoved.Location = new System.Drawing.Point(972, 354);
+            this.textEditEnergyMoved.Location = new System.Drawing.Point(540, 394);
             this.textEditEnergyMoved.Name = "textEditEnergyMoved";
             this.textEditEnergyMoved.Size = new System.Drawing.Size(182, 40);
             this.textEditEnergyMoved.TabIndex = 70;
@@ -669,7 +720,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(880, 312);
+            this.label11.Location = new System.Drawing.Point(29, 401);
             this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(81, 25);
@@ -679,16 +730,26 @@
             // textEditSaving
             // 
             this.textEditSaving.EditValue = "0";
-            this.textEditSaving.Location = new System.Drawing.Point(972, 305);
+            this.textEditSaving.Location = new System.Drawing.Point(121, 394);
             this.textEditSaving.Name = "textEditSaving";
             this.textEditSaving.Size = new System.Drawing.Size(182, 40);
             this.textEditSaving.TabIndex = 72;
+            // 
+            // chkAuto
+            // 
+            this.chkAuto.AllowDrop = true;
+            this.chkAuto.Location = new System.Drawing.Point(363, 2);
+            this.chkAuto.Name = "chkAuto";
+            this.chkAuto.Properties.Caption = "Auto";
+            this.chkAuto.Size = new System.Drawing.Size(256, 40);
+            this.chkAuto.TabIndex = 74;
             // 
             // DEHW
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(3410, 1458);
+            this.ClientSize = new System.Drawing.Size(3410, 1540);
+            this.Controls.Add(this.chkAuto);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.textEditSaving);
             this.Controls.Add(this.label10);
@@ -792,6 +853,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chartControl3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditEnergyMoved.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditSaving.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chkAuto.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -835,5 +897,10 @@
         private DevExpress.XtraEditors.TextEdit textEditEnergyMoved;
         private System.Windows.Forms.Label label11;
         private DevExpress.XtraEditors.TextEdit textEditSaving;
+        private System.Windows.Forms.ComboBox cmbTariff;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox cmbRetailer;
+        private System.Windows.Forms.Label label12;
+        private DevExpress.XtraEditors.CheckEdit chkAuto;
     }
 }

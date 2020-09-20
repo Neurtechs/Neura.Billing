@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DevExpress.Data.Utils.ServiceModel.Native;
 using Neura.Billing.Data;
 using static Neura.Billing.GlobalVar;
 
@@ -40,6 +41,9 @@ namespace Neura.Billing.TariffCalcs
             double cToDateFixed = 0;  //Currrency
             double cToDateMax = 0;
             double cToDateAcc = 0;
+
+            double uAccT = 0; //Tariff summary
+            double cAccT = 0;
 
             //Previous values
             double uPreviousMax = 0; //Usage
@@ -127,6 +131,8 @@ namespace Neura.Billing.TariffCalcs
                                 //uToDateAcc = 0;
                 cToDateFixed = 0;  //Currrency
                 cToDateMax = 0;
+                cAccT = 0;
+                uAccT = 0;
                 //cToDateAcc = 0;
                 PreviousValues.GetPreviousValues(nodeId, DateReceived, myMeteringInterval,
                     out cPreviousFixed, out cPreviousMax, out cPreviousAcc,
@@ -306,16 +312,24 @@ namespace Neura.Billing.TariffCalcs
                                 if (bLogTest == true) { Log.Info("block tariff: true"); }
                                 BlockTariff.GetBlockTariff(DateReceived, cPreviousAcc, uPreviousAcc, netUsage,
                                     myReadingsType, myFloor, myCeiling, myRate, tariffId, nodeId, out cAcc, out uAcc);
-                                if (cAcc > 0)
-                                {
-                                    cToDateAcc = cPreviousAcc + cAcc;
-                                    uToDateAcc = uPreviousAcc + uAcc;
-                                }
-                                else
-                                {
-                                    cAcc = cToDateAcc - cPreviousAcc;
-                                    uAcc = uToDateAcc - uPreviousAcc;
-                                }
+                                //if (cAcc > 0)
+                                //{
+                                //    cToDateAcc = cPreviousAcc + cAcc;
+                                //    uToDateAcc = uPreviousAcc + uAcc;
+                                //    cPreviousAcc = cToDateAcc;
+                                //    uPreviousAcc = uToDateAcc;
+                                //}
+                                //else
+                                //{
+                                //    cAcc = cToDateAcc - cPreviousAcc;
+                                //    uAcc = uToDateAcc - uPreviousAcc;
+                                //}
+                                cToDateAcc = cPreviousAcc + cAcc;
+                                uToDateAcc = uPreviousAcc + uAcc;
+                                cPreviousAcc = cToDateAcc;
+                                uPreviousAcc = uToDateAcc;
+                                cAccT += cAcc;
+                                uAccT += uAcc;
                             }
                             else
                             {
@@ -323,7 +337,8 @@ namespace Neura.Billing.TariffCalcs
 
                                 Energy.GetEnergy(myRate, myFlow, mySeason, myInterval, myMeasurement, myReadingsType,
                                     netUsage, nodeId, DateReceived, TOULookupId, cPreviousAcc, uPreviousAcc, myMeteringInterval, out uAcc, out cAcc, out uToDateAcc, out cToDateAcc);
-
+                                cAccT += cAcc;
+                                uAccT += uAcc;
                             }
                             break;
 
@@ -361,9 +376,9 @@ namespace Neura.Billing.TariffCalcs
 
 
                 SaveConnections.SavePeriodValues(nodeId, DateReceived, cFixed, cMax,
-                        cAcc, uMax, uAcc, myCustomer);
+                        cAccT, uMax, uAccT, myCustomer);
 
-                double total = cAcc + cMax + cFixed;
+                double total = cAccT + cMax + cFixed;
                 SaveConnections.SaveCustomerValues(DateReceived, total, myCustomer);
                 SkipNext:;
                 SaveConnections.UpdateServiceUsageStatus(nodeId, DateReceived);

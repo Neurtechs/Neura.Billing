@@ -68,6 +68,8 @@
             this.w1 = new DevExpress.XtraEditors.TextEdit();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.textEditLimit = new DevExpress.XtraEditors.TextEdit();
+            this.checkLimit = new DevExpress.XtraEditors.CheckEdit();
             this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.checkEditResult = new DevExpress.XtraEditors.CheckEdit();
@@ -76,9 +78,14 @@
             this.simpleButtonStop = new DevExpress.XtraEditors.SimpleButton();
             this.btnTest = new DevExpress.XtraEditors.SimpleButton();
             this.listBoxControl1 = new DevExpress.XtraEditors.ListBoxControl();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timerBilling = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.simpleButtonDSM = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButtonExtendTemplate = new DevExpress.XtraEditors.SimpleButton();
+            this.groupControl4 = new DevExpress.XtraEditors.GroupControl();
+            this.simpleButtonStartF = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButtonStopF = new DevExpress.XtraEditors.SimpleButton();
+            this.timerForecast = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditOnOff.Properties)).BeginInit();
@@ -99,10 +106,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.w1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditLimit.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkLimit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEditResult.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEditLogTest.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
+            this.groupControl4.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupControl3
@@ -117,7 +128,7 @@
             this.groupControl3.Controls.Add(this.textEditNode);
             this.groupControl3.Controls.Add(this.labelControl15);
             this.groupControl3.Controls.Add(this.textEditGateway);
-            this.groupControl3.Location = new System.Drawing.Point(1292, 766);
+            this.groupControl3.Location = new System.Drawing.Point(1786, 43);
             this.groupControl3.Name = "groupControl3";
             this.groupControl3.Size = new System.Drawing.Size(443, 486);
             this.groupControl3.TabIndex = 21;
@@ -211,7 +222,7 @@
             // 
             // textEditGateway
             // 
-            this.textEditGateway.EditValue = "b827eb808f8b";
+            this.textEditGateway.EditValue = "b827ebf6a9b1";
             this.textEditGateway.Location = new System.Drawing.Point(213, 68);
             this.textEditGateway.Name = "textEditGateway";
             this.textEditGateway.Properties.Appearance.Options.UseTextOptions = true;
@@ -221,6 +232,7 @@
             // 
             // groupControl2
             // 
+            this.groupControl2.Controls.Add(this.simpleButtonExtendTemplate);
             this.groupControl2.Controls.Add(this.simpleButton1);
             this.groupControl2.Controls.Add(this.labelControl14);
             this.groupControl2.Controls.Add(this.cmbInterval);
@@ -248,9 +260,9 @@
             this.groupControl2.Controls.Add(this.labelControl2);
             this.groupControl2.Location = new System.Drawing.Point(1274, 26);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(461, 716);
+            this.groupControl2.Size = new System.Drawing.Size(461, 742);
             this.groupControl2.TabIndex = 20;
-            this.groupControl2.Text = "Forecasting";
+            this.groupControl2.Text = "Forecasting Setup";
             // 
             // simpleButton1
             // 
@@ -490,6 +502,8 @@
             // 
             // groupControl1
             // 
+            this.groupControl1.Controls.Add(this.textEditLimit);
+            this.groupControl1.Controls.Add(this.checkLimit);
             this.groupControl1.Controls.Add(this.textEdit1);
             this.groupControl1.Controls.Add(this.labelControl1);
             this.groupControl1.Controls.Add(this.checkEditResult);
@@ -498,14 +512,31 @@
             this.groupControl1.Controls.Add(this.simpleButtonStop);
             this.groupControl1.Location = new System.Drawing.Point(351, 1150);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(408, 226);
+            this.groupControl1.Size = new System.Drawing.Size(697, 226);
             this.groupControl1.TabIndex = 19;
-            this.groupControl1.Text = "Calculate Billing";
+            this.groupControl1.Text = "Run Billing";
+            // 
+            // textEditLimit
+            // 
+            this.textEditLimit.EditValue = "100";
+            this.textEditLimit.Location = new System.Drawing.Point(460, 102);
+            this.textEditLimit.Name = "textEditLimit";
+            this.textEditLimit.Size = new System.Drawing.Size(84, 40);
+            this.textEditLimit.TabIndex = 14;
+            // 
+            // checkLimit
+            // 
+            this.checkLimit.Location = new System.Drawing.Point(397, 48);
+            this.checkLimit.Name = "checkLimit";
+            this.checkLimit.Properties.Caption = "Limit readings/cycle:";
+            this.checkLimit.Size = new System.Drawing.Size(241, 40);
+            this.checkLimit.TabIndex = 13;
+            this.checkLimit.CheckedChanged += new System.EventHandler(this.checkLimit_CheckedChanged);
             // 
             // textEdit1
             // 
             this.textEdit1.EditValue = "600";
-            this.textEdit1.Location = new System.Drawing.Point(290, 48);
+            this.textEdit1.Location = new System.Drawing.Point(257, 49);
             this.textEdit1.Name = "textEdit1";
             this.textEdit1.Size = new System.Drawing.Size(84, 40);
             this.textEdit1.TabIndex = 7;
@@ -515,9 +546,9 @@
             // 
             this.labelControl1.Location = new System.Drawing.Point(18, 55);
             this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(260, 25);
+            this.labelControl1.Size = new System.Drawing.Size(219, 25);
             this.labelControl1.TabIndex = 8;
-            this.labelControl1.Text = "Period to update (seconds):";
+            this.labelControl1.Text = "Cycle period (seconds):";
             // 
             // checkEditResult
             // 
@@ -574,9 +605,9 @@
             this.listBoxControl1.Size = new System.Drawing.Size(1084, 1088);
             this.listBoxControl1.TabIndex = 17;
             // 
-            // timer1
+            // timerBilling
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timerBilling.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // timer2
             // 
@@ -584,19 +615,64 @@
             // 
             // simpleButtonDSM
             // 
-            this.simpleButtonDSM.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton2.ImageOptions.Image")));
-            this.simpleButtonDSM.Location = new System.Drawing.Point(932, 1158);
+            this.simpleButtonDSM.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonDSM.ImageOptions.Image")));
+            this.simpleButtonDSM.Location = new System.Drawing.Point(1054, 1158);
             this.simpleButtonDSM.Name = "simpleButtonDSM";
             this.simpleButtonDSM.Size = new System.Drawing.Size(122, 72);
             this.simpleButtonDSM.TabIndex = 22;
             this.simpleButtonDSM.Text = "DSM";
             this.simpleButtonDSM.Click += new System.EventHandler(this.simpleButtonDSM_Click);
             // 
+            // simpleButtonExtendTemplate
+            // 
+            this.simpleButtonExtendTemplate.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonExtendTemplate.ImageOptions.Image")));
+            this.simpleButtonExtendTemplate.Location = new System.Drawing.Point(176, 655);
+            this.simpleButtonExtendTemplate.Name = "simpleButtonExtendTemplate";
+            this.simpleButtonExtendTemplate.Size = new System.Drawing.Size(258, 54);
+            this.simpleButtonExtendTemplate.TabIndex = 23;
+            this.simpleButtonExtendTemplate.Text = "Extend Template";
+            this.simpleButtonExtendTemplate.Click += new System.EventHandler(this.simpleButton2_Click);
+            // 
+            // groupControl4
+            // 
+            this.groupControl4.Controls.Add(this.simpleButtonStartF);
+            this.groupControl4.Controls.Add(this.simpleButtonStopF);
+            this.groupControl4.Location = new System.Drawing.Point(1283, 801);
+            this.groupControl4.Name = "groupControl4";
+            this.groupControl4.Size = new System.Drawing.Size(437, 337);
+            this.groupControl4.TabIndex = 24;
+            this.groupControl4.Text = "Run Forecasting";
+            // 
+            // simpleButtonStartF
+            // 
+            this.simpleButtonStartF.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton2.ImageOptions.Image")));
+            this.simpleButtonStartF.Location = new System.Drawing.Point(26, 246);
+            this.simpleButtonStartF.Name = "simpleButtonStartF";
+            this.simpleButtonStartF.Size = new System.Drawing.Size(150, 46);
+            this.simpleButtonStartF.TabIndex = 11;
+            this.simpleButtonStartF.Text = "Start";
+            this.simpleButtonStartF.Click += new System.EventHandler(this.simpleButtonStartF_Click);
+            // 
+            // simpleButtonStopF
+            // 
+            this.simpleButtonStopF.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton3.ImageOptions.Image")));
+            this.simpleButtonStopF.Location = new System.Drawing.Point(199, 246);
+            this.simpleButtonStopF.Name = "simpleButtonStopF";
+            this.simpleButtonStopF.Size = new System.Drawing.Size(150, 46);
+            this.simpleButtonStopF.TabIndex = 12;
+            this.simpleButtonStopF.Text = "Stop";
+            this.simpleButtonStopF.Click += new System.EventHandler(this.simpleButtonStopF_Click);
+            // 
+            // timerForecast
+            // 
+            this.timerForecast.Tick += new System.EventHandler(this.timerForecast_Tick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2421, 1881);
+            this.ClientSize = new System.Drawing.Size(2421, 1383);
+            this.Controls.Add(this.groupControl4);
             this.Controls.Add(this.simpleButtonDSM);
             this.Controls.Add(this.groupControl3);
             this.Controls.Add(this.groupControl2);
@@ -629,10 +705,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
             this.groupControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditLimit.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkLimit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEditResult.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEditLogTest.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).EndInit();
+            this.groupControl4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -685,8 +765,15 @@
         private DevExpress.XtraEditors.SimpleButton simpleButtonStop;
         private DevExpress.XtraEditors.SimpleButton btnTest;
         private DevExpress.XtraEditors.ListBoxControl listBoxControl1;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timerBilling;
         private System.Windows.Forms.Timer timer2;
         private DevExpress.XtraEditors.SimpleButton simpleButtonDSM;
+        private DevExpress.XtraEditors.TextEdit textEditLimit;
+        private DevExpress.XtraEditors.CheckEdit checkLimit;
+        private DevExpress.XtraEditors.SimpleButton simpleButtonExtendTemplate;
+        private DevExpress.XtraEditors.GroupControl groupControl4;
+        private DevExpress.XtraEditors.SimpleButton simpleButtonStartF;
+        private DevExpress.XtraEditors.SimpleButton simpleButtonStopF;
+        private System.Windows.Forms.Timer timerForecast;
     }
 }

@@ -22,12 +22,15 @@ namespace Neura.Billing
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //textBoxUser.Text = "Dale";
-            //textBoxServer.Text = "neura.dyndns.org,3306";
+            //textBoxUser.Text = "Dale"; //on server
+            //textBoxServer.Text = "localhost";
             //textBoxPassword.Text = "D@lelieb01";
-            textBoxUser.Text = "root";
-            textBoxServer.Text = "localhost";
+            textBoxUser.Text = "Dale";
+            textBoxServer.Text = "neura.dyndns.org,3306";
             textBoxPassword.Text = "D@lelieb01";
+            //textBoxUser.Text = "root";
+            //textBoxServer.Text = "localhost";
+            //textBoxPassword.Text = "D@lelieb01";
         }
 
         
@@ -37,7 +40,7 @@ namespace Neura.Billing
             connectionString = "Server = " + textBoxServer.Text + "; User ID = " + textBoxUser.Text + "; Password = " +
                                textBoxPassword.Text;
             connectionString = connectionString +
-                               ";  Persist Security Info = true; Charset = utf8; Database = Neura; Connect Timeout=360 ";
+                               ";  Persist Security Info = true; Charset = utf8; Database = Neura; Connect Timeout=1800 ";
 
             //connectionString =
             //     "Server = localhost; User ID = root; Password = D@lelieb01;  Persist Security Info = true; Charset = utf8; Database = Neura; Connect Timeout=360";
@@ -57,6 +60,8 @@ namespace Neura.Billing
                     goto ExitHere;
                 }
             }
+
+           
             Main f = new Main();
             f.ShowDialog();
             ExitHere:;

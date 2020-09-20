@@ -140,7 +140,8 @@ namespace Neura.Billing.Calls
         public static List<string> listItems { get; set; }
         private static readonly log4net.ILog Log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public static void nodeSwitch(string nType, string gatewayId, string nodeId, out string sResult, string onOrOff = "off")
+        public static void nodeSwitch(string nType, string gatewayId, 
+            string nodeId, out string sResult, string onOrOff = "off")
         {
             //nType = water or electricity
             //onOrOff = on or off

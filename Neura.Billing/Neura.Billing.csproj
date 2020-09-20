@@ -22,7 +22,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -145,11 +145,13 @@
   <ItemGroup>
     <Compile Include="AICalcs\CalcCosts.cs" />
     <Compile Include="AICalcs\PeriodForecasts.cs" />
+    <Compile Include="AICalcs\PeriodForecastsRun.cs" />
     <Compile Include="Calls\NeuraCalls.cs" />
     <Compile Include="Data\AIConnections.cs" />
     <Compile Include="Data\IncomingConnections.cs" />
     <Compile Include="Data\SaveConnections.cs" />
     <Compile Include="Data\UtilityConnections.cs" />
+    <Compile Include="DEHW\CalcRates.cs" />
     <Compile Include="DEHW\DEHWData\Connections.cs" />
     <Compile Include="DEHW\frmDEHWNew.cs">
       <SubType>Form</SubType>

@@ -37,7 +37,7 @@ namespace Neura.Billing
 
         private void Main_Load(object sender, EventArgs e)
         {
-            timer1.Interval = Convert.ToInt32(textEdit1.Text) * 1000;
+            timerBilling.Interval = Convert.ToInt32(textEdit1.Text) * 1000;
             w1.Text = "0.3";
             w2.Text = "0.1";
             w3.Text = "0.25";
@@ -47,7 +47,9 @@ namespace Neura.Billing
             total.Text = "1";
             lWarning.Visible = false;
             MeteringInterval = 30;
-            AIConnections.GetNodesWithData(out dtNodesWithData);
+            checkLimit.Checked = false;
+            textEditLimit.Enabled = false;
+            AIConnections.GetNodesWithData(1, out dtNodesWithData);
             foreach (DataRow dr in dtNodesWithData.Rows)
             {
                 cbNode.Properties.Items.Add(dr["Node"]);
@@ -114,7 +116,16 @@ namespace Neura.Billing
                 Log.Info("==========================");
             }
 
-            int incomming = Verify.VerifyIncoming(MeteringInterval);
+            int incomming;
+            if (checkLimit.Checked == true)
+            {
+                incomming = Verify.VerifyIncoming(MeteringInterval, Convert.ToInt32(textEditLimit.Text));
+            }
+            else
+            {
+                incomming = Verify.VerifyIncoming(MeteringInterval,1000);
+            }
+           
             listItems.Add("Number of new readings: " + incomming);
 
             if (bLogTest == true)
@@ -153,7 +164,7 @@ namespace Neura.Billing
             }
 
             Cursor.Current = Cursors.Default;
-            timer1.Start();
+            timerBilling.Start();
             ExitHere:;
         }
 
@@ -166,7 +177,7 @@ namespace Neura.Billing
                 Log.Info("Stopped by User at " + DateTime.Now);
                 Log.Info("----------------------------------------------");
             }
-            timer1.Stop();
+            timerBilling.Stop();
         }
 
         private void btnTest_Click(object sender, EventArgs e)
@@ -469,16 +480,16 @@ namespace Neura.Billing
 
             //listBoxControl1.Items.Add(result);
 
-            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "enode", out string resulte, "off");
-            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultg, "off");
+            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, textEditNode.Text, out string result, comboBoxEditOnOff.Text);
+            //Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultg, "off");
             //Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultw, "off");
 
-            System.Threading.Thread.Sleep(120000);
-            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "enode", out string resulteo, "on");
-            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultgo, "on");
+            //ystem.Threading.Thread.Sleep(120000);
+            //Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, textEditNode.Text, out string resulteo, "on");
+            //Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultgo, "on");
             //Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultwo, "on");
 
-
+            MessageBox.Show(result);
             //timer2.Interval = 1500000;
             //timer2.Start();
         }
@@ -548,7 +559,7 @@ namespace Neura.Billing
                 {
                     MessageBox.Show("Check you connection string and comms to DB");
                     MessageBox.Show(ex.Message);
-                    timer1.Stop();
+                    timerBilling.Stop();
 
                 }
             }
@@ -562,7 +573,15 @@ namespace Neura.Billing
                 Log.Info("==========================");
             }
 
-            int incomming = Verify.VerifyIncoming(MeteringInterval);
+            int incomming;
+            if (checkLimit.Checked == true)
+            {
+                incomming = Verify.VerifyIncoming(MeteringInterval, Convert.ToInt32(textEditLimit.Text));
+            }
+            else
+            {
+                incomming = Verify.VerifyIncoming(MeteringInterval, 1000);
+            }
             listItems.Add("Number of new readings: " + incomming);
 
 
@@ -603,7 +622,7 @@ namespace Neura.Billing
 
         private void textEdit1_EditValueChanged(object sender, EventArgs e)
         {
-            timer1.Interval = Convert.ToInt32(textEdit1.Text) * 1000;
+            timerBilling.Interval = Convert.ToInt32(textEdit1.Text) * 1000;
         }
 
         private void timer2_Tick(object sender, EventArgs e)
@@ -625,6 +644,76 @@ namespace Neura.Billing
             //frmDEHW f = new frmDEHW();
             DEHW.DEHW f=new DEHW.DEHW();
             f.Show();
+        }
+
+        private void checkLimit_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkLimit.Checked == true)
+            {
+                textEditLimit.Enabled = true;
+            }
+            else
+            {
+                textEditLimit.Enabled = false;
+            }
+        }
+
+        private void simpleButton2_Click(object sender, EventArgs e)
+        {
+            //Adds a month to template
+            Cursor.Current = Cursors.WaitCursor;
+            string sql = "Select * from Template";
+            MySqlDataAdapter da = new MySqlDataAdapter(sql, mySqlConnection);
+            DataTable dt = new DataTable();
+            MySqlCommandBuilder bu = new MySqlCommandBuilder(da);
+            da.Fill(dt);
+            int count = dt.Rows.Count;
+            DateTime t = Convert.ToDateTime(dt.Rows[count - 1]["TimeStamp"]);
+            t = t.AddMinutes(30);
+            DateTime tPast;
+            DataRow newRow; 
+            double consumption;
+            string filter = "";
+            DataRow[] dr;
+            Random rand = new Random();
+            double myRand = 0;
+            //Get values 1 year ago and add
+            for (int i = 0; i < 1440; i++)
+            {
+                newRow = dt.NewRow();
+                tPast = t.AddDays(-52 * 7);
+                filter = "Timestamp = '" + tPast + "'";
+                dr = dt.Select(filter);
+                consumption = Convert.ToDouble(dr[0]["Consumption"]);
+
+                 myRand = 0.9 + 0.2 * rand.NextDouble();
+                 consumption = consumption * myRand;
+                newRow["TimeStamp"] = t;
+                newRow["Consumption"] = consumption;
+                dt.Rows.Add(newRow);
+                t = t.AddMinutes(30);
+            }
+
+            da.Update(dt);
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void simpleButtonStartF_Click(object sender, EventArgs e)
+        {
+            PeriodForecastsRun.RunForecasts(MeteringInterval, Convert.ToDouble(w1.Text),
+                Convert.ToDouble(w2.Text), Convert.ToDouble(w3.Text),
+                Convert.ToDouble(w4.Text), Convert.ToDouble(w5.Text), 
+                Convert.ToDouble(w6.Text));
+        }
+
+        private void simpleButtonStopF_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timerForecast_Tick(object sender, EventArgs e)
+        {
+
         }
     }
 }

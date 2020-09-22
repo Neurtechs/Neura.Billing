@@ -1248,7 +1248,6 @@ namespace Neura.Billing.DEHW
             //rate[19] = 3;
             //rate[20] = 2.0;
             //rate[21] = 1.5;
-
             for (int i = 0; i < nodeCount; i++)
             {
                 serialNo[i] = Convert.ToString(dtNodeData.Rows[i]["SerialNo"]);

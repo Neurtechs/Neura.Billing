@@ -12,6 +12,7 @@ using static Neura.Billing.GlobalVar;
 using Neura.Billing.TariffCalcs;
 using System.Collections;
 using System.Diagnostics;
+using DevExpress.XtraBars.Ribbon.Drawing;
 using MySql.Data.MySqlClient;
 using Neura.Billing.Data;
 using Neura.Billing.AICalcs;
@@ -28,7 +29,7 @@ namespace Neura.Billing
         private DateTime maxDate;
         private DataTable dtNodesWithData;
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        public delegate void SafeCallDelegate(string text);
 
         public Main()
         {
@@ -69,11 +70,11 @@ namespace Neura.Billing
             {
 
             }
-
+            
 
         }
 
-        private void simpleButtonStart_Click(object sender, EventArgs e)
+        private  void RunCalcs()
         {
             Cursor.Current = Cursors.WaitCursor;
 
@@ -123,9 +124,9 @@ namespace Neura.Billing
             }
             else
             {
-                incomming = Verify.VerifyIncoming(MeteringInterval,1000);
+                incomming = Verify.VerifyIncoming(MeteringInterval, 1000);
             }
-           
+
             listItems.Add("Number of new readings: " + incomming);
 
             if (bLogTest == true)
@@ -149,6 +150,8 @@ namespace Neura.Billing
             listItems.Add("Number of tariff processed groups: " + processedGroups);
             listItems.Add("");
 
+           
+            
             listBoxControl1.DataSource = listItems;
             listBoxControl1.Refresh();
 
@@ -164,10 +167,17 @@ namespace Neura.Billing
             }
 
             Cursor.Current = Cursors.Default;
+
             timerBilling.Start();
             ExitHere:;
         }
+        private  void simpleButtonStart_Click(object sender, EventArgs e)
+        {
+            RunCalcs();
+            
 
+        }
+      
         private void simpleButtonStop_Click(object sender, EventArgs e)
         {
             listItems.Add("Stopped by User at " + DateTime.Now);
@@ -549,72 +559,73 @@ namespace Neura.Billing
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (mySqlConnection.State == ConnectionState.Closed)
-            {
-                try
-                {
-                    mySqlConnection.Open();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Check you connection string and comms to DB");
-                    MessageBox.Show(ex.Message);
-                    timerBilling.Stop();
+            RunCalcs();
+            //if (mySqlConnection.State == ConnectionState.Closed)
+            //{
+            //    try
+            //    {
+            //        mySqlConnection.Open();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show("Check you connection string and comms to DB");
+            //        MessageBox.Show(ex.Message);
+            //        timerBilling.Stop();
 
-                }
-            }
-            Cursor.Current = Cursors.WaitCursor;
+            //    }
+            //}
+            //Cursor.Current = Cursors.WaitCursor;
 
-            listItems.Add(DateTime.Now + " Count since started = " + tickCount);
-            listItems.Add("-------------------------------");
-            if (bLogTest == true)
-            {
-                Log.Info("Process started at " + DateTime.Now.ToString());
-                Log.Info("==========================");
-            }
+            //listItems.Add(DateTime.Now + " Count since started = " + tickCount);
+            //listItems.Add("-------------------------------");
+            //if (bLogTest == true)
+            //{
+            //    Log.Info("Process started at " + DateTime.Now.ToString());
+            //    Log.Info("==========================");
+            //}
 
-            int incomming;
-            if (checkLimit.Checked == true)
-            {
-                incomming = Verify.VerifyIncoming(MeteringInterval, Convert.ToInt32(textEditLimit.Text));
-            }
-            else
-            {
-                incomming = Verify.VerifyIncoming(MeteringInterval, 1000);
-            }
-            listItems.Add("Number of new readings: " + incomming);
-
-
-            if (bLogTest == true)
-            {
-                Log.Info("");
-                Log.Info("Number of new readings this loop: " + incomming);
-                Log.Info("----------------------------------------------");
-            }
-
-            int inreadings = ManageIncoming.GetIncomingReadings(MeteringInterval);
-            listItems.Add("Number of new usage records: " + inreadings);
+            //int incomming;
+            //if (checkLimit.Checked == true)
+            //{
+            //    incomming = Verify.VerifyIncoming(MeteringInterval, Convert.ToInt32(textEditLimit.Text));
+            //}
+            //else
+            //{
+            //    incomming = Verify.VerifyIncoming(MeteringInterval, 1000);
+            //}
+            //listItems.Add("Number of new readings: " + incomming);
 
 
-            if (bLogTest == true)
-            {
-                Log.Info("Number of new usage records: " + inreadings);
-                Log.Info("----------------------------------------------");
-            }
+            //if (bLogTest == true)
+            //{
+            //    Log.Info("");
+            //    Log.Info("Number of new readings this loop: " + incomming);
+            //    Log.Info("----------------------------------------------");
+            //}
+
+            //int inreadings = ManageIncoming.GetIncomingReadings(MeteringInterval);
+            //listItems.Add("Number of new usage records: " + inreadings);
 
 
-            TariffMain.GetCosts(MeteringInterval, out int processedGroups);
-            listItems.Add("Number of tariff processed groups: " + processedGroups);
-            listItems.Add("");
-            listBoxControl1.Refresh();
-            if (bLogTest == true)
-            {
-                Log.Info("Number of tariff processed groups: " + processedGroups);
-                Log.Info("----------------------------------------------");
-            }
+            //if (bLogTest == true)
+            //{
+            //    Log.Info("Number of new usage records: " + inreadings);
+            //    Log.Info("----------------------------------------------");
+            //}
 
-            if (mySqlConnection.State == ConnectionState.Open) { mySqlConnection.Close(); }
-            Cursor.Current = Cursors.Default;
+
+            //TariffMain.GetCosts(MeteringInterval, out int processedGroups);
+            //listItems.Add("Number of tariff processed groups: " + processedGroups);
+            //listItems.Add("");
+            //listBoxControl1.Refresh();
+            //if (bLogTest == true)
+            //{
+            //    Log.Info("Number of tariff processed groups: " + processedGroups);
+            //    Log.Info("----------------------------------------------");
+            //}
+
+            //if (mySqlConnection.State == ConnectionState.Open) { mySqlConnection.Close(); }
+            //Cursor.Current = Cursors.Default;
 
             tickCount += 1;
             if (tickCount % 10 == 0) { listItems.Clear(); }
@@ -698,22 +709,32 @@ namespace Neura.Billing
             Cursor.Current = Cursors.Default;
         }
 
-        private void simpleButtonStartF_Click(object sender, EventArgs e)
+        private  void simpleButtonStartF_Click(object sender, EventArgs e)
         {
             PeriodForecastsRun.RunForecasts(MeteringInterval, Convert.ToDouble(w1.Text),
                 Convert.ToDouble(w2.Text), Convert.ToDouble(w3.Text),
-                Convert.ToDouble(w4.Text), Convert.ToDouble(w5.Text), 
+                Convert.ToDouble(w4.Text), Convert.ToDouble(w5.Text),
                 Convert.ToDouble(w6.Text));
+            int interval = Convert.ToInt32(textEditUpdateInterval.Text);
+            interval = interval * 60 * 1000;
+            timerForecast.Interval = interval;
+            timerForecast.Start();
+
         }
+
+        
 
         private void simpleButtonStopF_Click(object sender, EventArgs e)
         {
-
+            timerForecast.Stop();
         }
 
         private void timerForecast_Tick(object sender, EventArgs e)
         {
-
+            PeriodForecastsRun.RunForecasts(MeteringInterval, Convert.ToDouble(w1.Text),
+                Convert.ToDouble(w2.Text), Convert.ToDouble(w3.Text),
+                Convert.ToDouble(w4.Text), Convert.ToDouble(w5.Text),
+                Convert.ToDouble(w6.Text));
         }
     }
 }

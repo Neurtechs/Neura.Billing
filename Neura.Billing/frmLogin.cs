@@ -40,12 +40,12 @@ namespace Neura.Billing
             connectionString = "Server = " + textBoxServer.Text + "; User ID = " + textBoxUser.Text + "; Password = " +
                                textBoxPassword.Text;
             connectionString = connectionString +
-                               ";  Persist Security Info = true; Charset = utf8; Database = Neura; Connect Timeout=1800 ";
+                               ";  Persist Security Info = true; Charset = utf8; Database = Neura; Connection Timeout=1800 ";
 
             //connectionString =
             //     "Server = localhost; User ID = root; Password = D@lelieb01;  Persist Security Info = true; Charset = utf8; Database = Neura; Connect Timeout=360";
             mySqlConnection = new MySqlConnection(connectionString);
-
+            
             if (mySqlConnection.State == ConnectionState.Closed)
             {
                 try

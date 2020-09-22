@@ -42,6 +42,7 @@
             this.labelControl15 = new DevExpress.XtraEditors.LabelControl();
             this.textEditGateway = new DevExpress.XtraEditors.TextEdit();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
+            this.simpleButtonExtendTemplate = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.labelControl14 = new DevExpress.XtraEditors.LabelControl();
             this.cmbInterval = new DevExpress.XtraEditors.ComboBoxEdit();
@@ -81,11 +82,12 @@
             this.timerBilling = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.simpleButtonDSM = new DevExpress.XtraEditors.SimpleButton();
-            this.simpleButtonExtendTemplate = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl4 = new DevExpress.XtraEditors.GroupControl();
             this.simpleButtonStartF = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonStopF = new DevExpress.XtraEditors.SimpleButton();
             this.timerForecast = new System.Windows.Forms.Timer(this.components);
+            this.labelControl18 = new DevExpress.XtraEditors.LabelControl();
+            this.textEditUpdateInterval = new DevExpress.XtraEditors.TextEdit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditOnOff.Properties)).BeginInit();
@@ -114,6 +116,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
             this.groupControl4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditUpdateInterval.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl3
@@ -263,6 +266,16 @@
             this.groupControl2.Size = new System.Drawing.Size(461, 742);
             this.groupControl2.TabIndex = 20;
             this.groupControl2.Text = "Forecasting Setup";
+            // 
+            // simpleButtonExtendTemplate
+            // 
+            this.simpleButtonExtendTemplate.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonExtendTemplate.ImageOptions.Image")));
+            this.simpleButtonExtendTemplate.Location = new System.Drawing.Point(176, 655);
+            this.simpleButtonExtendTemplate.Name = "simpleButtonExtendTemplate";
+            this.simpleButtonExtendTemplate.Size = new System.Drawing.Size(258, 54);
+            this.simpleButtonExtendTemplate.TabIndex = 23;
+            this.simpleButtonExtendTemplate.Text = "Extend Template";
+            this.simpleButtonExtendTemplate.Click += new System.EventHandler(this.simpleButton2_Click);
             // 
             // simpleButton1
             // 
@@ -623,30 +636,22 @@
             this.simpleButtonDSM.Text = "DSM";
             this.simpleButtonDSM.Click += new System.EventHandler(this.simpleButtonDSM_Click);
             // 
-            // simpleButtonExtendTemplate
-            // 
-            this.simpleButtonExtendTemplate.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonExtendTemplate.ImageOptions.Image")));
-            this.simpleButtonExtendTemplate.Location = new System.Drawing.Point(176, 655);
-            this.simpleButtonExtendTemplate.Name = "simpleButtonExtendTemplate";
-            this.simpleButtonExtendTemplate.Size = new System.Drawing.Size(258, 54);
-            this.simpleButtonExtendTemplate.TabIndex = 23;
-            this.simpleButtonExtendTemplate.Text = "Extend Template";
-            this.simpleButtonExtendTemplate.Click += new System.EventHandler(this.simpleButton2_Click);
-            // 
             // groupControl4
             // 
+            this.groupControl4.Controls.Add(this.labelControl18);
+            this.groupControl4.Controls.Add(this.textEditUpdateInterval);
             this.groupControl4.Controls.Add(this.simpleButtonStartF);
             this.groupControl4.Controls.Add(this.simpleButtonStopF);
             this.groupControl4.Location = new System.Drawing.Point(1283, 801);
             this.groupControl4.Name = "groupControl4";
-            this.groupControl4.Size = new System.Drawing.Size(437, 337);
+            this.groupControl4.Size = new System.Drawing.Size(437, 220);
             this.groupControl4.TabIndex = 24;
             this.groupControl4.Text = "Run Forecasting";
             // 
             // simpleButtonStartF
             // 
-            this.simpleButtonStartF.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton2.ImageOptions.Image")));
-            this.simpleButtonStartF.Location = new System.Drawing.Point(26, 246);
+            this.simpleButtonStartF.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonStartF.ImageOptions.Image")));
+            this.simpleButtonStartF.Location = new System.Drawing.Point(28, 137);
             this.simpleButtonStartF.Name = "simpleButtonStartF";
             this.simpleButtonStartF.Size = new System.Drawing.Size(150, 46);
             this.simpleButtonStartF.TabIndex = 11;
@@ -655,8 +660,8 @@
             // 
             // simpleButtonStopF
             // 
-            this.simpleButtonStopF.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton3.ImageOptions.Image")));
-            this.simpleButtonStopF.Location = new System.Drawing.Point(199, 246);
+            this.simpleButtonStopF.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonStopF.ImageOptions.Image")));
+            this.simpleButtonStopF.Location = new System.Drawing.Point(199, 137);
             this.simpleButtonStopF.Name = "simpleButtonStopF";
             this.simpleButtonStopF.Size = new System.Drawing.Size(150, 46);
             this.simpleButtonStopF.TabIndex = 12;
@@ -666,6 +671,29 @@
             // timerForecast
             // 
             this.timerForecast.Tick += new System.EventHandler(this.timerForecast_Tick);
+            // 
+            // labelControl18
+            // 
+            this.labelControl18.Location = new System.Drawing.Point(28, 81);
+            this.labelControl18.Name = "labelControl18";
+            this.labelControl18.Size = new System.Drawing.Size(248, 25);
+            this.labelControl18.TabIndex = 31;
+            this.labelControl18.Text = "Update Interval (Minutes):";
+            // 
+            // textEditUpdateInterval
+            // 
+            this.textEditUpdateInterval.EditValue = "30";
+            this.textEditUpdateInterval.Location = new System.Drawing.Point(291, 76);
+            this.textEditUpdateInterval.Name = "textEditUpdateInterval";
+            this.textEditUpdateInterval.Properties.Appearance.Options.UseTextOptions = true;
+            this.textEditUpdateInterval.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.textEditUpdateInterval.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+            this.textEditUpdateInterval.Properties.DisplayFormat.FormatString = "YYYY/MM/dd HH:mm";
+            this.textEditUpdateInterval.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.textEditUpdateInterval.Properties.EditFormat.FormatString = "YYYY/MM/dd HH:mm";
+            this.textEditUpdateInterval.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.textEditUpdateInterval.Size = new System.Drawing.Size(58, 38);
+            this.textEditUpdateInterval.TabIndex = 30;
             // 
             // Main
             // 
@@ -713,6 +741,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).EndInit();
             this.groupControl4.ResumeLayout(false);
+            this.groupControl4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditUpdateInterval.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -775,5 +805,7 @@
         private DevExpress.XtraEditors.SimpleButton simpleButtonStartF;
         private DevExpress.XtraEditors.SimpleButton simpleButtonStopF;
         private System.Windows.Forms.Timer timerForecast;
+        private DevExpress.XtraEditors.LabelControl labelControl18;
+        private DevExpress.XtraEditors.TextEdit textEditUpdateInterval;
     }
 }

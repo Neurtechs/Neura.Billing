@@ -31,6 +31,7 @@ namespace Neura.Billing
             //textBoxUser.Text = "root";
             //textBoxServer.Text = "localhost";
             //textBoxPassword.Text = "D@lelieb01";
+            
         }
 
         
@@ -61,8 +62,8 @@ namespace Neura.Billing
                 }
             }
 
-           
             Main f = new Main();
+            //MainNew f = new MainNew();
             f.ShowDialog();
             ExitHere:;
         }

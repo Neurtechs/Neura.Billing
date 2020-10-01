@@ -31,14 +31,12 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
+            this.comboBoxEditNode = new DevExpress.XtraEditors.ComboBoxEdit();
             this.simpleButtonEnd = new DevExpress.XtraEditors.SimpleButton();
             this.labelControl19 = new DevExpress.XtraEditors.LabelControl();
             this.comboBoxEditOnOff = new DevExpress.XtraEditors.ComboBoxEdit();
             this.simpleButtonSwitch = new DevExpress.XtraEditors.SimpleButton();
-            this.labelControl17 = new DevExpress.XtraEditors.LabelControl();
-            this.comboBoxEditType = new DevExpress.XtraEditors.ComboBoxEdit();
             this.labelControl16 = new DevExpress.XtraEditors.LabelControl();
-            this.textEditNode = new DevExpress.XtraEditors.TextEdit();
             this.labelControl15 = new DevExpress.XtraEditors.LabelControl();
             this.textEditGateway = new DevExpress.XtraEditors.TextEdit();
             this.groupControl2 = new DevExpress.XtraEditors.GroupControl();
@@ -77,22 +75,27 @@
             this.simpleButtonStart = new DevExpress.XtraEditors.SimpleButton();
             this.checkEditLogTest = new DevExpress.XtraEditors.CheckEdit();
             this.simpleButtonStop = new DevExpress.XtraEditors.SimpleButton();
-            this.btnTest = new DevExpress.XtraEditors.SimpleButton();
             this.listBoxControl1 = new DevExpress.XtraEditors.ListBoxControl();
             this.timerBilling = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.simpleButtonDSM = new DevExpress.XtraEditors.SimpleButton();
             this.groupControl4 = new DevExpress.XtraEditors.GroupControl();
+            this.labelControl18 = new DevExpress.XtraEditors.LabelControl();
+            this.textEditUpdateInterval = new DevExpress.XtraEditors.TextEdit();
             this.simpleButtonStartF = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonStopF = new DevExpress.XtraEditors.SimpleButton();
             this.timerForecast = new System.Windows.Forms.Timer(this.components);
-            this.labelControl18 = new DevExpress.XtraEditors.LabelControl();
-            this.textEditUpdateInterval = new DevExpress.XtraEditors.TextEdit();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.labelControl20 = new DevExpress.XtraEditors.LabelControl();
+            this.comboBoxEditRef = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.textEditQty = new DevExpress.XtraEditors.TextEdit();
+            this.listBoxControlForecast = new DevExpress.XtraEditors.ListBoxControl();
+            this.groupControl5 = new DevExpress.XtraEditors.GroupControl();
+            this.listBoxControlCall = new DevExpress.XtraEditors.ListBoxControl();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditNode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditOnOff.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditType.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEditNode.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditGateway.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).BeginInit();
             this.groupControl2.SuspendLayout();
@@ -117,25 +120,42 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl4)).BeginInit();
             this.groupControl4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textEditUpdateInterval.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditRef.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditQty.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.listBoxControlForecast)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).BeginInit();
+            this.groupControl5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listBoxControlCall)).BeginInit();
             this.SuspendLayout();
             // 
             // groupControl3
             // 
+            this.groupControl3.Controls.Add(this.comboBoxEditNode);
             this.groupControl3.Controls.Add(this.simpleButtonEnd);
             this.groupControl3.Controls.Add(this.labelControl19);
             this.groupControl3.Controls.Add(this.comboBoxEditOnOff);
             this.groupControl3.Controls.Add(this.simpleButtonSwitch);
-            this.groupControl3.Controls.Add(this.labelControl17);
-            this.groupControl3.Controls.Add(this.comboBoxEditType);
             this.groupControl3.Controls.Add(this.labelControl16);
-            this.groupControl3.Controls.Add(this.textEditNode);
             this.groupControl3.Controls.Add(this.labelControl15);
             this.groupControl3.Controls.Add(this.textEditGateway);
-            this.groupControl3.Location = new System.Drawing.Point(1786, 43);
+            this.groupControl3.Location = new System.Drawing.Point(2282, 26);
             this.groupControl3.Name = "groupControl3";
             this.groupControl3.Size = new System.Drawing.Size(443, 486);
             this.groupControl3.TabIndex = 21;
             this.groupControl3.Text = "Switch Node";
+            // 
+            // comboBoxEditNode
+            // 
+            this.comboBoxEditNode.Location = new System.Drawing.Point(209, 126);
+            this.comboBoxEditNode.Name = "comboBoxEditNode";
+            this.comboBoxEditNode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.comboBoxEditNode.Properties.Items.AddRange(new object[] {
+            "enode",
+            "gnode",
+            "wnode"});
+            this.comboBoxEditNode.Size = new System.Drawing.Size(174, 40);
+            this.comboBoxEditNode.TabIndex = 38;
             // 
             // simpleButtonEnd
             // 
@@ -177,26 +197,6 @@
             this.simpleButtonSwitch.Text = "Start";
             this.simpleButtonSwitch.Click += new System.EventHandler(this.simpleButtonSwitch_Click);
             // 
-            // labelControl17
-            // 
-            this.labelControl17.Location = new System.Drawing.Point(54, 186);
-            this.labelControl17.Name = "labelControl17";
-            this.labelControl17.Size = new System.Drawing.Size(115, 25);
-            this.labelControl17.TabIndex = 29;
-            this.labelControl17.Text = "Select Type:";
-            // 
-            // comboBoxEditType
-            // 
-            this.comboBoxEditType.Location = new System.Drawing.Point(208, 180);
-            this.comboBoxEditType.Name = "comboBoxEditType";
-            this.comboBoxEditType.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxEditType.Properties.Items.AddRange(new object[] {
-            "water",
-            "electricity"});
-            this.comboBoxEditType.Size = new System.Drawing.Size(196, 40);
-            this.comboBoxEditType.TabIndex = 28;
-            // 
             // labelControl16
             // 
             this.labelControl16.Location = new System.Drawing.Point(83, 132);
@@ -204,16 +204,6 @@
             this.labelControl16.Size = new System.Drawing.Size(55, 25);
             this.labelControl16.TabIndex = 24;
             this.labelControl16.Text = "Node:";
-            // 
-            // textEditNode
-            // 
-            this.textEditNode.EditValue = "enode";
-            this.textEditNode.Location = new System.Drawing.Point(213, 125);
-            this.textEditNode.Name = "textEditNode";
-            this.textEditNode.Properties.Appearance.Options.UseTextOptions = true;
-            this.textEditNode.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.textEditNode.Size = new System.Drawing.Size(170, 40);
-            this.textEditNode.TabIndex = 23;
             // 
             // labelControl15
             // 
@@ -261,9 +251,9 @@
             this.groupControl2.Controls.Add(this.labelControl3);
             this.groupControl2.Controls.Add(this.w1);
             this.groupControl2.Controls.Add(this.labelControl2);
-            this.groupControl2.Location = new System.Drawing.Point(1274, 26);
+            this.groupControl2.Location = new System.Drawing.Point(2303, 595);
             this.groupControl2.Name = "groupControl2";
-            this.groupControl2.Size = new System.Drawing.Size(461, 742);
+            this.groupControl2.Size = new System.Drawing.Size(458, 745);
             this.groupControl2.TabIndex = 20;
             this.groupControl2.Text = "Forecasting Setup";
             // 
@@ -523,23 +513,23 @@
             this.groupControl1.Controls.Add(this.simpleButtonStart);
             this.groupControl1.Controls.Add(this.checkEditLogTest);
             this.groupControl1.Controls.Add(this.simpleButtonStop);
-            this.groupControl1.Location = new System.Drawing.Point(351, 1150);
+            this.groupControl1.Location = new System.Drawing.Point(92, 1114);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(697, 226);
+            this.groupControl1.Size = new System.Drawing.Size(622, 226);
             this.groupControl1.TabIndex = 19;
             this.groupControl1.Text = "Run Billing";
             // 
             // textEditLimit
             // 
             this.textEditLimit.EditValue = "100";
-            this.textEditLimit.Location = new System.Drawing.Point(460, 102);
+            this.textEditLimit.Location = new System.Drawing.Point(406, 92);
             this.textEditLimit.Name = "textEditLimit";
             this.textEditLimit.Size = new System.Drawing.Size(84, 40);
             this.textEditLimit.TabIndex = 14;
             // 
             // checkLimit
             // 
-            this.checkLimit.Location = new System.Drawing.Point(397, 48);
+            this.checkLimit.Location = new System.Drawing.Point(369, 49);
             this.checkLimit.Name = "checkLimit";
             this.checkLimit.Properties.Caption = "Limit readings/cycle:";
             this.checkLimit.Size = new System.Drawing.Size(241, 40);
@@ -601,21 +591,11 @@
             this.simpleButtonStop.Text = "Stop";
             this.simpleButtonStop.Click += new System.EventHandler(this.simpleButtonStop_Click);
             // 
-            // btnTest
-            // 
-            this.btnTest.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnTest.ImageOptions.Image")));
-            this.btnTest.Location = new System.Drawing.Point(92, 1163);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(122, 72);
-            this.btnTest.TabIndex = 18;
-            this.btnTest.Text = "Test";
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
-            // 
             // listBoxControl1
             // 
-            this.listBoxControl1.Location = new System.Drawing.Point(92, 26);
+            this.listBoxControl1.Location = new System.Drawing.Point(118, 26);
             this.listBoxControl1.Name = "listBoxControl1";
-            this.listBoxControl1.Size = new System.Drawing.Size(1084, 1088);
+            this.listBoxControl1.Size = new System.Drawing.Size(464, 1070);
             this.listBoxControl1.TabIndex = 17;
             // 
             // timerBilling
@@ -629,7 +609,7 @@
             // simpleButtonDSM
             // 
             this.simpleButtonDSM.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonDSM.ImageOptions.Image")));
-            this.simpleButtonDSM.Location = new System.Drawing.Point(1054, 1158);
+            this.simpleButtonDSM.Location = new System.Drawing.Point(2083, 1351);
             this.simpleButtonDSM.Name = "simpleButtonDSM";
             this.simpleButtonDSM.Size = new System.Drawing.Size(122, 72);
             this.simpleButtonDSM.TabIndex = 22;
@@ -642,11 +622,34 @@
             this.groupControl4.Controls.Add(this.textEditUpdateInterval);
             this.groupControl4.Controls.Add(this.simpleButtonStartF);
             this.groupControl4.Controls.Add(this.simpleButtonStopF);
-            this.groupControl4.Location = new System.Drawing.Point(1283, 801);
+            this.groupControl4.Location = new System.Drawing.Point(731, 1120);
             this.groupControl4.Name = "groupControl4";
             this.groupControl4.Size = new System.Drawing.Size(437, 220);
             this.groupControl4.TabIndex = 24;
             this.groupControl4.Text = "Run Forecasting";
+            // 
+            // labelControl18
+            // 
+            this.labelControl18.Location = new System.Drawing.Point(28, 81);
+            this.labelControl18.Name = "labelControl18";
+            this.labelControl18.Size = new System.Drawing.Size(248, 25);
+            this.labelControl18.TabIndex = 31;
+            this.labelControl18.Text = "Update Interval (Minutes):";
+            // 
+            // textEditUpdateInterval
+            // 
+            this.textEditUpdateInterval.EditValue = "30";
+            this.textEditUpdateInterval.Location = new System.Drawing.Point(291, 76);
+            this.textEditUpdateInterval.Name = "textEditUpdateInterval";
+            this.textEditUpdateInterval.Properties.Appearance.Options.UseTextOptions = true;
+            this.textEditUpdateInterval.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
+            this.textEditUpdateInterval.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
+            this.textEditUpdateInterval.Properties.DisplayFormat.FormatString = "YYYY/MM/dd HH:mm";
+            this.textEditUpdateInterval.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.textEditUpdateInterval.Properties.EditFormat.FormatString = "YYYY/MM/dd HH:mm";
+            this.textEditUpdateInterval.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.textEditUpdateInterval.Size = new System.Drawing.Size(58, 38);
+            this.textEditUpdateInterval.TabIndex = 30;
             // 
             // simpleButtonStartF
             // 
@@ -672,40 +675,83 @@
             // 
             this.timerForecast.Tick += new System.EventHandler(this.timerForecast_Tick);
             // 
-            // labelControl18
+            // simpleButton2
             // 
-            this.labelControl18.Location = new System.Drawing.Point(28, 81);
-            this.labelControl18.Name = "labelControl18";
-            this.labelControl18.Size = new System.Drawing.Size(248, 25);
-            this.labelControl18.TabIndex = 31;
-            this.labelControl18.Text = "Update Interval (Minutes):";
+            this.simpleButton2.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton2.ImageOptions.Image")));
+            this.simpleButton2.Location = new System.Drawing.Point(130, 125);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(122, 57);
+            this.simpleButton2.TabIndex = 34;
+            this.simpleButton2.Text = "Call";
+            this.simpleButton2.Click += new System.EventHandler(this.simpleButton2_Click_1);
             // 
-            // textEditUpdateInterval
+            // labelControl20
             // 
-            this.textEditUpdateInterval.EditValue = "30";
-            this.textEditUpdateInterval.Location = new System.Drawing.Point(291, 76);
-            this.textEditUpdateInterval.Name = "textEditUpdateInterval";
-            this.textEditUpdateInterval.Properties.Appearance.Options.UseTextOptions = true;
-            this.textEditUpdateInterval.Properties.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far;
-            this.textEditUpdateInterval.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple;
-            this.textEditUpdateInterval.Properties.DisplayFormat.FormatString = "YYYY/MM/dd HH:mm";
-            this.textEditUpdateInterval.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-            this.textEditUpdateInterval.Properties.EditFormat.FormatString = "YYYY/MM/dd HH:mm";
-            this.textEditUpdateInterval.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-            this.textEditUpdateInterval.Size = new System.Drawing.Size(58, 38);
-            this.textEditUpdateInterval.TabIndex = 30;
+            this.labelControl20.Location = new System.Drawing.Point(22, 68);
+            this.labelControl20.Name = "labelControl20";
+            this.labelControl20.Size = new System.Drawing.Size(38, 25);
+            this.labelControl20.TabIndex = 36;
+            this.labelControl20.Text = "Ref:";
+            // 
+            // comboBoxEditRef
+            // 
+            this.comboBoxEditRef.Location = new System.Drawing.Point(78, 61);
+            this.comboBoxEditRef.Name = "comboBoxEditRef";
+            this.comboBoxEditRef.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.comboBoxEditRef.Properties.Items.AddRange(new object[] {
+            "last",
+            "from"});
+            this.comboBoxEditRef.Size = new System.Drawing.Size(174, 40);
+            this.comboBoxEditRef.TabIndex = 35;
+            // 
+            // textEditQty
+            // 
+            this.textEditQty.EditValue = "20";
+            this.textEditQty.Location = new System.Drawing.Point(285, 61);
+            this.textEditQty.Name = "textEditQty";
+            this.textEditQty.Size = new System.Drawing.Size(84, 40);
+            this.textEditQty.TabIndex = 37;
+            // 
+            // listBoxControlForecast
+            // 
+            this.listBoxControlForecast.Location = new System.Drawing.Point(683, 28);
+            this.listBoxControlForecast.Name = "listBoxControlForecast";
+            this.listBoxControlForecast.Size = new System.Drawing.Size(475, 1070);
+            this.listBoxControlForecast.TabIndex = 38;
+            // 
+            // groupControl5
+            // 
+            this.groupControl5.Controls.Add(this.comboBoxEditRef);
+            this.groupControl5.Controls.Add(this.simpleButton2);
+            this.groupControl5.Controls.Add(this.textEditQty);
+            this.groupControl5.Controls.Add(this.labelControl20);
+            this.groupControl5.Location = new System.Drawing.Point(1413, 1117);
+            this.groupControl5.Name = "groupControl5";
+            this.groupControl5.Size = new System.Drawing.Size(416, 229);
+            this.groupControl5.TabIndex = 39;
+            this.groupControl5.Text = "Coco Call";
+            // 
+            // listBoxControlCall
+            // 
+            this.listBoxControlCall.Location = new System.Drawing.Point(1207, 26);
+            this.listBoxControlCall.Name = "listBoxControlCall";
+            this.listBoxControlCall.Size = new System.Drawing.Size(1052, 1070);
+            this.listBoxControlCall.TabIndex = 40;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2421, 1383);
+            this.ClientSize = new System.Drawing.Size(2773, 1468);
+            this.Controls.Add(this.listBoxControlCall);
+            this.Controls.Add(this.groupControl5);
+            this.Controls.Add(this.listBoxControlForecast);
             this.Controls.Add(this.groupControl4);
             this.Controls.Add(this.simpleButtonDSM);
             this.Controls.Add(this.groupControl3);
             this.Controls.Add(this.groupControl2);
             this.Controls.Add(this.groupControl1);
-            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.listBoxControl1);
             this.Name = "Main";
             this.Text = "Main";
@@ -713,9 +759,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
             this.groupControl3.ResumeLayout(false);
             this.groupControl3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditNode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditOnOff.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditType.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEditNode.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditGateway.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl2)).EndInit();
             this.groupControl2.ResumeLayout(false);
@@ -743,6 +788,13 @@
             this.groupControl4.ResumeLayout(false);
             this.groupControl4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textEditUpdateInterval.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditRef.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textEditQty.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.listBoxControlForecast)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).EndInit();
+            this.groupControl5.ResumeLayout(false);
+            this.groupControl5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listBoxControlCall)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -754,10 +806,7 @@
         private DevExpress.XtraEditors.LabelControl labelControl19;
         private DevExpress.XtraEditors.ComboBoxEdit comboBoxEditOnOff;
         private DevExpress.XtraEditors.SimpleButton simpleButtonSwitch;
-        private DevExpress.XtraEditors.LabelControl labelControl17;
-        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEditType;
         private DevExpress.XtraEditors.LabelControl labelControl16;
-        private DevExpress.XtraEditors.TextEdit textEditNode;
         private DevExpress.XtraEditors.LabelControl labelControl15;
         private DevExpress.XtraEditors.TextEdit textEditGateway;
         private DevExpress.XtraEditors.GroupControl groupControl2;
@@ -793,7 +842,6 @@
         private DevExpress.XtraEditors.SimpleButton simpleButtonStart;
         private DevExpress.XtraEditors.CheckEdit checkEditLogTest;
         private DevExpress.XtraEditors.SimpleButton simpleButtonStop;
-        private DevExpress.XtraEditors.SimpleButton btnTest;
         private DevExpress.XtraEditors.ListBoxControl listBoxControl1;
         private System.Windows.Forms.Timer timerBilling;
         private System.Windows.Forms.Timer timer2;
@@ -807,5 +855,13 @@
         private System.Windows.Forms.Timer timerForecast;
         private DevExpress.XtraEditors.LabelControl labelControl18;
         private DevExpress.XtraEditors.TextEdit textEditUpdateInterval;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.LabelControl labelControl20;
+        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEditRef;
+        private DevExpress.XtraEditors.TextEdit textEditQty;
+        private DevExpress.XtraEditors.ComboBoxEdit comboBoxEditNode;
+        private DevExpress.XtraEditors.ListBoxControl listBoxControlForecast;
+        private DevExpress.XtraEditors.GroupControl groupControl5;
+        private DevExpress.XtraEditors.ListBoxControl listBoxControlCall;
     }
 }

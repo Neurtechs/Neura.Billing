@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Google.Protobuf.Reflection;
 using Neura.Billing.Data;
 using Neura.Billing.TariffCalcs;
@@ -20,10 +21,11 @@ namespace Neura.Billing.AICalcs
         private static DataTable dtNodesWithData;
         private static int myNodeId;
         public static void RunForecasts(int meteringInterval,double w1, double w2, double w3,
-             double w4, double w5, double w6)
+             double w4, double w5, double w6, out int nodeCount)
         {
+            
             AIConnections.GetNodesWithData(1, out dtNodesWithData);
-            int nodeCount = dtNodesWithData.Rows.Count;
+             nodeCount = dtNodesWithData.Rows.Count;
             AIConnections.GetTemplate(out dtTemplate);
             myTime =DateTime.Now;
             if (myTime.Minute>30)
@@ -38,6 +40,7 @@ namespace Neura.Billing.AICalcs
             }
             for (int i = 0; i < nodeCount; i++)
             {
+              
                 myNodeId =Convert.ToInt32( dtNodesWithData.Rows[i]["Node"]);
                 AIConnections.GetLastPeriodValues(myNodeId, myTime, out dtGetLastPeriodValues);
                 int myCount = dtGetLastPeriodValues.Rows.Count;
@@ -45,7 +48,7 @@ namespace Neura.Billing.AICalcs
                 int myDays = Convert.ToInt32(Math.Truncate(days));
                 if (myDays < 1)
                 {
-                    //listItems.Add("Cannot proceed with less than 1 days worth of data");
+                    //Main.listItemsForecast.Add("Cannot proceed with less than 1 days worth of data");
                     goto NextNode;
                 }
                 if (myDays > 14) { myDays = 14; }
@@ -56,14 +59,18 @@ namespace Neura.Billing.AICalcs
                 double myAverage = 0;
                 foreach (DataRow dr in dtLastX.Rows) { myAverage += Convert.ToDouble(dr["uAcc"]); }
                 myAverage = myAverage / myDays;
-                //listItems.Add("Average daily consumption =  " + myAverage);
+                //Main.listItemsForecast.Add("Average daily consumption =  " + myAverage);
              
 
                 MonthStartEnd.GetMonthStartEnd(myTime, out DateTime monthStart, out DateTime monthEnd);
                 MonthStartEnd.GetDayStartEnd(myTime, out DateTime dayStart, out DateTime dayEnd);
                 MonthStartEnd.GetWeekStartEnd(myTime, out DateTime weekStart, out DateTime weekEnd);
                 AIConnections.GetMonthUAcc(myNodeId, monthStart, out DataTable dtMonthValues); //Consumption to date
-
+                if (dtMonthValues.Rows.Count == 0)
+                {
+                    Main.listItemsForecast.Add("No data to process for node " + myNodeId);
+                    goto NextNode;
+                }
                 double cPreviousFixed = Convert.ToDouble(dtMonthValues.Rows[0]["cFixed"]);
                 double cPreviousMaximum = Convert.ToDouble(dtMonthValues.Rows[0]["cMaximum"]);
                 double cPreviousAcc = Convert.ToDouble(dtMonthValues.Rows[0]["cAcc"]);
@@ -86,8 +93,8 @@ namespace Neura.Billing.AICalcs
                 
                 totUAcc[2] = uPreviousAcc;
 
-                //listItems.Add("Consumption to date for month = " + totUAcc + " kWh");
-                //listItems.Add("Forecasting for  = " + periodsToGo + " periods");
+                //Main.listItemsForecast.Add("Consumption to date for month = " + totUAcc + " kWh");
+                //Main.listItemsForecast.Add("Forecasting for  = " + periodsToGo + " periods");
 
                 //Get Aveage consumption from template
                 double aveConsumption = 0;
@@ -124,7 +131,7 @@ namespace Neura.Billing.AICalcs
                     PeriodForecasts.CalcValue(myNodeId, fDate, w1, w2, w3,
                         w4, w5, w6, meteringInterval, myAverage, dtGetLastPeriodValues,
                         dtTemplate, aveConsumption, out double myForecast);
-                    //listItems.Add("Forecast energy for period " + myTime + " = " + Math.Round(myForecast, 4) + " kWh");
+                    //Main.listItemsForecast.Add("Forecast energy for period " + myTime + " = " + Math.Round(myForecast, 4) + " kWh");
 
 
                     //Forecast costs
@@ -173,7 +180,7 @@ namespace Neura.Billing.AICalcs
                        runningTotUacc[0],runningTotCost[0],
                     runningTotUacc[1], runningTotCost[1],
                     runningTotUacc[2], runningTotCost[2]);
-
+                Main.listItemsForecast.Add("Forecast updated for node " + myNodeId);
                 NextNode: ;
             }
         }

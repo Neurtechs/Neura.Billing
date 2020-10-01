@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using DevExpress.XtraBars.Ribbon.Drawing;
 using Newtonsoft.Json;
 
 namespace Neura.Billing.Calls
@@ -140,30 +142,69 @@ namespace Neura.Billing.Calls
         public static List<string> listItems { get; set; }
         private static readonly log4net.ILog Log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public static void nodeSwitch(string nType, string gatewayId, 
+       
+        public static void CallString(string refFrom, int count, out string sResult)
+        {
+            sResult = "Invalid nType";
+            if (refFrom == "last" || refFrom == "from")
+            {
+               //OK
+            }
+            else
+            {
+                 MessageBox.Show("Invalid parameter");
+                goto ExitHere;
+            }
+           
+            string url = "http://34.122.10.49:8080/";
+            url = url + refFrom;
+            url = url + "/" + count;
+
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "GET";
+
+            httpWebRequest.PreAuthenticate = true;
+
+            httpWebRequest.Headers["Authorization"] = "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes("dale:liebenberg"));
+            HttpWebResponse responseObj = null;
+
+            Log.Info(DateTime.UtcNow + " UTC, Attempting: " + url);
+            try
+            {
+                responseObj = (HttpWebResponse)httpWebRequest.GetResponse();
+            }
+            catch (Exception e)
+            {
+                sResult = e.ToString();
+                goto ExitHere;
+            }
+
+            sResult = null;
+            using (Stream stream = responseObj.GetResponseStream())
+            {
+                StreamReader sr = new StreamReader(stream);
+                sResult = sr.ReadToEnd();
+                sr.Close();
+            }
+
+            ExitHere:;
+            Log.Info(DateTime.UtcNow + " UTC, Result: " + sResult);
+
+        }
+        
+        
+        public static void nodeSwitch( string gatewayId, 
             string nodeId, out string sResult, string onOrOff = "off")
         {
             //nType = water or electricity
             //onOrOff = on or off
             sResult = "Invalid nType";
 
-            string url = "http://34.69.22.92:8080/switch/";
-            if (nType == "water")
-            {
-                url = url + "water/";
-            }
-            else if (nType == "electricity")
-            {
-                url = url + "electricity/";
-            }
-            else
-            {
-                // invalid
+            string url = "http://34.122.10.49:8080/switch/";
 
-                goto ReturnHere;
-            }
 
-            url = url + onOrOff + "/" + gatewayId + "/" + nodeId;
+            url =url + gatewayId + "/" + nodeId + "/" + onOrOff;
 
             HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.ContentType = "application/json";

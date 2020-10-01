@@ -25,6 +25,7 @@ namespace Neura.Billing
     {
 
         public static List<string> listItems { get; set; }
+        public static List<string> listItemsForecast { get; set; }
         int tickCount = 1;
         private DateTime maxDate;
         private DataTable dtNodesWithData;
@@ -63,14 +64,15 @@ namespace Neura.Billing
                 cbNode.SelectedIndex = 0;
                 txtStart.Text = Convert.ToString(maxDate);
                 cmbInterval.SelectedIndex = 0;
-                comboBoxEditType.SelectedIndex = 0;
+                comboBoxEditNode.SelectedIndex = 0;
                 comboBoxEditOnOff.SelectedIndex = 0;
             }
             catch (Exception)
             {
 
             }
-            
+
+           
 
         }
 
@@ -83,39 +85,26 @@ namespace Neura.Billing
             if (checkEditLogTest.Checked == true) { bLogTest = true; }
             if (checkEditResult.Checked == true) { bLogResult = true; }
 
-            if (bLogTest == true || bLogResult == true)
-            {
+            
 
-                Log.Info("Running Project Neura.Billing Test");
-                Log.Info("------------------------------------------------------------------------");
-                Log.Info(DateTime.Now.ToString());
-                Log.Info("");
 
-            }
 
-            if (mySqlConnection.State == ConnectionState.Closed)
-            {
-                try
-                {
-                    mySqlConnection.Open();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Check you connection string and comms to DB");
-                    MessageBox.Show(ex.Message);
-                    goto ExitHere;
-                }
-            }
 
-            listItems = new List<string>();
 
-            listItems.Add("Started at " + DateTime.Now.ToString());
-            listItems.Add("-------------------------------");
-            if (bLogTest == true)
-            {
-                Log.Info("Process started at " + DateTime.Now.ToString());
-                Log.Info("==========================");
-            }
+            //if (mySqlConnection.State == ConnectionState.Closed)
+            //{
+            //    try
+            //    {
+            //        mySqlConnection.Open();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show("Check you connection string and comms to DB");
+            //        MessageBox.Show(ex.Message);
+            //        goto ExitHere;
+            //    }
+            //}
+           
 
             int incomming;
             if (checkLimit.Checked == true)
@@ -126,7 +115,7 @@ namespace Neura.Billing
             {
                 incomming = Verify.VerifyIncoming(MeteringInterval, 1000);
             }
-
+            listItems.Add("At " + DateTime.Now);
             listItems.Add("Number of new readings: " + incomming);
 
             if (bLogTest == true)
@@ -152,9 +141,8 @@ namespace Neura.Billing
 
            
             
-            listBoxControl1.DataSource = listItems;
-            listBoxControl1.Refresh();
-
+            
+            listBoxControl1.SelectedIndex = listBoxControl1.Items.Count - 1;
             if (bLogTest == true)
             {
                 Log.Info("Number of tariff processed groups: " + processedGroups);
@@ -167,14 +155,37 @@ namespace Neura.Billing
             }
 
             Cursor.Current = Cursors.Default;
+            listBoxControl1.Refresh();
 
-            timerBilling.Start();
             ExitHere:;
         }
-        private  void simpleButtonStart_Click(object sender, EventArgs e)
+        private async void simpleButtonStart_Click(object sender, EventArgs e)
         {
+            listItems = new List<string>();
+
+            listItems.Add("Started at " + DateTime.Now.ToString());
+            listItems.Add("-------------------------------");
+
+            if (bLogTest == true || bLogResult == true)
+            {
+
+                Log.Info("Running Project Neura.Billing Test");
+                Log.Info("------------------------------------------------------------------------");
+                Log.Info(DateTime.Now.ToString());
+                Log.Info("");
+
+            }
+
+            if (bLogTest == true)
+            {
+                Log.Info("Process started at " + DateTime.Now.ToString());
+                Log.Info("==========================");
+            }
+            listBoxControl1.DataSource = listItems;
+            listBoxControl1.Refresh();
             RunCalcs();
-            
+
+            timerBilling.Start();
 
         }
       
@@ -486,22 +497,12 @@ namespace Neura.Billing
 
         private void simpleButtonSwitch_Click(object sender, EventArgs e)
         {
-            //Switch.nodeSwitch(comboBoxEditType.Text, textEditGateway.Text, textEditNode.Text, out string result, comboBoxEditOnOff.Text);
+            
 
-            //listBoxControl1.Items.Add(result);
-
-            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, textEditNode.Text, out string result, comboBoxEditOnOff.Text);
-            //Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultg, "off");
-            //Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultw, "off");
-
-            //ystem.Threading.Thread.Sleep(120000);
-            //Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, textEditNode.Text, out string resulteo, "on");
-            //Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultgo, "on");
-            //Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultwo, "on");
-
+            Neura.Billing.Calls.Switch.nodeSwitch(textEditGateway.Text,comboBoxEditNode.Text,out string result,comboBoxEditOnOff.Text);
+          
             MessageBox.Show(result);
-            //timer2.Interval = 1500000;
-            //timer2.Start();
+          
         }
 
         private void simpleButtonEnd_Click(object sender, EventArgs e)
@@ -560,72 +561,7 @@ namespace Neura.Billing
         private void timer1_Tick(object sender, EventArgs e)
         {
             RunCalcs();
-            //if (mySqlConnection.State == ConnectionState.Closed)
-            //{
-            //    try
-            //    {
-            //        mySqlConnection.Open();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show("Check you connection string and comms to DB");
-            //        MessageBox.Show(ex.Message);
-            //        timerBilling.Stop();
-
-            //    }
-            //}
-            //Cursor.Current = Cursors.WaitCursor;
-
-            //listItems.Add(DateTime.Now + " Count since started = " + tickCount);
-            //listItems.Add("-------------------------------");
-            //if (bLogTest == true)
-            //{
-            //    Log.Info("Process started at " + DateTime.Now.ToString());
-            //    Log.Info("==========================");
-            //}
-
-            //int incomming;
-            //if (checkLimit.Checked == true)
-            //{
-            //    incomming = Verify.VerifyIncoming(MeteringInterval, Convert.ToInt32(textEditLimit.Text));
-            //}
-            //else
-            //{
-            //    incomming = Verify.VerifyIncoming(MeteringInterval, 1000);
-            //}
-            //listItems.Add("Number of new readings: " + incomming);
-
-
-            //if (bLogTest == true)
-            //{
-            //    Log.Info("");
-            //    Log.Info("Number of new readings this loop: " + incomming);
-            //    Log.Info("----------------------------------------------");
-            //}
-
-            //int inreadings = ManageIncoming.GetIncomingReadings(MeteringInterval);
-            //listItems.Add("Number of new usage records: " + inreadings);
-
-
-            //if (bLogTest == true)
-            //{
-            //    Log.Info("Number of new usage records: " + inreadings);
-            //    Log.Info("----------------------------------------------");
-            //}
-
-
-            //TariffMain.GetCosts(MeteringInterval, out int processedGroups);
-            //listItems.Add("Number of tariff processed groups: " + processedGroups);
-            //listItems.Add("");
-            //listBoxControl1.Refresh();
-            //if (bLogTest == true)
-            //{
-            //    Log.Info("Number of tariff processed groups: " + processedGroups);
-            //    Log.Info("----------------------------------------------");
-            //}
-
-            //if (mySqlConnection.State == ConnectionState.Open) { mySqlConnection.Close(); }
-            //Cursor.Current = Cursors.Default;
+           
 
             tickCount += 1;
             if (tickCount % 10 == 0) { listItems.Clear(); }
@@ -638,14 +574,14 @@ namespace Neura.Billing
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "enode", out string resulte, "off");
-            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultg, "off");
-           // Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultw, "off");
+           // Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "enode", out string resulte, "off");
+           // Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultg, "off");
+           //// Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultw, "off");
 
-            System.Threading.Thread.Sleep(60000);
-            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "enode", out string resulteo, "on");
-            Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultgo, "on");
-           // Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultwo, "on");
+           // System.Threading.Thread.Sleep(60000);
+           // Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "enode", out string resulteo, "on");
+           // Neura.Billing.Calls.Switch.nodeSwitch("electricity", textEditGateway.Text, "gnode", out string resultgo, "on");
+           //// Neura.Billing.Calls.Switch.nodeSwitch("water", textEditGateway.Text, "wnode", out string resultwo, "on");
         }
 
        
@@ -709,13 +645,35 @@ namespace Neura.Billing
             Cursor.Current = Cursors.Default;
         }
 
-        private  void simpleButtonStartF_Click(object sender, EventArgs e)
+        private async void simpleButtonStartF_Click(object sender, EventArgs e)
         {
+            listBoxControlForecast.Items.Clear();
+            listItemsForecast = new List<string>();
+            listItemsForecast.Add("Process started at " + DateTime.Now);
+            listBoxControlForecast.DataSource = listItemsForecast;
+            
             PeriodForecastsRun.RunForecasts(MeteringInterval, Convert.ToDouble(w1.Text),
                 Convert.ToDouble(w2.Text), Convert.ToDouble(w3.Text),
                 Convert.ToDouble(w4.Text), Convert.ToDouble(w5.Text),
-                Convert.ToDouble(w6.Text));
+                Convert.ToDouble(w6.Text), out int nodeCount);
+
+            listBoxControlForecast.Refresh();
+
+            //listBoxControlForecast.Items.Add("Process started at " + DateTime.Now);
+            //if (myMessage == "No data to process")
+            //{
+
+            //    listBoxControlForecast.Items.Add(myMessage);
+            //}
+            //else
+            //{
+            //    listBoxControlForecast.Items.Add("At " + DateTime.Now + ", " + nodeCount.ToString() +
+            //                                     " Enodes updated");
+            //}
+
+
             int interval = Convert.ToInt32(textEditUpdateInterval.Text);
+
             interval = interval * 60 * 1000;
             timerForecast.Interval = interval;
             timerForecast.Start();
@@ -734,7 +692,42 @@ namespace Neura.Billing
             PeriodForecastsRun.RunForecasts(MeteringInterval, Convert.ToDouble(w1.Text),
                 Convert.ToDouble(w2.Text), Convert.ToDouble(w3.Text),
                 Convert.ToDouble(w4.Text), Convert.ToDouble(w5.Text),
-                Convert.ToDouble(w6.Text));
+                Convert.ToDouble(w6.Text), out int nodeCount);
+
+            //if (myMessage=="No data to process")
+            //{
+                
+            //    listBoxControlForecast.Items.Add(myMessage);
+            //}
+            //else
+            //{
+            //    listBoxControlForecast.Items.Add("At " + DateTime.Now + ", " + nodeCount.ToString() +
+            //                                     " Enodes updated");
+            //}
+            listBoxControlForecast.Refresh();
+        }
+
+        private async void simpleButton2_Click_1(object sender, EventArgs e)
+        {
+            string refFrom = comboBoxEditRef.Text;
+            int number = Convert.ToInt32(textEditQty.Text);
+            Neura.Billing.Calls.Switch.CallString(refFrom,number,out string result);
+
+            result=result.Replace("[{", "");
+            result = result.Replace("}]", "");
+            string[] sep = {"},{"};
+            string[] strList = result.Split(sep,StringSplitOptions.None);
+            listBoxControlCall.Items.Clear();
+            foreach (string v in strList)
+            {
+                listBoxControlCall.Items.Add(v);
+            }
+            listBoxControlCall.Refresh();
+        }
+
+        private void labelControl17_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

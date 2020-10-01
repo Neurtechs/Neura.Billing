@@ -73,7 +73,7 @@ namespace Neura.Billing.Data
             da.SelectCommand = cmd;
             dtMonthValues = new DataTable();
             da.Fill(dtMonthValues);
-
+            
         }
         public static void GetNodeBasic(int nodeId, out int tariff, out int meterType, out int readingsType)
         {

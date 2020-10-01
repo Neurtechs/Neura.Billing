@@ -90,7 +90,7 @@ namespace Neura.Billing.TariffCalcs
                     }
                 }
                 IncomingConnections.SelectNode(myNodeId, myReadingsType, out DataTable dtSelectNode); //Get all node data
-
+               
                 myInstallDate = Convert.ToDateTime(dtSelectNode.Rows[0]["InstallDate"]);
                 if (myReadingDate < myInstallDate)
                 {

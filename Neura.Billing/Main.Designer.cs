@@ -92,6 +92,20 @@
             this.listBoxControlForecast = new DevExpress.XtraEditors.ListBoxControl();
             this.groupControl5 = new DevExpress.XtraEditors.GroupControl();
             this.listBoxControlCall = new DevExpress.XtraEditors.ListBoxControl();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxServer = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBoxPassword = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxUser = new System.Windows.Forms.TextBox();
+            this.simpleButtonLogin = new DevExpress.XtraEditors.SimpleButton();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnSetup = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).BeginInit();
             this.groupControl3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxEditNode.Properties)).BeginInit();
@@ -126,6 +140,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl5)).BeginInit();
             this.groupControl5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControlCall)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupControl3
@@ -138,15 +153,15 @@
             this.groupControl3.Controls.Add(this.labelControl16);
             this.groupControl3.Controls.Add(this.labelControl15);
             this.groupControl3.Controls.Add(this.textEditGateway);
-            this.groupControl3.Location = new System.Drawing.Point(2282, 26);
+            this.groupControl3.Location = new System.Drawing.Point(2303, 361);
             this.groupControl3.Name = "groupControl3";
-            this.groupControl3.Size = new System.Drawing.Size(443, 486);
+            this.groupControl3.Size = new System.Drawing.Size(443, 324);
             this.groupControl3.TabIndex = 21;
             this.groupControl3.Text = "Switch Node";
             // 
             // comboBoxEditNode
             // 
-            this.comboBoxEditNode.Location = new System.Drawing.Point(209, 126);
+            this.comboBoxEditNode.Location = new System.Drawing.Point(209, 117);
             this.comboBoxEditNode.Name = "comboBoxEditNode";
             this.comboBoxEditNode.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -160,7 +175,7 @@
             // simpleButtonEnd
             // 
             this.simpleButtonEnd.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonEnd.ImageOptions.Image")));
-            this.simpleButtonEnd.Location = new System.Drawing.Point(213, 384);
+            this.simpleButtonEnd.Location = new System.Drawing.Point(213, 216);
             this.simpleButtonEnd.Name = "simpleButtonEnd";
             this.simpleButtonEnd.Size = new System.Drawing.Size(122, 57);
             this.simpleButtonEnd.TabIndex = 33;
@@ -169,7 +184,7 @@
             // 
             // labelControl19
             // 
-            this.labelControl19.Location = new System.Drawing.Point(64, 250);
+            this.labelControl19.Location = new System.Drawing.Point(83, 172);
             this.labelControl19.Name = "labelControl19";
             this.labelControl19.Size = new System.Drawing.Size(65, 25);
             this.labelControl19.TabIndex = 32;
@@ -177,7 +192,7 @@
             // 
             // comboBoxEditOnOff
             // 
-            this.comboBoxEditOnOff.Location = new System.Drawing.Point(203, 243);
+            this.comboBoxEditOnOff.Location = new System.Drawing.Point(213, 166);
             this.comboBoxEditOnOff.Name = "comboBoxEditOnOff";
             this.comboBoxEditOnOff.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -190,7 +205,7 @@
             // simpleButtonSwitch
             // 
             this.simpleButtonSwitch.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonSwitch.ImageOptions.Image")));
-            this.simpleButtonSwitch.Location = new System.Drawing.Point(213, 301);
+            this.simpleButtonSwitch.Location = new System.Drawing.Point(63, 216);
             this.simpleButtonSwitch.Name = "simpleButtonSwitch";
             this.simpleButtonSwitch.Size = new System.Drawing.Size(122, 57);
             this.simpleButtonSwitch.TabIndex = 17;
@@ -199,7 +214,7 @@
             // 
             // labelControl16
             // 
-            this.labelControl16.Location = new System.Drawing.Point(83, 132);
+            this.labelControl16.Location = new System.Drawing.Point(83, 124);
             this.labelControl16.Name = "labelControl16";
             this.labelControl16.Size = new System.Drawing.Size(55, 25);
             this.labelControl16.TabIndex = 24;
@@ -251,7 +266,7 @@
             this.groupControl2.Controls.Add(this.labelControl3);
             this.groupControl2.Controls.Add(this.w1);
             this.groupControl2.Controls.Add(this.labelControl2);
-            this.groupControl2.Location = new System.Drawing.Point(2303, 595);
+            this.groupControl2.Location = new System.Drawing.Point(2303, 711);
             this.groupControl2.Name = "groupControl2";
             this.groupControl2.Size = new System.Drawing.Size(458, 745);
             this.groupControl2.TabIndex = 20;
@@ -609,9 +624,9 @@
             // simpleButtonDSM
             // 
             this.simpleButtonDSM.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonDSM.ImageOptions.Image")));
-            this.simpleButtonDSM.Location = new System.Drawing.Point(2083, 1351);
+            this.simpleButtonDSM.Location = new System.Drawing.Point(2017, 1351);
             this.simpleButtonDSM.Name = "simpleButtonDSM";
-            this.simpleButtonDSM.Size = new System.Drawing.Size(122, 72);
+            this.simpleButtonDSM.Size = new System.Drawing.Size(188, 72);
             this.simpleButtonDSM.TabIndex = 22;
             this.simpleButtonDSM.Text = "DSM";
             this.simpleButtonDSM.Click += new System.EventHandler(this.simpleButtonDSM_Click);
@@ -739,11 +754,141 @@
             this.listBoxControlCall.Size = new System.Drawing.Size(1052, 1070);
             this.listBoxControlCall.TabIndex = 40;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(2320, 204);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(79, 25);
+            this.label4.TabIndex = 48;
+            this.label4.Text = "Server:";
+            // 
+            // textBoxServer
+            // 
+            this.textBoxServer.Location = new System.Drawing.Point(2448, 204);
+            this.textBoxServer.Name = "textBoxServer";
+            this.textBoxServer.Size = new System.Drawing.Size(205, 33);
+            this.textBoxServer.TabIndex = 47;
+            this.textBoxServer.Text = "IMAC-Windows\\SqlExpress;";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(2320, 160);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(107, 25);
+            this.label3.TabIndex = 46;
+            this.label3.Text = "Password:";
+            // 
+            // textBoxPassword
+            // 
+            this.textBoxPassword.Location = new System.Drawing.Point(2448, 157);
+            this.textBoxPassword.Name = "textBoxPassword";
+            this.textBoxPassword.PasswordChar = '*';
+            this.textBoxPassword.Size = new System.Drawing.Size(205, 33);
+            this.textBoxPassword.TabIndex = 42;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(2320, 108);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(122, 25);
+            this.label2.TabIndex = 45;
+            this.label2.Text = "User Name:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(2320, 51);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(378, 25);
+            this.label1.TabIndex = 44;
+            this.label1.Text = "Enter User Name and password below:";
+            // 
+            // textBoxUser
+            // 
+            this.textBoxUser.Location = new System.Drawing.Point(2448, 105);
+            this.textBoxUser.Name = "textBoxUser";
+            this.textBoxUser.Size = new System.Drawing.Size(205, 33);
+            this.textBoxUser.TabIndex = 41;
+            // 
+            // simpleButtonLogin
+            // 
+            this.simpleButtonLogin.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonLogin.ImageOptions.Image")));
+            this.simpleButtonLogin.Location = new System.Drawing.Point(2448, 257);
+            this.simpleButtonLogin.Name = "simpleButtonLogin";
+            this.simpleButtonLogin.Size = new System.Drawing.Size(150, 46);
+            this.simpleButtonLogin.TabIndex = 43;
+            this.simpleButtonLogin.TabStop = false;
+            this.simpleButtonLogin.Text = "Login";
+            this.simpleButtonLogin.Click += new System.EventHandler(this.simpleButtonLogin_Click);
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.BalloonTipText = "Double-Click to open";
+            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "Neura Processes";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(149, 80);
+            // 
+            // showToolStripMenuItem
+            // 
+            this.showToolStripMenuItem.Name = "showToolStripMenuItem";
+            this.showToolStripMenuItem.Size = new System.Drawing.Size(148, 38);
+            this.showToolStripMenuItem.Text = "Show";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(148, 38);
+            this.exitToolStripMenuItem.Text = "Exit";
+            // 
+            // btnSetup
+            // 
+            this.btnSetup.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("btnSetup.ImageOptions.Image")));
+            this.btnSetup.Location = new System.Drawing.Point(2017, 1212);
+            this.btnSetup.Name = "btnSetup";
+            this.btnSetup.Size = new System.Drawing.Size(188, 72);
+            this.btnSetup.TabIndex = 50;
+            this.btnSetup.Text = "Setup";
+            this.btnSetup.Click += new System.EventHandler(this.btnSetup_Click);
+            // 
+            // simpleButton3
+            // 
+            this.simpleButton3.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButton3.ImageOptions.Image")));
+            this.simpleButton3.Location = new System.Drawing.Point(1338, 1365);
+            this.simpleButton3.Name = "simpleButton3";
+            this.simpleButton3.Size = new System.Drawing.Size(359, 72);
+            this.simpleButton3.TabIndex = 51;
+            this.simpleButton3.Text = "Return to System Tray";
+            this.simpleButton3.Click += new System.EventHandler(this.simpleButton3_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2773, 1468);
+            this.ClientSize = new System.Drawing.Size(2924, 1630);
+            this.Controls.Add(this.simpleButton3);
+            this.Controls.Add(this.btnSetup);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.textBoxServer);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.textBoxPassword);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBoxUser);
+            this.Controls.Add(this.simpleButtonLogin);
             this.Controls.Add(this.listBoxControlCall);
             this.Controls.Add(this.groupControl5);
             this.Controls.Add(this.listBoxControlForecast);
@@ -753,9 +898,11 @@
             this.Controls.Add(this.groupControl2);
             this.Controls.Add(this.groupControl1);
             this.Controls.Add(this.listBoxControl1);
+            this.IconOptions.Icon = ((System.Drawing.Icon)(resources.GetObject("Main.IconOptions.Icon")));
             this.Name = "Main";
-            this.Text = "Main";
+            this.Text = "Neura System Processes";
             this.Load += new System.EventHandler(this.Main_Load);
+            this.Resize += new System.EventHandler(this.Main_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl3)).EndInit();
             this.groupControl3.ResumeLayout(false);
             this.groupControl3.PerformLayout();
@@ -795,7 +942,9 @@
             this.groupControl5.ResumeLayout(false);
             this.groupControl5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listBoxControlCall)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -863,5 +1012,19 @@
         private DevExpress.XtraEditors.ListBoxControl listBoxControlForecast;
         private DevExpress.XtraEditors.GroupControl groupControl5;
         private DevExpress.XtraEditors.ListBoxControl listBoxControlCall;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBoxServer;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBoxPassword;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBoxUser;
+        private DevExpress.XtraEditors.SimpleButton simpleButtonLogin;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem showToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private DevExpress.XtraEditors.SimpleButton btnSetup;
+        private DevExpress.XtraEditors.SimpleButton simpleButton3;
     }
 }

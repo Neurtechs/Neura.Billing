@@ -54,7 +54,7 @@
             // 
             this.textBoxServer.Location = new System.Drawing.Point(535, 225);
             this.textBoxServer.Name = "textBoxServer";
-            this.textBoxServer.Size = new System.Drawing.Size(312, 33);
+            this.textBoxServer.Size = new System.Drawing.Size(205, 33);
             this.textBoxServer.TabIndex = 17;
             this.textBoxServer.Text = "IMAC-Windows\\SqlExpress;";
             // 
@@ -72,7 +72,7 @@
             this.textBoxPassword.Location = new System.Drawing.Point(535, 178);
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.PasswordChar = '*';
-            this.textBoxPassword.Size = new System.Drawing.Size(312, 33);
+            this.textBoxPassword.Size = new System.Drawing.Size(205, 33);
             this.textBoxPassword.TabIndex = 11;
             // 
             // label2
@@ -107,13 +107,13 @@
             // 
             this.textBoxUser.Location = new System.Drawing.Point(535, 126);
             this.textBoxUser.Name = "textBoxUser";
-            this.textBoxUser.Size = new System.Drawing.Size(312, 33);
+            this.textBoxUser.Size = new System.Drawing.Size(205, 33);
             this.textBoxUser.TabIndex = 10;
             // 
             // simpleButtonLogin
             // 
             this.simpleButtonLogin.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("simpleButtonLogin.ImageOptions.Image")));
-            this.simpleButtonLogin.Location = new System.Drawing.Point(697, 278);
+            this.simpleButtonLogin.Location = new System.Drawing.Point(535, 278);
             this.simpleButtonLogin.Name = "simpleButtonLogin";
             this.simpleButtonLogin.Size = new System.Drawing.Size(150, 46);
             this.simpleButtonLogin.TabIndex = 12;

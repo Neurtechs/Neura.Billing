@@ -12,7 +12,9 @@ using static Neura.Billing.GlobalVar;
 using Neura.Billing.TariffCalcs;
 using System.Collections;
 using System.Diagnostics;
+using System.Threading;
 using DevExpress.XtraBars.Ribbon.Drawing;
+using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using Neura.Billing.Data;
 using Neura.Billing.AICalcs;
@@ -32,13 +34,80 @@ namespace Neura.Billing
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public delegate void SafeCallDelegate(string text);
 
+        //On server
+        //private static string user = "Dale";
+        //private static string server = "localhost";
+        //private static string password = "D@lelieb01";
+
+        //Server from local
+        private static string user = "Dale";
+        private static string server = "neura.dyndns.org,3306";
+        private static string password = "D@lelieb01";
+
+        //Local
+        //private static string user = "root";
+        //private static string server = "localhost";
+        //private static string password = "D@lelieb01";
+        private static string connectionString;
+
         public Main()
         {
             InitializeComponent();
+            notifyIcon1.ContextMenuStrip = contextMenuStrip1;
+            this.showToolStripMenuItem.Click += showToolStripMenuItem_Click;
+            this.exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
+            //WindowState = FormWindowState.Normal;
         }
+        private bool allowVisible;     // ContextMenu's Show command used
+        private bool allowClose;       // ContextMenu's Exit command used
+
+       
+
+        //protected override void SetVisibleCore(bool value)
+        //{
+        //    if (!allowVisible)
+        //    {
+        //        value = false;
+        //        if (!this.IsHandleCreated) CreateHandle();
+        //    }
+        //    base.SetVisibleCore(value);
+        //}
+
+        //protected override void OnFormClosing(FormClosingEventArgs e)
+        //{
+        //    if (!allowClose)
+        //    {
+        //        this.Hide();
+        //        e.Cancel = true;
+        //    }
+        //    base.OnFormClosing(e);
+        //}
+
+        private void showToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            allowVisible = true;
+
+            Show();
+            WindowState = FormWindowState.Normal;
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            allowClose = true;
+            Application.Exit();
+        }
+
+
 
         private void Main_Load(object sender, EventArgs e)
         {
+            //allowVisible = true;
+
+            //Show();
+            //WindowState = FormWindowState.Normal;
+
+            Login();
+
             timerBilling.Interval = Convert.ToInt32(textEdit1.Text) * 1000;
             w1.Text = "0.3";
             w2.Text = "0.1";
@@ -71,11 +140,42 @@ namespace Neura.Billing
             {
 
             }
-
-           
-
+            StartUpProcedures();
         }
 
+        private void StartUpProcedures()
+        {
+            StartBilling();
+            Thread.Sleep(60000);
+            startForecast();
+            this.WindowState = FormWindowState.Minimized;
+        }
+        private void Login()
+        {
+            connectionString = "Server = " + server + "; User ID = " + user + "; Password = " +
+                               password;
+            connectionString = connectionString +
+                               ";  Persist Security Info = true; Charset = utf8; Database = Neura; Connection Timeout=1800 ";
+            mySqlConnection = new MySqlConnection(connectionString);
+
+            if (mySqlConnection.State == ConnectionState.Closed)
+            {
+                try
+                {
+                    mySqlConnection.Open();
+                    //MessageBox.Show("Connected to DB");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Check you connection string and comms to DB");
+                    MessageBox.Show(ex.Message);
+
+                }
+            }
+            textBoxUser.Text = user;
+            textBoxServer.Text = server;
+            textBoxPassword.Text = password;
+        }
         private  void RunCalcs()
         {
             Cursor.Current = Cursors.WaitCursor;
@@ -156,10 +256,14 @@ namespace Neura.Billing
 
             Cursor.Current = Cursors.Default;
             listBoxControl1.Refresh();
-
+            if (listItems.Count > 1000)
+            {
+                listItems.Clear();
+            }
             ExitHere:;
         }
-        private async void simpleButtonStart_Click(object sender, EventArgs e)
+
+        private async void StartBilling()
         {
             listItems = new List<string>();
 
@@ -186,6 +290,10 @@ namespace Neura.Billing
             RunCalcs();
 
             timerBilling.Start();
+        }
+        private  void simpleButtonStart_Click(object sender, EventArgs e)
+        {
+            StartBilling();
 
         }
       
@@ -199,6 +307,7 @@ namespace Neura.Billing
                 Log.Info("----------------------------------------------");
             }
             timerBilling.Stop();
+            Cursor.Current = Cursors.Default;
         }
 
         private void btnTest_Click(object sender, EventArgs e)
@@ -565,6 +674,7 @@ namespace Neura.Billing
 
             tickCount += 1;
             if (tickCount % 10 == 0) { listItems.Clear(); }
+
         }
 
         private void textEdit1_EditValueChanged(object sender, EventArgs e)
@@ -645,31 +755,21 @@ namespace Neura.Billing
             Cursor.Current = Cursors.Default;
         }
 
-        private async void simpleButtonStartF_Click(object sender, EventArgs e)
+        private async void startForecast()
         {
             listBoxControlForecast.Items.Clear();
             listItemsForecast = new List<string>();
             listItemsForecast.Add("Process started at " + DateTime.Now);
             listBoxControlForecast.DataSource = listItemsForecast;
-            
+
+            Cursor.Current = Cursors.WaitCursor;
             PeriodForecastsRun.RunForecasts(MeteringInterval, Convert.ToDouble(w1.Text),
                 Convert.ToDouble(w2.Text), Convert.ToDouble(w3.Text),
                 Convert.ToDouble(w4.Text), Convert.ToDouble(w5.Text),
                 Convert.ToDouble(w6.Text), out int nodeCount);
 
             listBoxControlForecast.Refresh();
-
-            //listBoxControlForecast.Items.Add("Process started at " + DateTime.Now);
-            //if (myMessage == "No data to process")
-            //{
-
-            //    listBoxControlForecast.Items.Add(myMessage);
-            //}
-            //else
-            //{
-            //    listBoxControlForecast.Items.Add("At " + DateTime.Now + ", " + nodeCount.ToString() +
-            //                                     " Enodes updated");
-            //}
+            Cursor.Current = Cursors.Default;
 
 
             int interval = Convert.ToInt32(textEditUpdateInterval.Text);
@@ -677,6 +777,10 @@ namespace Neura.Billing
             interval = interval * 60 * 1000;
             timerForecast.Interval = interval;
             timerForecast.Start();
+        }
+        private async void simpleButtonStartF_Click(object sender, EventArgs e)
+        {
+            startForecast();
 
         }
 
@@ -685,25 +789,25 @@ namespace Neura.Billing
         private void simpleButtonStopF_Click(object sender, EventArgs e)
         {
             timerForecast.Stop();
+            Cursor.Current = Cursors.Default;
         }
 
         private void timerForecast_Tick(object sender, EventArgs e)
         {
+            listItemsForecast.Add("");
+            listItemsForecast.Add("Process updated at " + DateTime.Now);
+            Cursor.Current = Cursors.WaitCursor;
             PeriodForecastsRun.RunForecasts(MeteringInterval, Convert.ToDouble(w1.Text),
                 Convert.ToDouble(w2.Text), Convert.ToDouble(w3.Text),
                 Convert.ToDouble(w4.Text), Convert.ToDouble(w5.Text),
                 Convert.ToDouble(w6.Text), out int nodeCount);
 
-            //if (myMessage=="No data to process")
-            //{
-                
-            //    listBoxControlForecast.Items.Add(myMessage);
-            //}
-            //else
-            //{
-            //    listBoxControlForecast.Items.Add("At " + DateTime.Now + ", " + nodeCount.ToString() +
-            //                                     " Enodes updated");
-            //}
+          
+            Cursor.Current = Cursors.Default;
+            if (listBoxControlForecast.Items.Count > 1000)
+            {
+                listBoxControlForecast.Items.Clear();
+            }
             listBoxControlForecast.Refresh();
         }
 
@@ -728,6 +832,38 @@ namespace Neura.Billing
         private void labelControl17_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Show();
+            WindowState = FormWindowState.Normal;
+        }
+
+        private void btnSetup_Click(object sender, EventArgs e)
+        {
+            RegistryKey reg = Registry.CurrentUser.OpenSubKey(
+                "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            reg.SetValue("NeuraProcesses", Application.ExecutablePath.ToString());
+            MessageBox.Show("You have been successfully saved", "Message",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
+
+        private void simpleButtonLogin_Click(object sender, EventArgs e)
+        {
+            Login();
+        }
+
+        private void Main_Resize(object sender, EventArgs e)
+        {
+            if (FormWindowState.Minimized == WindowState)
+                Hide();
+        }
+
+        private void simpleButton3_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }

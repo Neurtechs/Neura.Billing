@@ -18,7 +18,8 @@ namespace Neura.Billing
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmLogin());
+            //Application.Run(new frmLogin());
+            Application.Run(new Main());
         }
     }
 }
